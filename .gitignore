@@ -1,2 +1,11 @@
-package-lock.json
+#folders
+dist/
+public/
+lib/
 node_modules/
+
+#files
+package-lock.json
+
+#Visual Studio Code
+.vscode/
