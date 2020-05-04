@@ -4,7 +4,7 @@ import clear from "clear";
 import figlet from "figlet";
 import prog from "commander";
 import fs from "fs";
-import { ComponentBuilder } from "./component";
+import { Component } from "./component/director";
 
 const PACKAGE = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`).toString());
 const VERSION: string = PACKAGE.version;
@@ -26,6 +26,6 @@ prog.command("about")
 prog.command("component <name>")
 	.alias("c")
 	// .option("-n, --name <name>", "Create new component.") 
-	.action(ComponentBuilder.create);
+	.action(Component.create);
 
 prog.parse(process.argv);

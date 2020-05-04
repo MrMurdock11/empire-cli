@@ -10,7 +10,6 @@
 		"types": ["node"],
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
-		"sourceMap": true,
 	},
 	"include": [
 		"src/**/*"
