@@ -5,6 +5,7 @@ import figlet from "figlet";
 import prog from "commander";
 import fs from "fs";
 import { Component } from "./component/director";
+import { Store } from "./store";
 
 const PACKAGE = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`).toString());
 const VERSION: string = PACKAGE.version;
@@ -27,5 +28,9 @@ prog.command("component <name>")
 	.alias("c")
 	.option("--no-css-module", "Create new component.")
 	.action(Component.create);
+
+prog.command("store <name>")
+	.alias("s")
+	.action(Store.create);
 
 prog.parse(process.argv);
