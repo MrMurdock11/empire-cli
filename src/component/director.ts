@@ -3,25 +3,30 @@ import { Convert } from "../common/convert";
 import { IBuilder, ReactComponentBuilder } from "./builder";
 import chalk from "chalk";
 
-export class Component {
-	public static create(name: string): void {
-		name = Convert.toPascalCase(name);
-		let destPath = process.cwd();
-		const componentBuilder = new ReactComponentBuilder(name, true);
+type ComponentCreateOptions = {
+	cssModule: boolean;
+}
 
-		const director = new ReactComponentDirector(componentBuilder);
+export class Component {
+	public static create(name: string, options: ComponentCreateOptions): void {
+		let destPath = process.cwd();
+		const tsxBuilder = new ReactComponentBuilder(name, options.cssModule);
+		const director = new ReactComponentDirector(tsxBuilder);
+
 		director.make();
+		name = Convert.toPascalCase(name);
 
 		if (fs.readdirSync(destPath).some(it => /\.(j|t)sx$/gm.test(it))) {
-			if (!fs.existsSync("childs"))
+			if (!fs.existsSync("childs")) {
 				fs.mkdirSync("childs");
+			}
 
 			destPath += `/childs/${name}`;
 		} else {
 			destPath += `/${name}`;
 		}
 
-		Component.append(destPath, name, componentBuilder.index, componentBuilder.container, componentBuilder.view);
+		Component.append(destPath, name, tsxBuilder.index, tsxBuilder.container, tsxBuilder.view);
 	}
 	
 	private static append(destPath: string, name: string, index: string, container: string, view: string): void {
@@ -32,10 +37,10 @@ export class Component {
 		
 		fs.mkdirSync(destPath);
 
-		fs.writeFileSync(`${destPath}/index.tsx`, index);
+		fs.writeFileSync(`${destPath}/index.ts`, index);
 		fs.writeFileSync(`${destPath}/${name}.tsx`, container);
 		fs.writeFileSync(`${destPath}/${name}.view.tsx`, view);
-		fs.writeFileSync(`${destPath}/${name}.style.css`, "");
+		fs.writeFileSync(`${destPath}/${name}.style.css`, ".container {\n\tdisplay: flex;\n}\n");
 	}
 }
 

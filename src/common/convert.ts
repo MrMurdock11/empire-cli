@@ -1,3 +1,5 @@
+import { Utils } from "./utils";
+
 /**
  * Класс для конвертации строк.
  *
@@ -9,36 +11,67 @@ export class Convert {
 	 * Конвертирует исходную строку в строку в стиле `Camel Case`.
 	 *
 	 * @static
-	 * @param {string} text Исходная строка.
+	 * @param {string} str Исходная строка.
 	 * @memberof Convert
 	 */
-	public static toPascalCase = (text: string): string => {
-		const hasUnsupportedSymbols = /[^_\-\.a-zA-Z]/gm.test(text);
-		const hasDelimiter = /[_\-\.]/gm.test(text);
+	public static toPascalCase = (str: string): string => {
+		str = Utils.trim(str, /(^[_\-\.]+)|([_\-\.]+$)/gm);
 
-		if (hasUnsupportedSymbols) {
-			text = text.replace(/[^_\-\.a-zA-Z]/gm, "");
-		}
+		const regexpForDelimiter = /[_\-\.]/gm;
+		const hasDelimiter = regexpForDelimiter.test(str);
+		
+		Convert.removeUnsupportedSymbols(str);
 
 		if (!hasDelimiter) {
-			return text.charAt(0).toUpperCase() + text.slice(1);
+			return str.charAt(0).toUpperCase() + str.slice(1);
 		}
 
-		let words = text.split(/[_\-\.]/gm);
+		let words = str.split(regexpForDelimiter);
 
 		words = words.map(Convert.toCapitalize);
 		return words.join("");
 	};
+
+	public static toSnakeCase = (str: string): string => {
+		str = Utils.trim(str, /(^[_\-\.]+)|([_\-\.]+$)/gm);
+		str = str.toLowerCase();
+
+		const regexpForDelimiter = /[_\-\.]/gm;
+		const hasDelimiter = regexpForDelimiter.test(str);
+		
+		Convert.removeUnsupportedSymbols(str);
+
+		return str.split(regexpForDelimiter).join("_");
+	}
+
+	/**
+	 * Удаление из исходной строки всех неподдерживаемых символов.
+	 *
+	 * @private
+	 * @static
+	 * @param {string} str Исходная строка.
+	 * @memberof Convert
+	 */
+	private static removeUnsupportedSymbols = (str: string): string => {
+		const regexp = /[^_\-\.a-zA-Z]/gm;
+		const hasUnsupportedSymbols = regexp.test(str);
+
+		if (hasUnsupportedSymbols) {
+			str = str.replace(regexp, "");
+		}
+
+		return str;
+	}
 
 	/**
 	 * Конвертирует исходную строку в строку с заглавной буквы.
 	 *
 	 * @private
 	 * @static
-	 * @param {string} text Исходная строка.
+	 * @param {string} str Исходная строка.
 	 * @memberof Convert
 	 */
-	private static toCapitalize = (text: string): string => {
-		return text.charAt(0).toUpperCase() + text.slice(1).toLocaleLowerCase();
+	private static toCapitalize = (str: string): string => {
+		return str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase();
 	}
 }

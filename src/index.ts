@@ -25,7 +25,7 @@ prog.command("about")
 
 prog.command("component <name>")
 	.alias("c")
-	// .option("-n, --name <name>", "Create new component.") 
+	.option("--no-css-module", "Create new component.")
 	.action(Component.create);
 
 prog.parse(process.argv);
