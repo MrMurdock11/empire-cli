@@ -1,6 +1,7 @@
 import fs from "fs";
 import { Convert } from "../common/convert";
 import { IBuilder, ReactComponentBuilder } from "./builder";
+import chalk from "chalk";
 
 export class Component {
 	public static create(name: string): void {
@@ -12,14 +13,29 @@ export class Component {
 		director.make();
 
 		if (fs.readdirSync(destPath).some(it => /\.(j|t)sx$/gm.test(it))) {
-			destPath += `/childs`;
-			fs.mkdirSync(destPath);
+			if (!fs.existsSync("childs"))
+				fs.mkdirSync("childs");
+
+			destPath += `/childs/${name}`;
+		} else {
+			destPath += `/${name}`;
 		}
 
-		fs.writeFileSync(`${destPath}/index.tsx`, componentBuilder.index);
-		fs.writeFileSync(`${destPath}/${name}.tsx`, componentBuilder.container);
-		fs.writeFileSync(`${destPath}/${name}.view.tsx`, componentBuilder.view);
-		fs.writeFileSync(`${destPath}/${name}.style.css`, componentBuilder.view);
+		Component.append(destPath, name, componentBuilder.index, componentBuilder.container, componentBuilder.view);
+	}
+	
+	private static append(destPath: string, name: string, index: string, container: string, view: string): void {
+		if (fs.existsSync(destPath)) {
+			console.log(chalk.bold.red("ERROR: Создаваемый компонет уже существует."));
+			return void 0;
+		}
+		
+		fs.mkdirSync(destPath);
+
+		fs.writeFileSync(`${destPath}/index.tsx`, index);
+		fs.writeFileSync(`${destPath}/${name}.tsx`, container);
+		fs.writeFileSync(`${destPath}/${name}.view.tsx`, view);
+		fs.writeFileSync(`${destPath}/${name}.style.css`, "");
 	}
 }
 
