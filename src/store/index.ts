@@ -85,7 +85,7 @@ export const ${name.charAt(0).toLowerCase() + name.slice(1)} = (state = initStat
 	id: string;
 };
 
-export const initState = {
+export const initState: State = {
 	id: "000-000-000",
 };\r\n`
 		));
