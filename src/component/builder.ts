@@ -101,7 +101,7 @@ export const ${this._name}: React.FC<${this._name}Props> = (props) => {
 import React from "react";
 import { ${this._name}Props } from "./${this._name}";
 
-const ${this._name}View: React.FC<${this._name}Props> = (props) => {
+export const ${this._name}View: React.FC<${this._name}Props> = (props) => {
 	return ${this.buildMarkupModule()};
 }\r\n`
 		);

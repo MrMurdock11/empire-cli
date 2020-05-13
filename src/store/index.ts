@@ -72,7 +72,11 @@ export const ${name.charAt(0).toLowerCase() + name.slice(1)} = (state = initStat
 	}
 
 	public static createReducersTest = (path: string, name: string): void => {
-		fs.writeFileSync(`${path}/${name}reducer.test.ts`, "");
+		fs.writeFileSync(`${path}/${name}.reducer.test.ts`, (
+`describe("${name}Reducer", () => {
+	it("firstTest", () => expect(true).toBeTruthy());
+});`
+		));
 	}
 
 	public static createState = (path: string, name: string): void => {
