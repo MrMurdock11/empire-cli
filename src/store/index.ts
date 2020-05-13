@@ -36,6 +36,8 @@ export class Store {
 		fs.writeFileSync(`${path}/${name}.actions.ts`, (
 `import { Keys } from "./${name}.keys";
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 export const yourAction = () => {
 	return {
 		type: Keys.YOUR_KEY,

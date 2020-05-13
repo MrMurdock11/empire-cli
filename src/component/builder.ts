@@ -62,8 +62,8 @@ export class ReactComponentBuilder implements IBuilder {
 
 	private buildStyleModule(): string {
 		return this._hasCssModule
-			? `import styles from "./${this._name}.style"\r\n`
-			: `import "./${this._name}.style"\r\n`;
+			? `import styles from "./${this._name}.style";\r\n`
+			: `import "./${this._name}.style";\r\n`;
 	}
 
 	private buildMarkupModule(): string {
