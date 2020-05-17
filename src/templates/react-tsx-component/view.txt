@@ -1,0 +1,10 @@
+import $$module$$"./$$name$$.styles.css";
+
+import React from "react";
+import { $$name$$Props } from "./$$name$$";
+
+export const $$name$$View: React.FC<$$name$$Props> = (props) => {
+	return (
+		<div className=$$classname$$>{"$$name$$"}</div>
+	);
+}

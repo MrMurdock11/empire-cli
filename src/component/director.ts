@@ -1,16 +1,49 @@
 import fs from "fs";
 import { Convert } from "../common/convert";
-import { IBuilder, ReactComponentBuilder } from "./builder";
+import { IBuilder, TsxComponentBuilder, ReduxAccessType } from "./builder";
 import chalk from "chalk";
+import inquirer from "inquirer";
 
 type ComponentCreateOptions = {
+	redux: boolean;
 	cssModule: boolean;
 }
 
+type PropmtAnswers = {
+	types: string[];
+}
+
 export class Component {
-	public static create(name: string, options: ComponentCreateOptions): void {
+	public static async create(name: string, options: ComponentCreateOptions): Promise<void> {
 		let destPath = process.cwd();
-		const tsxBuilder = new ReactComponentBuilder(name, options.cssModule);
+		let accessType: ReduxAccessType = "none";
+
+		if (options.redux) {
+			const answers = await inquirer.prompt<PropmtAnswers>([
+				{
+					type: "checkbox",
+					message: "Select access types you need:",
+					name: "types",
+					choices: [
+						{ name: "State", value: "state" },
+						{ name: "Dispatch", value: "dispatch" },
+					]
+				}
+			]);
+			
+			if (answers.types.length === 0) {
+				accessType = "none";
+			} else if (answers.types.length === 2) {
+				accessType = "both";
+			} else if (answers.types[0] === "state") {
+				accessType = "state";
+			} else {
+				accessType = "dispatch";
+			}
+		}
+
+
+		const tsxBuilder = new TsxComponentBuilder(name, options.cssModule, accessType);
 		const director = new ReactComponentDirector(tsxBuilder);
 
 		director.make();

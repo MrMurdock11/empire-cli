@@ -1,3 +1,4 @@
+import fs from "fs";
 import { Convert } from "../common/convert";
 
 export interface IBuilder {
@@ -8,13 +9,15 @@ export interface IBuilder {
 	buildView(): void;
 }
 
+export type ReduxAccessType = "none" | "state" | "dispatch" | "both";
+
 /**
  * Строитель React компонента.
  *
  * @export
  * @class Builder
  */
-export class ReactComponentBuilder implements IBuilder {
+export class TsxComponentBuilder implements IBuilder {
 	/**
 	 * Получает результат построения визуальной части компонента.
 	 *
@@ -45,65 +48,49 @@ export class ReactComponentBuilder implements IBuilder {
 	private _index: string;
 	public get index(): string { return this._index; }
 
+	private readonly _tempPath = `${__dirname}/../templates/react-tsx-component`;
+
 	private readonly _name: string;
 
 	private readonly _originalName: string;
 
-	private _hasCssModule: boolean;
+	private readonly _useCssModule: boolean;
 
-	constructor(name: string, hasCssModule: boolean = false) {
+	private readonly _reduxAccessType: ReduxAccessType;
+
+	constructor(name: string, hasCssModule: boolean, accessTypes: ReduxAccessType) {
 		this._index = "";
 		this._container = "";
 		this._view = "";
 		this._name = Convert.toPascalCase(name);
 		this._originalName = name;
-		this._hasCssModule = hasCssModule;
-	}
-
-	private buildStyleModule(): string {
-		return this._hasCssModule
-			? `import styles from "./${this._name}.style.css";\r\n`
-			: `import "./${this._name}.style.css";\r\n`;
-	}
-
-	private buildMarkupModule(): string {
-		return this._hasCssModule
-			? `<div className={styles.container} />`
-			: `<div className="${Convert.toSnakeCase(this._originalName)}__container" />`;
+		this._useCssModule = hasCssModule;
+		this._reduxAccessType = accessTypes;
 	}
 
 	public buildIndex(): void {
-		this._index = (
-			`import { ${this._name} } from "./${this._name}";
-			
-export { ${this._name} };\r\n`
-		);
+		const bridge = fs.readFileSync(`${this._tempPath}/bridge.txt`).toString();
+		const container = this._reduxAccessType === "none" ? `{ ${this._name} }` : this._name;
+
+		this._index = bridge.replace(/\$\$name\$\$/gm, this._name)
+			.replace(/\$\$container\$\$/gm, container);
 	}
 
 	public buildContainer(): void {
-		this._container = (
-			`import React from "react";
-import { ${this._name}View } from "./${this._name}.view";
+		const container = fs.readFileSync(`${this._tempPath}/container/${this._reduxAccessType}.txt`).toString();
 
-type ${this._name}State = {};
-
-export type ${this._name}Props = ${this._name}State;
-
-export const ${this._name}: React.FC<${this._name}Props> = (props) => {
-	return <${this._name}View {...props} />
-}\r\n`
-		);
+		this._container = container.replace(/\$\$name\$\$/gm, this._name);
 	}
 
 	public buildView(): void {
-		this._view += (
-			`${this.buildStyleModule()}
-import React from "react";
-import { ${this._name}Props } from "./${this._name}";
-
-export const ${this._name}View: React.FC<${this._name}Props> = (props) => {
-	return ${this.buildMarkupModule()};
-}\r\n`
-		);
+		const view = fs.readFileSync(`${this._tempPath}/view.txt`).toString();
+		const module = this._useCssModule ? "styles from " : String();
+		const classname = this._useCssModule
+			? "{styles.container}"
+			: `${Convert.toSnakeCase(this._originalName)}__container`;
+		
+		this._view = view.replace(/\$\$name\$\$/gm, this._name)
+			.replace(/\$\$module\$\$/gm, module)
+			.replace(/\$\$classname\$\$/gm, classname);
 	}
 }

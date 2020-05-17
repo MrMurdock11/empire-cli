@@ -1,0 +1,23 @@
+import React from "react";
+import connect from "redux";
+import { $$name$$View } from "./$$name$$.view";
+
+type $$name$$State = { /* your states */ };
+
+type $$name$$Dispatch = { /* your dispatchs */ };
+
+export type $$name$$Props = $$name$$State & $$name$$Dispatch;
+
+const $$name$$: React.FC<$$name$$Props> = (props) => {
+	return <$$name$$View {...props} />
+}
+
+const mapStateToProps = (/* your global app state type */): $$name$$State => {
+	return { /* your states */ };
+}
+
+const mapDispatchToProps: $$name$$Dispatch = {
+	// your dispatchs
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)($$name$$);

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 import chalk from "chalk";
 import clear from "clear";
 import figlet from "figlet";
@@ -18,7 +19,7 @@ prog.version(VERSION);
 
 prog.command("about")
 	.action(() => {
-		console.log(chalk.bold.blue(figlet.textSync("Empire", { font: "Larry 3D", horizontalLayout: "fitted" })));
+		console.log(chalk.bold.blue(figlet.textSync("Empire", { font: "ANSI Shadow" })));
 		console.log(`${chalk.bold.green("Version")}: ${chalk.cyan(VERSION)}`);
 		console.log(`${chalk.bold.green("Author")}:\t ${chalk.cyan(AUTHOR)}`);
 		console.log(`${chalk.bold.green("GitHub")}:\t ${chalk.cyan(HOMEPAGE)}`);
@@ -26,7 +27,8 @@ prog.command("about")
 
 prog.command("component <name>")
 	.alias("c")
-	.option("--no-css-module", "Create new component.")
+	.option("-C, --no-css-module", "Create component with css module.")
+	.option("-r, --redux", "Create component for connect to redux store.")
 	.action(Component.create);
 
 prog.command("store <name>")
