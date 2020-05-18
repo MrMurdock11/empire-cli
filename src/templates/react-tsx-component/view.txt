@@ -1,4 +1,4 @@
-import $$module$$"./$$name$$.styles.css";
+import $$module$$"./$$name$$.style.css";
 
 import React from "react";
 import { $$name$$Props } from "./$$name$$";
