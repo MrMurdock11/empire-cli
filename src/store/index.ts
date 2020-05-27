@@ -2,6 +2,36 @@ import fs from "fs";
 import { Convert } from "../common/convert";
 import chalk from "chalk";
 
+const appendToRootReducer = (name: string): void => {
+	const cwd = process.cwd();
+	const reducerName = name.charAt(0).toLowerCase() + name.slice(1);
+
+	if (!fs.existsSync(`${cwd}/index.ts`)) {
+		console.log("Ненайден корневой reducer.");
+	}
+
+	let root = fs.readFileSync(`${cwd}/index.ts`).toString();
+
+	let referencePoint = 0;
+	let appendIndex = 0;
+
+	// append import
+
+	referencePoint = root.lastIndexOf("import");
+	appendIndex = root.indexOf(";", referencePoint);
+	
+	root = root.slice(0, appendIndex + 1) + `\nimport { ${reducerName} } from "./${name}/${name}.reducer";` + root.slice(appendIndex + 1);
+
+	// append reducer
+
+	referencePoint = root.indexOf("combineReducers({");
+	appendIndex = root.indexOf("});", referencePoint);
+
+	root = root.slice(0, appendIndex) + `\t${reducerName},\n` + root.slice(appendIndex);
+
+	fs.writeFileSync(`${cwd}/index.ts`, root);
+}
+
 export class Store {
 	public static create = (name: string): void => {
 		let destPath = process.cwd();
@@ -22,17 +52,19 @@ export class Store {
 		Store.createReducers(destPath, name);
 		Store.createReducersTest(destPath, name);
 		Store.createState(destPath, name);
+
+		appendToRootReducer(name);
 	}
 
-	public static createKeys = (path: string, name: string): void => {
+	private static createKeys = (path: string, name: string): void => {
 		fs.writeFileSync(`${path}/${name}.keys.ts`, (
 `export enum Keys {
-	YOUR_KEY = "YOUR_KEY",
+	// YOUR_KEY = "YOUR_KEY",
 }\r\n`
 		));
 	}
 
-	public static createActions = (path: string, name: string): void => {
+	private static createActions = (path: string, name: string): void => {
 		fs.writeFileSync(`${path}/${name}.actions.ts`, (
 `import { Keys } from "./${name}.keys";
 
@@ -40,13 +72,13 @@ export class Store {
 
 export const yourAction = () => {
 	return {
-		type: Keys.YOUR_KEY,
+		// type: Keys.YOUR_KEY,
 	} as const;
 }\r\n`
 		));
 	}
 
-	public static createActionsType = (path: string, name: string): void => {
+	private static createActionsType = (path: string, name: string): void => {
 		fs.writeFileSync(`${path}/${name}.actions.type.ts`, (
 `import * as ActionsFC from "./${name}.actions";
 
@@ -56,7 +88,7 @@ export type Actions = ReturnType<InferValueTypes<typeof ActionsFC>>;\r\n`
 		));
 	}
 
-	public static createReducers = (path: string, name: string): void => {
+	private static createReducers = (path: string, name: string): void => {
 		fs.writeFileSync(`${path}/${name}.reducer.ts`, (
 `import { Keys } from "./${name}.keys";
 import { Actions } from "./${name}.actions.type";
@@ -64,8 +96,8 @@ import { initState, State } from "./${name}.state";
 
 export const ${name.charAt(0).toLowerCase() + name.slice(1)} = (state = initState, action: Actions): State => {
 	switch(action.type) {
-		case Keys.YOUR_KEY:
-			return {...state};
+		// case Keys.YOUR_KEY:
+		// 	return {...state};
 		default:
 			return state;
 	}
@@ -73,7 +105,7 @@ export const ${name.charAt(0).toLowerCase() + name.slice(1)} = (state = initStat
 		));
 	}
 
-	public static createReducersTest = (path: string, name: string): void => {
+	private static createReducersTest = (path: string, name: string): void => {
 		fs.writeFileSync(`${path}/${name}.reducer.test.ts`, (
 `describe("${name}Reducer", () => {
 	it("firstTest", () => expect(true).toBeTruthy());
@@ -81,14 +113,14 @@ export const ${name.charAt(0).toLowerCase() + name.slice(1)} = (state = initStat
 		));
 	}
 
-	public static createState = (path: string, name: string): void => {
+	private static createState = (path: string, name: string): void => {
 		fs.writeFileSync(`${path}/${name}.state.ts`, (
 `export type State = {
-	id: string;
+	// add your properties
 };
 
 export const initState: State = {
-	id: "000-000-000",
+	// add your properties
 };\r\n`
 		));
 	}
