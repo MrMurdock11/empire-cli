@@ -7,6 +7,7 @@ import prog from "commander";
 import fs from "fs";
 import { Component } from "./component/director";
 import { Store } from "./store";
+import { init } from "./store/init";
 
 const PACKAGE = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`).toString());
 const VERSION: string = PACKAGE.version;
@@ -34,5 +35,8 @@ prog.command("component <name>")
 prog.command("store <name>")
 	.alias("s")
 	.action(Store.create);
+
+prog.command("init <type>")
+	.action(init);
 
 prog.parse(process.argv);
