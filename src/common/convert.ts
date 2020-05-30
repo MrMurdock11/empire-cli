@@ -1,4 +1,4 @@
-import { Utils } from "./utils";
+import { trim } from "./utils";
 
 /**
  * Класс для конвертации строк.
@@ -15,7 +15,7 @@ export class Convert {
 	 * @memberof Convert
 	 */
 	public static toPascalCase = (str: string): string => {
-		str = Utils.trim(str, /(^[_\-\.]+)|([_\-\.]+$)/gm);
+		str = trim(str, /(^[_\-\.]+)|([_\-\.]+$)/gm);
 
 		const regexpForDelimiter = /[_\-\.]/gm;
 		const hasDelimiter = regexpForDelimiter.test(str);
@@ -33,7 +33,7 @@ export class Convert {
 	};
 
 	public static toSnakeCase = (str: string): string => {
-		str = Utils.trim(str, /(^[_\-\.]+)|([_\-\.]+$)/gm);
+		str = trim(str, /(^[_\-\.]+)|([_\-\.]+$)/gm);
 		str = str.toLowerCase();
 
 		const regexpForDelimiter = /[_\-\.]/gm;

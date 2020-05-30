@@ -3,6 +3,7 @@ import { Convert } from "../common/convert";
 import { IBuilder, TsxComponentBuilder, ReduxAccessType } from "./builder";
 import chalk from "chalk";
 import inquirer from "inquirer";
+import { useDirTree } from "../common/dirtree";
 
 type ComponentCreateOptions = {
 	redux: boolean;
@@ -60,6 +61,8 @@ export class Component {
 		}
 
 		Component.append(destPath, name, tsxBuilder.index, tsxBuilder.container, tsxBuilder.view);
+
+		console.log(useDirTree(destPath));
 	}
 	
 	private static append(destPath: string, name: string, index: string, container: string, view: string): void {
