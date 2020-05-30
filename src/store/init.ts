@@ -1,4 +1,5 @@
 import fs from "fs";
+import { useDirTree } from "../common/dirtree";
 
 type InitializationType = "project" | "store";
 
@@ -15,6 +16,8 @@ const initializeStore = (): void => {
 
 	const content = fs.readFileSync(`${__dirname}/../templates/redux-store/root.txt`).toString();
 	fs.writeFileSync(`${storePath}/index.ts`, content);
+
+	console.log(useDirTree(storePath));
 }
 
 export const init = (type: InitializationType): void => {

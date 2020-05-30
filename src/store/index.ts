@@ -1,6 +1,7 @@
 import fs from "fs";
 import { Convert } from "../common/convert";
 import chalk from "chalk";
+import { useDirTree } from "../common/dirtree";
 
 const appendToRootReducer = (name: string): void => {
 	const cwd = process.cwd();
@@ -54,6 +55,8 @@ export class Store {
 		Store.createState(destPath, name);
 
 		appendToRootReducer(name);
+		
+		console.log(useDirTree(destPath));
 	}
 
 	private static createKeys = (path: string, name: string): void => {
