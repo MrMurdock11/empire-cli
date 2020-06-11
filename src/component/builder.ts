@@ -87,7 +87,7 @@ export class TsxComponentBuilder implements IBuilder {
 		const module = this._useCssModule ? "styles from " : String();
 		const classname = this._useCssModule
 			? "{styles.container}"
-			: `${Convert.toSnakeCase(this._originalName)}__container`;
+			: `"${Convert.toSnakeCase(this._originalName)}__container"`;
 		
 		this._view = view.replace(/\$\$name\$\$/gm, this._name)
 			.replace(/\$\$module\$\$/gm, module)
