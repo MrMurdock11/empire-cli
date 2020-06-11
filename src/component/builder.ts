@@ -1,5 +1,8 @@
 import fs from "fs";
+import "reflect-metadata";
+import DIContainer from "../di-container";
 import { Convert } from "../common/convert";
+import { ArchiveService } from "../services/archive-service";
 
 export interface IBuilder {
 	buildIndex(): void;
@@ -25,8 +28,7 @@ export class TsxComponentBuilder implements IBuilder {
 	 * @type {string}
 	 * @memberof Builder
 	 */
-	private _view: string;
-	public get view(): string { return this._view; }
+	private view: string = String();
 
 	/**
 	 * Получает результат построения контейнера для компонента.
@@ -35,8 +37,7 @@ export class TsxComponentBuilder implements IBuilder {
 	 * @type {string}
 	 * @memberof Builder
 	 */
-	private _container: string;
-	public get container(): string { return this._container; }
+	private container: string = String();
 
 	/**
 	 * Получает результат построения моста до контейнера.
@@ -45,8 +46,9 @@ export class TsxComponentBuilder implements IBuilder {
 	 * @type {string}
 	 * @memberof Builder
 	 */
-	private _index: string;
-	public get index(): string { return this._index; }
+	private index: string = String();
+
+	private readonly archiveService: ArchiveService;
 
 	private readonly _tempPath = `${__dirname}/../templates/react-tsx-component`;
 
@@ -59,38 +61,51 @@ export class TsxComponentBuilder implements IBuilder {
 	private readonly _reduxAccessType: ReduxAccessType;
 
 	constructor(name: string, hasCssModule: boolean, accessTypes: ReduxAccessType) {
-		this._index = "";
-		this._container = "";
-		this._view = "";
 		this._name = Convert.toPascalCase(name);
 		this._originalName = name;
 		this._useCssModule = hasCssModule;
 		this._reduxAccessType = accessTypes;
+
+		this.archiveService = DIContainer.resolve<ArchiveService>(ArchiveService);
 	}
 
-	public buildIndex(): void {
-		const bridge = fs.readFileSync(`${this._tempPath}/bridge.txt`).toString();
-		const container = this._reduxAccessType === "none" ? `{ ${this._name} }` : this._name;
+	public buildIndex(): void {		
+		const text = this.archiveService.getTextByFileName("index");
+		const container = this._reduxAccessType === "none"
+			? `{ ${this._name} }`
+			: this._name;
 
-		this._index = bridge.replace(/\$\$name\$\$/gm, this._name)
+		this.index = text.replace(/\$\$name\$\$/gm, Convert.toPascalCase(this._originalName))
 			.replace(/\$\$container\$\$/gm, container);
 	}
 
-	public buildContainer(): void {
-		const container = fs.readFileSync(`${this._tempPath}/container/${this._reduxAccessType}.txt`).toString();
+	public getIndexText(): string {
+		return this.index;
+	}
 
-		this._container = container.replace(/\$\$name\$\$/gm, this._name);
+	public buildContainer(): void {
+		const text = this.archiveService.getTextByFileName(`container-${this._reduxAccessType}`);
+
+		this.container = text.replace(/\$\$name\$\$/gm, this._name);
+	}
+
+	public getContainerText(): string {
+		return this.container;
 	}
 
 	public buildView(): void {
-		const view = fs.readFileSync(`${this._tempPath}/view.txt`).toString();
+		const text = this.archiveService.getTextByFileName("view");
 		const module = this._useCssModule ? "styles from " : String();
 		const classname = this._useCssModule
 			? "{styles.container}"
-			: `${Convert.toSnakeCase(this._originalName)}__container`;
+			: `"${Convert.toSnakeCase(this._originalName)}__container"`;
 		
-		this._view = view.replace(/\$\$name\$\$/gm, this._name)
+		this.view = text.replace(/\$\$name\$\$/gm, this._name)
 			.replace(/\$\$module\$\$/gm, module)
 			.replace(/\$\$classname\$\$/gm, classname);
+	}
+
+	public getViewText(): string {
+		return this.view;
 	}
 }

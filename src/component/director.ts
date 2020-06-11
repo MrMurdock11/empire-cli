@@ -60,7 +60,12 @@ export class Component {
 			destPath += `/${name}`;
 		}
 
-		Component.append(destPath, name, tsxBuilder.index, tsxBuilder.container, tsxBuilder.view);
+		Component.append(
+			destPath,
+			name,
+			tsxBuilder.getIndexText(),
+			tsxBuilder.getContainerText(),
+			tsxBuilder.getViewText());
 
 		console.log(useDirTree(destPath));
 	}
