@@ -5,9 +5,9 @@ import clear from "clear";
 import figlet from "figlet";
 import prog from "commander";
 import fs from "fs";
-import { Component } from "./component/director";
 import { Store } from "./store";
 import { init } from "./store/init";
+import { createComponentAndWriteFileSystem } from "./component/Actions";
 
 const PACKAGE = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`).toString());
 const VERSION: string = PACKAGE.version;
@@ -30,7 +30,7 @@ prog.command("component <name>")
 	.alias("c")
 	.option("-C, --no-css-module", "Create component with css module.")
 	.option("-r, --redux", "Create component for connect to redux store.")
-	.action(Component.create);
+	.action(createComponentAndWriteFileSystem);
 
 prog.command("store <name>")
 	.alias("s")
