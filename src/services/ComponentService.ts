@@ -5,7 +5,7 @@ import { Component } from "../modules/Component";
 import { ReduxAccessType } from "../types/ReduxAccessType";
 import { ComponentDirector } from "../directors/ComponentDirector";
 import { TSComponentBuilder } from "../builders/TSComponentBuilder";
-import { ArchiveRepository } from "../Repositories/ArchiveRepositiry";
+import { ArchiveRepository } from "../repo/ArchiveRepositiry";
 
 /**
  * Служба для работы с компонентом.
