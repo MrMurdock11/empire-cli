@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Utils } from "../common/Utils";
+import { Utils } from "../shared/Utils";
 import { injectable, inject } from "inversify";
 import { Component } from "../modules/Component";
 import { ReduxAccessType } from "../component/ReduxAccessType";

@@ -1,7 +1,7 @@
 import fs from "fs";
-import { Convert } from "../common/Convert";
+import { Convert } from "../shared/Convert";
 import chalk from "chalk";
-import { useDirTree } from "../common/DirTree";
+import { useDirTree } from "../shared/DirTree";
 
 const appendToRootReducer = (name: string): void => {
 	const cwd = process.cwd();

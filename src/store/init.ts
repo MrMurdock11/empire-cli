@@ -1,5 +1,5 @@
 import fs from "fs";
-import { useDirTree } from "../common/DirTree";
+import { useDirTree } from "../shared/DirTree";
 
 type InitializationType = "project" | "store";
 

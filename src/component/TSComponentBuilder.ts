@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { IBuilder } from "./IBuilder";
-import { Convert } from "../common/Convert";
+import { Convert } from "../shared/Convert";
 import { ReduxAccessType } from "./ReduxAccessType";
 import { Component } from "../modules/Component";
 

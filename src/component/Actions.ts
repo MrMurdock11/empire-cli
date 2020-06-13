@@ -3,8 +3,8 @@ import "reflect-metadata";
 import DIContainer from "../DIContainer";
 import { ComponentService } from "../services/ComponentService";
 import { FileSystemService } from "../services/FileSystemService";
-import { useDirTree } from "../common/DirTree";
-import { Utils } from "../common/Utils";
+import { useDirTree } from "../shared/DirTree";
+import { Utils } from "../shared/Utils";
 
 const componentService = DIContainer.resolve<ComponentService>(ComponentService);
 const fileSystemService = DIContainer.resolve<FileSystemService>(FileSystemService);

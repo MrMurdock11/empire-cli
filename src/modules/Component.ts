@@ -1,4 +1,4 @@
-import { Convert } from "../common/Convert";
+import { Convert } from "../shared/Convert";
 
 /**
  * Компонент.

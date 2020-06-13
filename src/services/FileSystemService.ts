@@ -1,6 +1,6 @@
 import fs from "fs";
 import { injectable } from "inversify";
-import { Utils } from "../common/Utils";
+import { Utils } from "../shared/Utils";
 import { Component } from "../modules/Component";
 
 /**
