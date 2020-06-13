@@ -1,5 +1,5 @@
-import { IBuilder } from "./IBuilder";
-import { ReduxAccessType } from "./ReduxAccessType";
+import { IBuilder } from "../builders/IBuilder";
+import { ReduxAccessType } from "../types/ReduxAccessType";
 
 export class ComponentDirector {
 	/**

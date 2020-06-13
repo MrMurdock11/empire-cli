@@ -1,7 +1,7 @@
 import fs from "fs";
 import inquirer from "inquirer";
 import { Convert } from "./Convert";
-import { ReduxAccessType } from "../component/ReduxAccessType";
+import { ReduxAccessType } from "../types/ReduxAccessType";
 
 type PropmtAnswers = {
 	types: string;

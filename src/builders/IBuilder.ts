@@ -1,4 +1,4 @@
-import { ReduxAccessType } from "./ReduxAccessType";
+import { ReduxAccessType } from "../types/ReduxAccessType";
 
 export interface IBuilder {
 	/**

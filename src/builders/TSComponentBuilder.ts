@@ -1,20 +1,9 @@
 import "reflect-metadata";
 import { IBuilder } from "./IBuilder";
 import { Convert } from "../shared/Convert";
-import { ReduxAccessType } from "./ReduxAccessType";
+import { ReduxAccessType } from "../types/ReduxAccessType";
 import { Component } from "../modules/Component";
-
-// опции для работы строителя.
-type TSComponentBuilderOptions = {
-	// шаблон содержимого файла моста.
-	bridgeContentTemplate: string;
-	// шаблон содержимого файла контейнера.
-	containerContentTemplate: string;
-	// шаблон содержимого презентационного файла.
-	presentationContentTemplate: string;
-	// шаблон содержимого файла стилей.
-	styleContentTemplate: string;
-}
+import { TSComponentBuilderOptions } from "../options/TSComponentBuilderOptions";
 
 /**
  * Строитель React компонента.

@@ -1,8 +1,7 @@
 import fs from "fs";
 import AdmZip from "adm-zip";
 import { injectable } from "inversify";
-import { ReduxAccessType } from "../component/ReduxAccessType";
-
+import { ReduxAccessType } from "../types/ReduxAccessType";
 
 /**
  * Архив.

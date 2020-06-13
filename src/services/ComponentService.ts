@@ -2,9 +2,9 @@ import "reflect-metadata";
 import { Utils } from "../shared/Utils";
 import { injectable, inject } from "inversify";
 import { Component } from "../modules/Component";
-import { ReduxAccessType } from "../component/ReduxAccessType";
-import { ComponentDirector } from "../component/ComponentDirector";
-import { TSComponentBuilder } from "../component/TSComponentBuilder";
+import { ReduxAccessType } from "../types/ReduxAccessType";
+import { ComponentDirector } from "../directors/ComponentDirector";
+import { TSComponentBuilder } from "../builders/TSComponentBuilder";
 import { ArchiveRepository } from "../Repositories/ArchiveRepositiry";
 
 /**

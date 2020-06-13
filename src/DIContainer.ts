@@ -1,7 +1,7 @@
 import { Container } from "inversify";
 import { ComponentService } from "./services/ComponentService";
-import { ArchiveRepository } from "./Repositories/ArchiveRepositiry";
 import { FileSystemService } from "./services/FileSystemService";
+import { ArchiveRepository } from "./Repositories/ArchiveRepositiry";
 
 const DIContainer = new Container();
 

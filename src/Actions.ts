@@ -1,10 +1,10 @@
 import chalk from "chalk";
 import "reflect-metadata";
-import DIContainer from "../DIContainer";
-import { ComponentService } from "../services/ComponentService";
-import { FileSystemService } from "../services/FileSystemService";
-import { useDirTree } from "../shared/DirTree";
-import { Utils } from "../shared/Utils";
+import { Utils } from "./shared/Utils";
+import DIContainer from "./DIContainer";
+import { useDirTree } from "./shared/DirTree";
+import { ComponentService } from "./services/ComponentService";
+import { FileSystemService } from "./services/FileSystemService";
 
 const componentService = DIContainer.resolve<ComponentService>(ComponentService);
 const fileSystemService = DIContainer.resolve<FileSystemService>(FileSystemService);

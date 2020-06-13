@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
+import fs from "fs";
 import chalk from "chalk";
 import clear from "clear";
 import figlet from "figlet";
 import prog from "commander";
-import fs from "fs";
 import { Store } from "./store";
 import { init } from "./store/init";
-import { createComponentAndWriteFileSystem } from "./component/Actions";
+import { createComponentAndWriteFileSystem } from "./Actions";
 
 const PACKAGE = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`).toString());
 const VERSION: string = PACKAGE.version;
