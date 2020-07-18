@@ -1,0 +1,12 @@
+import React from "react";
+import { @component-name@View } from "./@component-name@.view";
+
+type @component-name@State = { /* your states */ };
+
+export type @component-name@Props = @component-name@State;
+
+const @component-name@: React.FC<@component-name@Props> = (props) => {
+	return <@component-name@View {...props} />
+}
+
+export default @component-name@;

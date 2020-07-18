@@ -2,6 +2,7 @@ import fs from "fs";
 import { injectable } from "inversify";
 import { Utils } from "../shared/Utils";
 import { Component } from "../modules/Component";
+import { FileSystemError } from "../shared/errors/FileSystemError";
 
 /**
  * Служба для работы с файловой системой.
@@ -18,24 +19,17 @@ export class FileSystemService {
 	 * @memberof FileSystemService
 	 */
 	public writeComponent(component: Component): void {
-		const {
-			name,
-			bridgeFileContent,
-			containerFileContent,
-			presentationFileContent,
-			styleFileContent,
-		} = component;
-		const destinationPath = Utils.determineDestinationPath(name);
+		const destinationPath = Utils.determineDestinationPath(component.name);
 
 		if (fs.existsSync(destinationPath)) {
-			throw new Error("Создаваемый компонет уже существует.");
+			throw new FileSystemError("Создаваемый компонет уже существует.");
 		}
 		
 		fs.mkdirSync(destinationPath);
 
-		fs.writeFileSync(`${destinationPath}/index.ts`, bridgeFileContent);
-		fs.writeFileSync(`${destinationPath}/${name}.tsx`, containerFileContent);
-		fs.writeFileSync(`${destinationPath}/${name}.view.tsx`, presentationFileContent);
-		fs.writeFileSync(`${destinationPath}/${name}.style.css`, styleFileContent);
+		fs.writeFileSync(`${destinationPath}/index.ts`, component.bridgeFileContent);
+		fs.writeFileSync(`${destinationPath}/${component.name}.tsx`, component.containerFileContent);
+		fs.writeFileSync(`${destinationPath}/${component.name}.view.tsx`, component.presentationFileContent);
+		fs.writeFileSync(`${destinationPath}/${component.name}.style.css`, component.styleFileContent);
 	}
 }

@@ -1,0 +1,3 @@
+import @import-area@ from "./@component-name@";
+
+export { @component-name@ };

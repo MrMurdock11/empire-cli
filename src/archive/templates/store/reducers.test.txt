@@ -1,0 +1,3 @@
+describe("@store-name@Reducer", () => {
+	it("firstTest", () => expect(true).toBeTruthy());
+});

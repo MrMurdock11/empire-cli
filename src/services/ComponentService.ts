@@ -5,7 +5,10 @@ import { Component } from "../modules/Component";
 import { ReduxAccessType } from "../types/ReduxAccessType";
 import { ComponentDirector } from "../directors/ComponentDirector";
 import { TSComponentBuilder } from "../builders/TSComponentBuilder";
-import { ArchiveRepository } from "../repositories/ArchiveRepositiry";
+import { ComponentCommandOptions } from "../options/ComponentCommandOptions";
+import { IComponentService } from "./IComponentService";
+import { IArchiveRepository } from "../repositories/IArchiveRepository";
+import { CONTAINER_TYPES } from "../ContainerTypes";
 
 /**
  * Служба для работы с компонентом.
@@ -14,29 +17,25 @@ import { ArchiveRepository } from "../repositories/ArchiveRepositiry";
  * @class ComponentService
  */
 @injectable()
-export class ComponentService {
+export class ComponentService implements IComponentService {
 	/**
 	 * Архив.
 	 *
 	 * @private
-	 * @type {ArchiveRepository}
+	 * @type {IArchiveRepository}
 	 * @memberof ComponentService
 	 */
-	private readonly repository: ArchiveRepository;
+	@inject(CONTAINER_TYPES.ComponentService)
+	private readonly repository: IArchiveRepository;
 
-	constructor(@inject(ArchiveRepository) repository: ArchiveRepository) {
+	constructor(repository: IArchiveRepository) {
 		this.repository = repository;
 	}
 
 	/**
-	 * Создает компонент.
-	 *
-	 * @param {string} originComponentName Наимнование компонента.
-	 * @param {CommandOptions} options Опции команды.
-	 * @returns {Promise<Component>} Ожидается компонент.
-	 * @memberof ComponentService
+	 * @inheritdoc
 	 */
-	public async createComponent (originComponentName: string, options: CommandOptions): Promise<Component> {
+	public async create(originComponentName: string, options: ComponentCommandOptions): Promise<Component> {
 		const {redux: useRedux, cssModule: useCssModule} = options;
 		const accessType: ReduxAccessType = await Utils.determineAccessType(useRedux);
 		const bridgeContentTemplate = this.repository.getBridgeFileContentTemplate();

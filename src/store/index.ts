@@ -8,7 +8,7 @@ const appendToRootReducer = (name: string): void => {
 	const reducerName = name.charAt(0).toLowerCase() + name.slice(1);
 
 	if (!fs.existsSync(`${cwd}/index.ts`)) {
-		console.log("Ненайден корневой reducer.");
+		console.log("Не найден корневой reducer.");
 	}
 
 	let root = fs.readFileSync(`${cwd}/index.ts`).toString();

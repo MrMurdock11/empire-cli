@@ -1,3 +1,5 @@
+// istanbul ignore file
+
 import fs from "fs";
 import inquirer from "inquirer";
 import { Convert } from "./Convert";
@@ -9,13 +11,13 @@ type PropmtAnswers = {
 
 export namespace Utils {
 	/**
-	 * 
+	 * Удалить совпадения.
 	 *
-	 * @param {string} str
-	 * @param {RegExp} regexp
-	 * @returns {string}
+	 * @param {string} str Исходная строка.
+	 * @param {RegExp} regexp Шаблон для поиска.
+	 * @returns {string} Результат удаления совпадений.
 	 */
-	export const trim = (str: string, regexp: RegExp): string => {
+	export const deleteMatches = (str: string, regexp: RegExp): string => {
 		return str.replace(regexp, "");
 	}
 
@@ -31,14 +33,14 @@ export namespace Utils {
 		const isComponentFolder = fs.readdirSync(cwd).some(it => /\.(j|t)sx$/gm.test(it));
 
 		if (!isComponentFolder) {
-			return `${cwd}/${componentNamePascalCase}`;
+			return `${cwd}\\${componentNamePascalCase}`;
 		}
 
 		if (!fs.existsSync("childs")) {
 			fs.mkdirSync("childs");
 		}
 
-		return `${cwd}/childs/${componentNamePascalCase}`;
+		return `${cwd}\\childs\\${componentNamePascalCase}`;
 	}
 
 	/**

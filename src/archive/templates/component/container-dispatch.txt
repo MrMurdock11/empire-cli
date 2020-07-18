@@ -1,0 +1,17 @@
+import React from "react";
+import { connect } from "react-redux";
+import { @component-name@View } from "./@component-name@.view";
+
+type @component-name@Dispatch = { /* your dispatchs */ };
+
+export type @component-name@Props = @component-name@Dispatch;
+
+const @component-name@: React.FC<@component-name@Props> = (props) => {
+	return <@component-name@View {...props} />
+}
+
+const mapDispatchToProps: @component-name@Dispatch = {
+	// your dispatchs
+};
+
+export default connect(undefined, mapDispatchToProps)(@component-name@);

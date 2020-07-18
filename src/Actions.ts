@@ -5,6 +5,7 @@ import DIContainer from "./DIContainer";
 import { useDirTree } from "./shared/DirTree";
 import { ComponentService } from "./services/ComponentService";
 import { FileSystemService } from "./services/FileSystemService";
+import { ComponentCommandOptions } from "./options/ComponentCommandOptions";
 
 const componentService = DIContainer.resolve<ComponentService>(ComponentService);
 const fileSystemService = DIContainer.resolve<FileSystemService>(FileSystemService);
@@ -26,14 +27,22 @@ const logError = (exception: Error): void => {
  * @returns {Promise<void>}
  */
 // TODO: Не передавать CommandOptions дальше метода действия.
-const createComponentAndWriteFileSystem = async (originComponentName: string, options: CommandOptions): Promise<void> => {
+async function createComponentAndWriteFileSystem(originComponentName: string, options: ComponentCommandOptions): Promise<void> {
 	try {
-		const component = await componentService.createComponent(originComponentName, options);
+		const component = await componentService.create(originComponentName, options);
 		fileSystemService.writeComponent(component);
 
 		console.log(chalk.bold.cyan(`\nDirectory structure [${component.validName}]:\n`));
 		console.log(useDirTree(Utils.determineDestinationPath(component.validName)));
 	} catch (exception) {
+		logError(exception);
+	}
+}
+
+async function createStoreAndWriteFileSystem(originalStoreName: string): Promise<void> {
+	try {
+
+	} catch(exception) {
 		logError(exception);
 	}
 }

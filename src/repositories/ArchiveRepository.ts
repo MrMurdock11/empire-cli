@@ -2,6 +2,7 @@ import fs from "fs";
 import AdmZip from "adm-zip";
 import { injectable } from "inversify";
 import { ReduxAccessType } from "../types/ReduxAccessType";
+import { IArchiveRepository } from "./IArchiveRepository";
 
 /**
  * Архив.
@@ -10,7 +11,7 @@ import { ReduxAccessType } from "../types/ReduxAccessType";
  * @class ArchiveRepository
  */
 @injectable()
-export class ArchiveRepository {
+export class ArchiveRepository implements IArchiveRepository {
 	/**
 	 * Путь до архива.
 	 *
@@ -32,43 +33,69 @@ export class ArchiveRepository {
 	constructor() {
 		this.admZip = new AdmZip(fs.readFileSync(this.archivePath));
 	}
+	
+	//#region Component
 
 	/**
-	 * Получает шаблон содержимого файла моста.
-	 *
-	 * @memberof ArchiveRepository
+	 * @inheritdoc
 	 */
-	public getBridgeFileContentTemplate = (): string => {
-		return this.getContentTemplateByFileName("index.txt");
+	public getBridgeFileContentTemplate(): string {
+		return this.getContentTemplateByFileName("component/index.txt");
 	}
 
 	/**
-	 * Получает шаблон содержимого файла контейнера.
-	 *
-	 * @param {ReduxAccessType} accessType Тип доступа компонента к хранилищу.
-	 * @memberof ArchiveRepository
+	 * @inheritdoc
 	 */
-	public getContainerFileContentTemplate = (accessType: ReduxAccessType): string => {
-		return this.getContentTemplateByFileName(`container-${accessType}.txt`);
+	public getContainerFileContentTemplate(accessType: ReduxAccessType): string {
+		return this.getContentTemplateByFileName(`component/container-${accessType}.txt`);
 	}
 
 	/**
-	 * Получает шаблон содержимого презентационного файла.
-	 *
-	 * @memberof ArchiveRepository
+	 * @inheritdoc
 	 */
-	public getPresentationFileContentTemplate = (): string => {
-		return this.getContentTemplateByFileName("view.txt");
+	public getPresentationFileContentTemplate(): string {
+		return this.getContentTemplateByFileName("component/view.txt");
 	}
 
 	/**
-	 * Получает шаблон содержимого файла стилей.
-	 *
-	 * @memberof ArchiveRepository
+	 * @inheritdoc
 	 */
-	public getStyleFileContentTemplate = (): string => {
-		return this.getContentTemplateByFileName("style.txt");
+	public getStyleFileContentTemplate(): string {
+		return this.getContentTemplateByFileName("component/style.txt");
 	}
+	
+	//#endregion
+
+	//#region Store
+
+	/**
+	 * @inheritdoc
+	 */
+	public getKeysFileContentTemplate(): string {
+		return this.getContentTemplateByFileName("store/keys.txt");
+	}
+
+	getActionsContentTemplate(): string {
+		throw new Error("Method not implemented.");
+	}
+
+	getActionsTypeContent(): string {
+		throw new Error("Method not implemented.");
+	}
+
+	getReducerContentTemplate(): string {
+		throw new Error("Method not implemented.");
+	}
+
+	getReducerTestContentTemplate(): string {
+		throw new Error("Method not implemented.");
+	}
+	
+	getStateContentTemplate(): string {
+		throw new Error("Method not implemented.");
+	}
+
+	//#endregion
 
 	/**
 	 * Получает шаблон содержимого файла по имени файла в архиве.
