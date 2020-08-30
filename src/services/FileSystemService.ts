@@ -3,6 +3,7 @@ import { injectable } from "inversify";
 import { Utils } from "../shared/Utils";
 import { Component } from "../modules/Component";
 import { FileSystemError } from "../shared/errors/FileSystemError";
+import { IFileSystemService } from "./IFileSystemService";
 
 /**
  * Служба для работы с файловой системой.
@@ -11,7 +12,7 @@ import { FileSystemError } from "../shared/errors/FileSystemError";
  * @class FileSystemService
  */
 @injectable()
-export class FileSystemService {
+export class FileSystemService implements IFileSystemService {
 	/**
 	 * Записывает компонент в файловую систему.
 	 *

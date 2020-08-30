@@ -1,20 +1,22 @@
 import { Container } from "inversify";
 import { ComponentService } from "./services/ComponentService";
 import { FileSystemService } from "./services/FileSystemService";
-import { ArchiveRepository } from "./repositories/ArchiveRepository";
+import { ArchiveProvider } from "./providers/ArchiveProvider";
 import { StoreService } from "./services/StoreService";
-import { IArchiveRepository } from "./repositories/IArchiveRepository";
+import { IArchiveProvider } from "./providers/IArchiveProvider";
 import { IComponentService } from "./services/IComponentService";
-import { CONTAINER_TYPES } from "./ContainerTypes";
+import { containerTypes } from "./ContainerTypes";
+import { IStoreService } from "./services/IStoreService";
+import { IFileSystemService } from "./services/IFileSystemService";
 
 const DIContainer = new Container();
 
 // Services
-DIContainer.bind<IComponentService>(CONTAINER_TYPES.ComponentService).to(ComponentService);
-DIContainer.bind<StoreService>(StoreService).toSelf();
-DIContainer.bind<FileSystemService>(FileSystemService).toSelf();
+DIContainer.bind<IComponentService>(containerTypes.COMPONENT_SERVICE).to(ComponentService);
+DIContainer.bind<IStoreService>(containerTypes.STORE_SERVICE).to(StoreService);
+DIContainer.bind<IFileSystemService>(containerTypes.FILE_SYSTEM_SERVICE).to(FileSystemService);
 
-// Repositories
-DIContainer.bind<IArchiveRepository>(ArchiveRepository).toSelf();
+// Providers
+DIContainer.bind<IArchiveProvider>(containerTypes.ARCHIVE_PROVIDER).to(ArchiveProvider);
 
 export default DIContainer;

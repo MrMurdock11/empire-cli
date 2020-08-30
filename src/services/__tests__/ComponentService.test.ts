@@ -1,11 +1,11 @@
 import { ComponentService } from "../ComponentService";
-import { ArchiveRepositoryMock } from "../../repositories/__mocks__/ArchiveRepositoryMock";
+import { ArchiveProviderMock } from "../../providers/__mocks__/ArchiveProviderMock";
 
 describe("ComponentService", () => {
 	let service: ComponentService;
 
 	beforeEach(() => {
-		service = new ComponentService(new ArchiveRepositoryMock);
+		service = new ComponentService(new ArchiveProviderMock);
 	});
 
 	it("should create component", () => {

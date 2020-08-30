@@ -2,7 +2,7 @@ import fs from "fs";
 import AdmZip from "adm-zip";
 import { injectable } from "inversify";
 import { ReduxAccessType } from "../types/ReduxAccessType";
-import { IArchiveRepository } from "./IArchiveRepository";
+import { IArchiveProvider } from "./IArchiveProvider";
 
 /**
  * Архив.
@@ -11,7 +11,7 @@ import { IArchiveRepository } from "./IArchiveRepository";
  * @class ArchiveRepository
  */
 @injectable()
-export class ArchiveRepository implements IArchiveRepository {
+export class ArchiveProvider implements IArchiveProvider {
 	/**
 	 * Путь до архива.
 	 *
@@ -75,24 +75,39 @@ export class ArchiveRepository implements IArchiveRepository {
 		return this.getContentTemplateByFileName("store/keys.txt");
 	}
 
-	getActionsContentTemplate(): string {
-		throw new Error("Method not implemented.");
+	/**
+	 * @inheritdoc
+	 */
+	public getActionsContentTemplate(): string {
+		return this.getContentTemplateByFileName("/store/actions.txt");
 	}
 
-	getActionsTypeContent(): string {
-		throw new Error("Method not implemented.");
+	/**
+	 * @inheritdoc
+	 */
+	public getActionsTypeContentTemplate(): string {
+		return this.getContentTemplateByFileName("/store/actions.type.txt");
 	}
 
-	getReducerContentTemplate(): string {
-		throw new Error("Method not implemented.");
+	/**
+	 * @inheritdoc
+	 */
+	public getReducersContentTemplate(): string {
+		return this.getContentTemplateByFileName("/store/reducers.txt");
 	}
 
-	getReducerTestContentTemplate(): string {
-		throw new Error("Method not implemented.");
+	/**
+	 * @inheritdoc
+	 */
+	public getReducersTestContentTemplate(): string {
+		return this.getContentTemplateByFileName("/store/reducers.test.txt");
 	}
 	
-	getStateContentTemplate(): string {
-		throw new Error("Method not implemented.");
+	/**
+	 * @inheritdoc
+	 */
+	public getStateContentTemplate(): string {
+		return this.getContentTemplateByFileName("/store/state.txt");
 	}
 
 	//#endregion

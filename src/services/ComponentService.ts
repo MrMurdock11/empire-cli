@@ -7,8 +7,8 @@ import { ComponentDirector } from "../directors/ComponentDirector";
 import { TSComponentBuilder } from "../builders/TSComponentBuilder";
 import { ComponentCommandOptions } from "../options/ComponentCommandOptions";
 import { IComponentService } from "./IComponentService";
-import { IArchiveRepository } from "../repositories/IArchiveRepository";
-import { CONTAINER_TYPES } from "../ContainerTypes";
+import { IArchiveProvider } from "../providers/IArchiveProvider";
+import { containerTypes } from "../ContainerTypes";
 
 /**
  * Служба для работы с компонентом.
@@ -22,13 +22,13 @@ export class ComponentService implements IComponentService {
 	 * Архив.
 	 *
 	 * @private
-	 * @type {IArchiveRepository}
+	 * @type {IArchiveProvider}
 	 * @memberof ComponentService
 	 */
-	@inject(CONTAINER_TYPES.ComponentService)
-	private readonly repository: IArchiveRepository;
+	@inject(containerTypes.ARCHIVE_PROVIDER)
+	private readonly repository: IArchiveProvider;
 
-	constructor(repository: IArchiveRepository) {
+	constructor(repository: IArchiveProvider) {
 		this.repository = repository;
 	}
 

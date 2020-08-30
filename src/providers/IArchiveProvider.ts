@@ -1,6 +1,6 @@
 import { ReduxAccessType } from "../types/ReduxAccessType";
 
-export interface IArchiveRepository {
+export interface IArchiveProvider {
 
 	/**
 	 * Получает шаблон содержимого файла моста.
@@ -57,7 +57,7 @@ export interface IArchiveRepository {
 	 * @returns {string}
 	 * @memberof IArchiveRepository
 	 */
-	getActionsTypeContent(): string;
+	getActionsTypeContentTemplate(): string;
 
 	/**
 	 * Получает шаблон для механизма по передаче данных.
@@ -65,7 +65,7 @@ export interface IArchiveRepository {
 	 * @returns {string}
 	 * @memberof IArchiveRepository
 	 */
-	getReducerContentTemplate(): string;
+	getReducersContentTemplate(): string;
 
 	/**
 	 * Получает шаблон тестов для механизма по передаче данных.
@@ -73,7 +73,7 @@ export interface IArchiveRepository {
 	 * @returns {string}
 	 * @memberof IArchiveRepository
 	 */
-	getReducerTestContentTemplate(): string;
+	getReducersTestContentTemplate(): string;
 
 	/**
 	 * Получает шаблон для состония хранилища.
