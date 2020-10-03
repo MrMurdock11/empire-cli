@@ -26,10 +26,10 @@ export class ComponentService implements IComponentService {
 	 * @memberof ComponentService
 	 */
 	@inject(containerTypes.ARCHIVE_PROVIDER)
-	private readonly repository: IArchiveProvider;
+	private readonly repository!: IArchiveProvider;
 
-	constructor(repository: IArchiveProvider) {
-		this.repository = repository;
+	constructor(/*repository: IArchiveProvider*/) {
+		// this.repository = repository;
 	}
 
 	/**
@@ -49,6 +49,7 @@ export class ComponentService implements IComponentService {
 			presentationContentTemplate,
 			styleContentTemplate,
 		});
+
 		const director = new ComponentDirector(builder);
 	
 		director.make(accessType, useCssModule);

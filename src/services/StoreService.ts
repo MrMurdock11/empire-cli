@@ -9,10 +9,10 @@ import { IArchiveProvider } from "../providers/IArchiveProvider";
 export class StoreService implements IStoreService {
 
 	@inject(containerTypes.ARCHIVE_PROVIDER)
-	private readonly repository: IArchiveProvider;
+	private readonly repository!: IArchiveProvider;
 
-	constructor(repository: IArchiveProvider) {
-		this.repository = repository;
+	constructor(/*repository: IArchiveProvider*/) {
+		// this.repository = repository;
 	}
 
 	public create(storeName: string): Store {

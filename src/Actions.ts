@@ -1,14 +1,18 @@
 import chalk from "chalk";
 import "reflect-metadata";
 import { Utils } from "./shared/Utils";
+// import "reflect-metadata";
 import DIContainer from "./DIContainer";
 import { useDirTree } from "./shared/DirTree";
-import { ComponentService } from "./services/ComponentService";
 import { FileSystemService } from "./services/FileSystemService";
 import { ComponentCommandOptions } from "./options/ComponentCommandOptions";
+import { IComponentService } from "./services/IComponentService";
+import { IStoreService } from "./services/IStoreService";
+import { containerTypes } from "./ContainerTypes";
 
-const componentService = DIContainer.resolve<ComponentService>(ComponentService);
-const fileSystemService = DIContainer.resolve<FileSystemService>(FileSystemService);
+const componentService = DIContainer.get<IComponentService>(containerTypes.COMPONENT_SERVICE);
+const storeService = DIContainer.get<IStoreService>(containerTypes.STORE_SERVICE);
+const fileSystemService = DIContainer.get<FileSystemService>(containerTypes.FILE_SYSTEM_SERVICE);
 
 /**
  * Выводит в консоль сообщение об ошибке.
@@ -41,10 +45,14 @@ async function createComponentAndWriteFileSystem(originComponentName: string, op
 
 async function createStoreAndWriteFileSystem(originalStoreName: string): Promise<void> {
 	try {
-
+		const store = await storeService.create(originalStoreName);
+		fileSystemService.writeStore(store);
+		
+		console.log(chalk.bold.cyan(`\nDirectory structure [${store.validName}]:\n`));
+		console.log(useDirTree(Utils.determineDestinationPath(store.validName)));
 	} catch(exception) {
 		logError(exception);
 	}
 }
 
-export { createComponentAndWriteFileSystem };
+export { createComponentAndWriteFileSystem, createStoreAndWriteFileSystem };

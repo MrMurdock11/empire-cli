@@ -5,9 +5,8 @@ import chalk from "chalk";
 import clear from "clear";
 import figlet from "figlet";
 import prog from "commander";
-import { Store } from "./store";
 import { init } from "./store/init";
-import { createComponentAndWriteFileSystem } from "./Actions";
+import { createComponentAndWriteFileSystem, createStoreAndWriteFileSystem } from "./Actions";
 
 const PACKAGE = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`).toString());
 const VERSION: string = PACKAGE.version;
@@ -34,7 +33,7 @@ prog.command("component <name>")
 
 prog.command("store <name>")
 	.alias("s")
-	.action(Store.create);
+	.action(createStoreAndWriteFileSystem);
 
 prog.command("init <type>")
 	.action(init);
