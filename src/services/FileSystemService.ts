@@ -21,7 +21,8 @@ export class FileSystemService implements IFileSystemService {
 	 * @memberof FileSystemService
 	 */
 	public writeComponent(component: Component): void {
-		const destinationPath = Utils.determineDestinationPath(component.name);
+		const {validName} = component;
+		const destinationPath = Utils.determineDestinationPath(validName);
 
 		if (fs.existsSync(destinationPath)) {
 			throw new FileSystemError("Создаваемый компонет уже существует.");
@@ -30,9 +31,9 @@ export class FileSystemService implements IFileSystemService {
 		fs.mkdirSync(destinationPath);
 
 		fs.writeFileSync(`${destinationPath}/index.ts`, component.bridgeFileContent);
-		fs.writeFileSync(`${destinationPath}/${component.name}.tsx`, component.containerFileContent);
-		fs.writeFileSync(`${destinationPath}/${component.name}.view.tsx`, component.presentationFileContent);
-		fs.writeFileSync(`${destinationPath}/${component.name}.style.css`, component.styleFileContent);
+		fs.writeFileSync(`${destinationPath}/${validName}.tsx`, component.containerFileContent);
+		fs.writeFileSync(`${destinationPath}/${validName}.view.tsx`, component.presentationFileContent);
+		fs.writeFileSync(`${destinationPath}/${validName}.style.css`, component.styleFileContent);
 	}
 
 	public writeStore(store: Store): void {
