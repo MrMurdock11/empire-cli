@@ -52,5 +52,33 @@ export class FileSystemService implements IFileSystemService {
 		fs.writeFileSync(`${destinationPath}/${validName}.reducer.ts`, store.reducersFileContent);
 		fs.writeFileSync(`${destinationPath}/${validName}.reducer.test.ts`, store.reducersTestFileContent);
 		fs.writeFileSync(`${destinationPath}/${validName}.state.ts`, store.stateFileContent);
+
+		this.appendToRootReducer(store.validName);
+	}
+
+	private appendToRootReducer(name: string): void {
+		const cwd = process.cwd();
+		const reducerName = name.charAt(0).toLowerCase() + name.slice(1);
+	
+		if (!fs.existsSync(`${cwd}/index.ts`)) {
+			console.log("Ненайден корневой reducer.");
+		}
+	
+		let root = fs.readFileSync(`${cwd}/index.ts`).toString();
+	
+		let referencePoint = 0;
+		let appendIndex = 0;
+	
+		referencePoint = root.lastIndexOf("import");
+		appendIndex = root.indexOf(";", referencePoint);
+	
+		root = root.slice(0, appendIndex + 1) + `\nimport { ${reducerName} } from "./${name}/${name}.reducer";` + root.slice(appendIndex + 1);
+	
+		referencePoint = root.indexOf("combineReducers({");
+		appendIndex = root.indexOf("});", referencePoint);
+	
+		root = root.slice(0, appendIndex) + `\t${reducerName},\n` + root.slice(appendIndex);
+	
+		fs.writeFileSync(`${cwd}/index.ts`, root);
 	}
 }
