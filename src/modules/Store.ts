@@ -1,3 +1,4 @@
+import { runInThisContext } from "vm";
 import { Convert } from "../shared/Convert";
 
 // TODO: Слишком много полей. Подумать над тем как бы разгрузить класс и его свойства.
@@ -37,5 +38,17 @@ export class Store {
 		this._name = name;
 		// TODO: Избавиться от зависимости с классом Convert.
 		this._validName = Convert.toPascalCase(name);
+	}
+
+	public make(): void {
+		this._actionsFileContent = this._actionsFileContent
+			.replace(/@store-name@/gm, this._validName);
+		this._actionsTypeFileContent = this._actionsTypeFileContent
+			.replace(/@store-name@/gm, this._validName);
+		this._reducersFileContent = this._reducersFileContent
+			.replace(/@store-name@/gm, this._validName)
+			.replace(/@reducer-name@/gm, this._validName);
+		this._reducersTestFileContent = this._reducersTestFileContent
+			.replace(/@store-name@/gm, this._validName);
 	}
 }

@@ -25,6 +25,8 @@ export class StoreService implements IStoreService {
 		store.reducersTestFileContent = this.repository.getReducersTestContentTemplate();
 		store.stateFileContent = this.repository.getStateContentTemplate();
 
+		store.make();
+
 		return store;
 	}
 }
