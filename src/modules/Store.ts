@@ -47,7 +47,7 @@ export class Store {
 			.replace(/@store-name@/gm, this._validName);
 		this._reducersFileContent = this._reducersFileContent
 			.replace(/@store-name@/gm, this._validName)
-			.replace(/@reducer-name@/gm, this._validName);
+			.replace(/@reducer-name@/gm, this._validName[0].toLowerCase() + this._validName.slice(1));
 		this._reducersTestFileContent = this._reducersTestFileContent
 			.replace(/@store-name@/gm, this._validName);
 	}
