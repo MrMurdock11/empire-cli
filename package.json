@@ -1,52 +1,58 @@
 {
-  "name": "empire-cli",
-  "version": "0.2.0",
-  "description": "",
-  "main": "index.js",
-  "bin": {
-    "empire": "./dist/index.js"
-  },
-  "scripts": {
-    "start": "ts-node src/index.ts",
-    "build": "rm -rf ./dist && tsc -p .",
-    "copy-temp": "mkdirp ./dist/templates && cp -r ./src/templates ./dist && cp -r ./src/archive ./dist",
-    "dev": "npm run copy-temp && tsc -p . -w",
-    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
-    "test": "jest --config ./jest.config.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MrMurdock11/Empire-CLI.git"
-  },
-  "author": "RedMask",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MrMurdock11/Empire-CLI/issues"
-  },
-  "homepage": "https://github.com/MrMurdock11/Empire-CLI#readme",
-  "dependencies": {
-    "adm-zip": "^0.4.14",
-    "chalk": "^3.0.0",
-    "clear": "^0.1.0",
-    "commander": "^5.0.0",
-    "directory-tree": "^2.2.4",
-    "figlet": "^1.3.0",
-    "inquirer": "^7.1.0",
-    "inversify": "^5.0.1",
-    "jest": "^26.1.0",
-    "mkdirp": "^1.0.4",
-    "path": "^0.12.7",
-    "reflect-metadata": "^0.1.13"
-  },
-  "devDependencies": {
-    "@types/adm-zip": "^0.4.33",
-    "@types/clear": "^0.1.0",
-    "@types/figlet": "^1.2.0",
-    "@types/inquirer": "^6.5.0",
-    "@types/jest": "^26.0.3",
-    "@types/node": "^13.9.2",
-    "ts-jest": "^26.1.1",
-    "ts-node": "^9.0.0",
-    "typescript": "^3.8.3"
-  }
+	"name": "empire-cli",
+	"version": "0.2.0",
+	"description": "",
+	"main": "index.js",
+	"bin": {
+		"empire": "./dist/index.js"
+	},
+	"scripts": {
+		"start": "npm run remove:win:dist && npm run copy:win:archive && npm run build",
+		"start:dev": "npm run remove:win:dist && npm run copy:win:archive && npm run build:dev",
+		"build": "tsc -p .",
+		"build:dev": "tsc -p . -w",
+		"refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
+		"remove:win:dist": "rmdir /q /s dist",
+		"remove:unix:dist": "rm -rf ./dist",
+		"copy:win:archive": "xcopy /e /i src\\archive dist\\archive",
+		"copy:unix:archive": "cp -r ./src/archive ./dist"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MrMurdock11/Empire-CLI.git"
+	},
+	"author": "RedMask",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/MrMurdock11/Empire-CLI/issues"
+	},
+	"homepage": "https://github.com/MrMurdock11/Empire-CLI#readme",
+	"dependencies": {
+		"adm-zip": "^0.4.14",
+		"chalk": "^3.0.0",
+		"clear": "^0.1.0",
+		"commander": "^5.0.0",
+		"directory-tree": "^2.2.4",
+		"figlet": "^1.3.0",
+		"file-loader": "^6.1.1",
+		"inquirer": "^7.1.0",
+		"inversify": "^5.0.1",
+		"jest": "^26.1.0",
+		"path": "^0.12.7",
+		"reflect-metadata": "^0.1.13"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.2.2",
+		"@babel/preset-env": "^7.3.1",
+		"@types/adm-zip": "^0.4.33",
+		"@types/clear": "^0.1.0",
+		"@types/figlet": "^1.2.0",
+		"@types/inquirer": "^6.5.0",
+		"@types/jest": "^26.0.3",
+		"@types/node": "^13.9.2",
+		"babel-loader": "^8.0.5",
+		"ts-jest": "^26.1.1",
+		"ts-node": "^9.0.0",
+		"typescript": "^3.8.3"
+	}
 }
