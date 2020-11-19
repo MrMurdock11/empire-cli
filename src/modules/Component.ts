@@ -1,4 +1,4 @@
-import { Convert } from "../shared/Convert";
+import _ from "lodash";
 
 /**
  * Компонент.
@@ -15,17 +15,9 @@ export class Component {
 	 * @memberof Component
 	 */
 	private readonly _name: string;
-	public get name(): string { return this._name }
-
-	/**
-	 * Получает действительное наименование компонента.
-	 *
-	 * @private
-	 * @type {string}
-	 * @memberof Component
-	 */
-	private readonly _validName: string;
-	public get validName(): string { return this._validName }
+	public get name(): string {
+		return this._name;
+	}
 
 	/**
 	 * Получает или задает содержимое файла моста.
@@ -35,8 +27,12 @@ export class Component {
 	 * @memberof TSComponent
 	 */
 	private _bridgeFileContent: string = String();
-	public get bridgeFileContent(): string { return this._bridgeFileContent }
-	public set bridgeFileContent(content: string) { this._bridgeFileContent = content }
+	public get bridgeFileContent(): string {
+		return this._bridgeFileContent;
+	}
+	public set bridgeFileContent(content: string) {
+		this._bridgeFileContent = content;
+	}
 
 	/**
 	 * Получает или задает содержимое файла контейнера.
@@ -46,8 +42,12 @@ export class Component {
 	 * @memberof TSComponent
 	 */
 	private _containerFileContent: string = String();
-	public get containerFileContent(): string { return this._containerFileContent }
-	public set containerFileContent(content: string) { this._containerFileContent = content }
+	public get containerFileContent(): string {
+		return this._containerFileContent;
+	}
+	public set containerFileContent(content: string) {
+		this._containerFileContent = content;
+	}
 
 	/**
 	 * Получает или задает содержимое презентационного файла.
@@ -57,8 +57,12 @@ export class Component {
 	 * @memberof TSComponent
 	 */
 	private _presentationFileContent: string = String();
-	public get presentationFileContent(): string { return this._presentationFileContent }
-	public set presentationFileContent(content: string) { this._presentationFileContent = content }
+	public get presentationFileContent(): string {
+		return this._presentationFileContent;
+	}
+	public set presentationFileContent(content: string) {
+		this._presentationFileContent = content;
+	}
 
 	/**
 	 * Получает или задает содержимое файла для стилей.
@@ -68,11 +72,14 @@ export class Component {
 	 * @memberof TSComponent
 	 */
 	private _styleFileContent: string = String();
-	public get styleFileContent(): string { return this._styleFileContent }
-	public set styleFileContent(content: string) { this._styleFileContent = content }
+	public get styleFileContent(): string {
+		return this._styleFileContent;
+	}
+	public set styleFileContent(content: string) {
+		this._styleFileContent = content;
+	}
 
 	constructor(name: string) {
-		this._name = name;
-		this._validName = Convert.toPascalCase(name);
+		this._name = _.upperFirst(_.camelCase(name));
 	}
 }

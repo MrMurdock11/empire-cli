@@ -1,9 +1,9 @@
+import _ from "lodash";
 import "reflect-metadata";
 import { IBuilder } from "./IBuilder";
-import { Convert } from "../shared/Convert";
-import { ReduxAccessType } from "../types/ReduxAccessType";
 import { Component } from "../modules/Component";
 import { TSComponentBuilderOptions } from "../options/TSComponentBuilderOptions";
+import { ReduxAccessType } from "../types/ReduxAccessType";
 
 /**
  * Строитель React компонента.
@@ -57,12 +57,15 @@ export class TSComponentBuilder implements IBuilder {
 	 */
 	private readonly styleContentTemplate: string;
 
-	constructor(componentName: string, {
-		bridgeContentTemplate,
-		containerContentTemplate,
-		presentationContentTemplate,
-		styleContentTemplate,
-	}: TSComponentBuilderOptions) {
+	constructor(
+		componentName: string,
+		{
+			bridgeContentTemplate,
+			containerContentTemplate,
+			presentationContentTemplate,
+			styleContentTemplate,
+		}: TSComponentBuilderOptions
+	) {
 		this.component = new Component(componentName);
 		this.bridgeContentTemplate = bridgeContentTemplate;
 		this.containerContentTemplate = containerContentTemplate;
@@ -70,71 +73,51 @@ export class TSComponentBuilder implements IBuilder {
 		this.styleContentTemplate = styleContentTemplate;
 	}
 
-	/**
-	 * @inheritdoc
-	 *
-	 * @memberof TSComponentBuilder
-	 */
+	/** @inheritdoc */
 	public reset(): void {
 		this.component = new Component(this.component.name);
 	}
 
-	/**
-	 * @inheritdoc
-	 *
-	 * @memberof TSComponentBuilder
-	 */
-	public buildBridgeFileContent = (): IBuilder => {		
-		this.component.bridgeFileContent = this.bridgeContentTemplate
-			.replace(/@component-name@/gm, this.component.validName)
-			.replace(/@import-area@/gm, this.component.validName);
+	/** @inheritdoc */
+	public buildBridgeFileContent(accessType: ReduxAccessType): void {
+		const componentName = this.component.name;
+		const importArea =
+			accessType === "none" ? `{ ${componentName} }` : componentName;
+		const compiled = _.template(this.bridgeContentTemplate);
 
-		return this;
+		this.component.bridgeFileContent = compiled({
+			componentName,
+			importArea,
+		});
 	}
 
-	/**
-	 * @inheritdoc
-	 *
-	 * @memberof TSComponentBuilder
-	 */
-	public buildContainerFileContent(accessType: ReduxAccessType): IBuilder {
-		this.component.containerFileContent = this.containerContentTemplate
-			.replace(/@component-name@/gm, this.component.validName);
-
-		return this;
+	/** @inheritdoc */
+	public buildContainerFileContent(): void {
+		this.component.containerFileContent = this.containerContentTemplate.replace(
+			/@component-name@/gm,
+			this.component.name
+		);
 	}
 
-	/**
-	 * @inheritdoc
-	 *
-	 * @memberof TSComponentBuilder
-	 */
-	public buildPresentaionFileContent(useCssModule: boolean): IBuilder {
-		const componentNameSnakeCase = Convert.toSnakeCase(this.component.name);
+	/** @inheritdoc */
+	public buildPresentaionFileContent(useCssModule: boolean): void {
 		const module = useCssModule ? "styles from " : String();
 		const classname = useCssModule
 			? "{styles.container}"
-			: `"${componentNameSnakeCase}__container"`;
-		
+			: `"${_.snakeCase(this.component.name)}__container"`;
+
 		this.component.presentationFileContent = this.presentationContentTemplate
-			.replace(/@component-name@/gm, this.component.validName)
+			.replace(/@component-name@/gm, this.component.name)
 			.replace(/@module@/gm, module)
 			.replace(/@classname@/gm, classname);
-
-		return this;
 	}
 
-	/**
-	 * @inheritdoc
-	 *
-	 * @memberof TSComponentBuilder
-	 */
-	public buildStyleFileContent(): IBuilder {
-		const componentNameSnakeCase = Convert.toSnakeCase(this.component.name);
-		this.component.styleFileContent = this.styleContentTemplate
-			.replace(/@component-name@/gm, componentNameSnakeCase);
-
-		return this;
+	/** @inheritdoc */
+	public buildStyleFileContent(): void {
+		this.component.styleFileContent = this.styleContentTemplate.replace(
+			/@component-name@/gm,
+			_.snakeCase(this.component.name)
+		);
 	}
 
 	/**
@@ -142,5 +125,5 @@ export class TSComponentBuilder implements IBuilder {
 	 *
 	 * @memberof TSComponentBuilder
 	 */
-	public getResult = (): Component => this.component;
+	public getResult = () => this.component;
 }

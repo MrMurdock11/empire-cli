@@ -28,22 +28,25 @@ export class ComponentService implements IComponentService {
 	@inject(containerTypes.ARCHIVE_PROVIDER)
 	private readonly repository!: IArchiveProvider;
 
-	constructor(/*repository: IArchiveProvider*/) {
-		// this.repository = repository;
-	}
-
 	/**
 	 * @inheritdoc
 	 */
-	public async create(originComponentName: string, options: ComponentCommandOptions): Promise<Component> {
-		const {redux: useRedux, cssModule: useCssModule} = options;
-		const accessType: ReduxAccessType = await Utils.determineAccessType(useRedux);
+	public async create(
+		name: string,
+		options: ComponentCommandOptions
+	): Promise<Component> {
+		const { redux: useRedux, cssModule: useCssModule } = options;
+		const accessType: ReduxAccessType = await Utils.determineAccessType(
+			useRedux
+		);
 		const bridgeContentTemplate = this.repository.getBridgeFileContentTemplate();
-		const containerContentTemplate = this.repository.getContainerFileContentTemplate(accessType);
+		const containerContentTemplate = this.repository.getContainerFileContentTemplate(
+			accessType
+		);
 		const presentationContentTemplate = this.repository.getPresentationFileContentTemplate();
 		const styleContentTemplate = this.repository.getStyleFileContentTemplate();
-	
-		const builder = new TSComponentBuilder(originComponentName, {
+
+		const builder = new TSComponentBuilder(name, {
 			bridgeContentTemplate,
 			containerContentTemplate,
 			presentationContentTemplate,
@@ -51,9 +54,9 @@ export class ComponentService implements IComponentService {
 		});
 
 		const director = new ComponentDirector(builder);
-	
+
 		director.make(accessType, useCssModule);
-	
+
 		return builder.getResult();
 	}
 }

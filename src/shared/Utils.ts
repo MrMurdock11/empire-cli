@@ -7,7 +7,7 @@ import { ReduxAccessType } from "../types/ReduxAccessType";
 
 type PropmtAnswers = {
 	types: string;
-}
+};
 
 export namespace Utils {
 	/**
@@ -19,29 +19,30 @@ export namespace Utils {
 	 */
 	export const deleteMatches = (str: string, regexp: RegExp): string => {
 		return str.replace(regexp, "");
-	}
+	};
 
 	/**
 	 * Определяет папку назначения.
 	 *
-	 * @param {string} originalComponentName Оригинальное наименование компонента.
+	 * @param {string} componentName Наименование компонента.
 	 * @returns {string} Папка назначения.
 	 */
-	export const determineDestinationPath = (originalComponentName: string): string => {
+	export const determineDestinationPath = (componentName: string): string => {
 		const cwd = process.cwd();
-		const componentNamePascalCase = Convert.toPascalCase(originalComponentName);
-		const isComponentFolder = fs.readdirSync(cwd).some(it => /\.(j|t)sx$/gm.test(it));
+		const isComponentFolder = fs
+			.readdirSync(cwd)
+			.some(it => /\.(j|t)sx$/gm.test(it));
 
 		if (!isComponentFolder) {
-			return `${cwd}\\${componentNamePascalCase}`;
+			return `${cwd}\\${componentName}`;
 		}
 
 		if (!fs.existsSync("childs")) {
 			fs.mkdirSync("childs");
 		}
 
-		return `${cwd}\\childs\\${componentNamePascalCase}`;
-	}
+		return `${cwd}\\childs\\${componentName}`;
+	};
 
 	/**
 	 * Определяет тип доступа компонента к хранилищу.
@@ -49,7 +50,9 @@ export namespace Utils {
 	 * @param {boolean} useRedux Значение показывающее, что компонент собирается для работы с redux.
 	 * @returns {Promise<ReduxAccessType>} Ожидает тип доступа компонента к хранилищу.
 	 */
-	export const determineAccessType = async (useRedux: boolean): Promise<ReduxAccessType> => {
+	export const determineAccessType = async (
+		useRedux: boolean
+	): Promise<ReduxAccessType> => {
 		if (!useRedux) {
 			return "none";
 		}
@@ -62,8 +65,8 @@ export namespace Utils {
 				choices: [
 					{ name: "State", value: "state" },
 					{ name: "Dispatch", value: "dispatch" },
-				]
-			}
+				],
+			},
 		]);
 
 		if (answers.types.length === 0) {
@@ -75,5 +78,5 @@ export namespace Utils {
 		} else {
 			return "dispatch";
 		}
-	}
+	};
 }

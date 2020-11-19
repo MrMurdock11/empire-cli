@@ -9,10 +9,10 @@ export class ComponentDirector {
 	 * @type {IBuilder}
 	 * @memberof ReactComponentDirector
 	 */
-	private _builder: IBuilder;
+	private builder: IBuilder;
 
 	constructor(builder: IBuilder) {
-		this._builder = builder;
+		this.builder = builder;
 	}
 
 	/**
@@ -22,10 +22,9 @@ export class ComponentDirector {
 	 * @memberof ReactComponentDirector
 	 */
 	public changeBuilder(builder: IBuilder) {
-		this._builder = builder;
+		this.builder = builder;
 	}
 
-	
 	/**
 	 * Выполняет последовательность действий строителя.
 	 *
@@ -34,9 +33,9 @@ export class ComponentDirector {
 	 * @memberof ComponentDirector
 	 */
 	public make(accessType: ReduxAccessType, useCssModule: boolean) {
-		this._builder.buildBridgeFileContent()
-			.buildContainerFileContent(accessType)
-			.buildPresentaionFileContent(useCssModule)
-			.buildStyleFileContent();
+		this.builder.buildBridgeFileContent(accessType);
+		this.builder.buildContainerFileContent(accessType);
+		this.builder.buildPresentaionFileContent(useCssModule);
+		this.builder.buildStyleFileContent();
 	}
 }
