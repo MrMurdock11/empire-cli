@@ -1,5 +1,5 @@
-import { Component } from "../modules/Component";
-import { ComponentCommandOptions } from "../options/ComponentCommandOptions";
+import { Component } from "../../modules/Component";
+import { ComponentCommandOptions } from "../../options/ComponentCommandOptions";
 
 export interface IComponentService {
 	/**
@@ -10,5 +10,13 @@ export interface IComponentService {
 	 * @returns {Promise<Component>} Ожидаются компонент.
 	 * @memberof IComponentService
 	 */
-	create(originComponentName: string, options: ComponentCommandOptions): Promise<Component>;
+	create(
+		originComponentName: string,
+		options: ComponentCommandOptions
+	): Promise<Component>;
+
+	generate(
+		name: string,
+		options: ComponentCommandOptions
+	): Promise<Component>;
 }

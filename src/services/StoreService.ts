@@ -2,12 +2,11 @@ import "reflect-metadata";
 import { Store } from "../modules/store";
 import { injectable, inject } from "inversify";
 import { containerTypes } from "../ContainerTypes";
-import { IStoreService } from "./IStoreService";
+import { IStoreService } from "./interfaces/IStoreService";
 import { IArchiveProvider } from "../providers/IArchiveProvider";
 
 @injectable()
 export class StoreService implements IStoreService {
-
 	@inject(containerTypes.ARCHIVE_PROVIDER)
 	private readonly repository!: IArchiveProvider;
 
@@ -17,7 +16,7 @@ export class StoreService implements IStoreService {
 
 	public create(storeName: string): Store {
 		const store = new Store(storeName);
-		
+
 		store.keysFileContent = this.repository.getKeysFileContentTemplate();
 		store.actionsFileContent = this.repository.getActionsContentTemplate();
 		store.actionsTypeFileContent = this.repository.getActionsTypeContentTemplate();

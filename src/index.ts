@@ -1,41 +1,50 @@
 #!/usr/bin/env node
 
-import fs from "fs";
 import chalk from "chalk";
-import clear from "clear";
 import figlet from "figlet";
-import prog from "commander";
-import { init } from "./store/init";
-import { createComponentAndWriteFileSystem, createStoreAndWriteFileSystem } from "./Actions";
+import application from "commander";
+import { TYPE } from "./di/types/command.types";
+import DIContainer from "./di/inversify.config";
+import { ICommand } from "./commands/command.interface";
 
-const PACKAGE = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`).toString());
-const VERSION: string = PACKAGE.version;
-const AUTHOR: string = PACKAGE.author;
-const HOMEPAGE: string = PACKAGE.homepage;
+const bootstrap = () => {
+	const PACKAGE_JSON = require(`${__dirname}/../package.json`);
+	const VERSION = PACKAGE_JSON.version;
+	const AUTHOR = PACKAGE_JSON.author;
+	const HOMEPAGE = PACKAGE_JSON.homepage;
 
-clear();
+	const command = DIContainer.get<ICommand>(TYPE.ICommand);
 
-prog.version(VERSION);
+	application
+		.version(VERSION, "-v, --version", "Output the current version.")
+		.usage("<command> [options]")
+		.helpOption("-h, --help", "Output usage information.");
 
-prog.command("about")
-	.action(() => {
-		console.log(chalk.bold.blue(figlet.textSync("Empire", { font: "ANSI Shadow" })));
-		console.log(`${chalk.bold.green("Version")}: ${chalk.cyan(VERSION)}`);
+	application.command("show-off").action(() => {
+		const SIGN = figlet.textSync("Empire", { font: "ANSI Shadow" });
+
+		console.log(chalk.bold.blue(SIGN));
 		console.log(`${chalk.bold.green("Author")}:\t ${chalk.cyan(AUTHOR)}`);
 		console.log(`${chalk.bold.green("GitHub")}:\t ${chalk.cyan(HOMEPAGE)}`);
-	})
+	});
 
-prog.command("component <name>")
-	.alias("c")
-	.option("-C, --no-css-module", "Create component with css module.")
-	.option("-r, --redux", "Create component for connect to redux store.")
-	.action(createComponentAndWriteFileSystem);
+	application
+		.command("generate component <name>")
+		.alias("gc")
+		.option("-C, --no-css-module", "Generate component without css-module.")
+		.option("-r, --redux", "Generate component for connect to redux store.")
+		.action(command.execute);
 
-prog.command("store <name>")
-	.alias("s")
-	.action(createStoreAndWriteFileSystem);
+	application
+		.command("generate store <name>")
+		.alias("gs")
+		.action(() => void 0);
 
-prog.command("init <type>")
-	.action(init);
+	if (!process.argv.slice(2).length) {
+		application.outputHelp();
+	}
 
-prog.parse(process.argv);
+	application.parse(process.argv);
+};
+
+bootstrap();

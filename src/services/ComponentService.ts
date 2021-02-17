@@ -6,9 +6,9 @@ import { ReduxAccessType } from "../types/ReduxAccessType";
 import { ComponentDirector } from "../directors/ComponentDirector";
 import { TSComponentBuilder } from "../builders/TSComponentBuilder";
 import { ComponentCommandOptions } from "../options/ComponentCommandOptions";
-import { IComponentService } from "./IComponentService";
+import { IComponentService } from "./interfaces/component-service.interface";
 import { IArchiveProvider } from "../providers/IArchiveProvider";
-import { containerTypes } from "../ContainerTypes";
+import { TYPE } from "../di/types/provider.types";
 
 /**
  * Служба для работы с компонентом.
@@ -25,7 +25,7 @@ export class ComponentService implements IComponentService {
 	 * @type {IArchiveProvider}
 	 * @memberof ComponentService
 	 */
-	@inject(containerTypes.ARCHIVE_PROVIDER)
+	@inject(TYPE.IArchiveProvider)
 	private readonly repository!: IArchiveProvider;
 
 	/**
@@ -58,5 +58,12 @@ export class ComponentService implements IComponentService {
 		director.make(accessType, useCssModule);
 
 		return builder.getResult();
+	}
+
+	public async generate(
+		componentName: string,
+		options: ComponentCommandOptions
+	): Promise<Component> {
+		return new Promise(() => {});
 	}
 }

@@ -4,7 +4,7 @@ import { Utils } from "../shared/Utils";
 import { Component } from "../modules/Component";
 import { Store } from "../modules/Store";
 import { FileSystemError } from "../shared/errors/FileSystemError";
-import { IFileSystemService } from "./IFileSystemService";
+import { IFileSystemService } from "./interfaces/IFileSystemService";
 
 /**
  * Служба для работы с файловой системой.
