@@ -1,3 +1,3 @@
-export const TYPE = {
+export const TYPES = {
 	IArchiveProvider: Symbol.for("IArchiveProvider"),
 };

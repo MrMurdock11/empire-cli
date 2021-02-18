@@ -1,11 +1,11 @@
 // опции для работы строителя.
 export type TSComponentBuilderOptions = {
 	// шаблон содержимого файла моста.
-	bridgeContentTemplate: string;
+	bridgeTemplate: string;
 	// шаблон содержимого файла контейнера.
-	containerContentTemplate: string;
+	containerTemplate: string;
 	// шаблон содержимого презентационного файла.
-	presentationContentTemplate: string;
+	presentationTemplate: string;
 	// шаблон содержимого файла стилей.
-	styleContentTemplate: string;
-}
+	stylesTemplate: string;
+};

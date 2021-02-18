@@ -4,10 +4,10 @@ import "reflect-metadata";
 import { Utils } from "./shared/Utils";
 import DIContainer from "./di/inversify.config";
 import { useDirTree } from "./shared/DirTree";
-import { FileSystemService } from "./services/FileSystemService";
-import { ComponentCommandOptions } from "./options/ComponentCommandOptions";
+import { FileSystemService } from "./services/file-system.service";
+import { GenerateComponentOptions } from "./options/generate-component.options";
 import { IComponentService } from "./services/interfaces/component-service.interface";
-import { IStoreService } from "./services/interfaces/IStoreService";
+import { IStoreService } from "./services/interfaces/store-service.interface";
 
 // const componentService = DIContainer.get<IComponentService>(
 // 	containerTypes.COMPONENT_SERVICE
@@ -38,7 +38,7 @@ const logError = (error: Error): void => {
 // TODO: Не передавать CommandOptions дальше метода действия.
 async function createComponentAndWriteFileSystem(
 	name: string,
-	options: ComponentCommandOptions
+	options: GenerateComponentOptions
 ): Promise<void> {
 	try {
 		// const component = await componentService.create(name, options);
@@ -69,5 +69,3 @@ async function createComponentAndWriteFileSystem(
 // 		logError(exception);
 // 	}
 // }
-
-export { createComponentAndWriteFileSystem, createStoreAndWriteFileSystem };

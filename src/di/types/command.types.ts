@@ -1,3 +1,3 @@
-export const TYPE = {
+export const TYPES = {
 	ICommand: Symbol.for("ICommand"),
 };

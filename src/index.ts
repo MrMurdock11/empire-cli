@@ -2,18 +2,14 @@
 
 import chalk from "chalk";
 import figlet from "figlet";
-import application from "commander";
-import { TYPE } from "./di/types/command.types";
-import DIContainer from "./di/inversify.config";
-import { ICommand } from "./commands/command.interface";
+import application, { Option } from "commander";
+import { generateComponent } from "./actions/component.actions";
 
 const bootstrap = () => {
 	const PACKAGE_JSON = require(`${__dirname}/../package.json`);
 	const VERSION = PACKAGE_JSON.version;
 	const AUTHOR = PACKAGE_JSON.author;
 	const HOMEPAGE = PACKAGE_JSON.homepage;
-
-	const command = DIContainer.get<ICommand>(TYPE.ICommand);
 
 	application
 		.version(VERSION, "-v, --version", "Output the current version.")
@@ -28,16 +24,23 @@ const bootstrap = () => {
 		console.log(`${chalk.bold.green("GitHub")}:\t ${chalk.cyan(HOMEPAGE)}`);
 	});
 
-	application
-		.command("generate component <name>")
-		.alias("gc")
-		.option("-C, --no-css-module", "Generate component without css-module.")
-		.option("-r, --redux", "Generate component for connect to redux store.")
-		.action(command.execute);
+	const option = new Option(
+		"-r, --redux [type]",
+		"Generate component for connect to redux store."
+	);
 
 	application
-		.command("generate store <name>")
-		.alias("gs")
+		.command("component <name>")
+		.alias("c")
+		.option("-C, --no-css-module", "Generate component without css-module.")
+		.addOption(
+			option.choices(["state", "dispatch", "both"]).default("state")
+		)
+		.action(generateComponent);
+
+	application
+		.command("store <name>")
+		.alias("s")
 		.action(() => void 0);
 
 	if (!process.argv.slice(2).length) {

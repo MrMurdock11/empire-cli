@@ -1,14 +1,13 @@
 import { ReduxAccessType } from "../types/ReduxAccessType";
 
 export interface IArchiveProvider {
-
 	/**
 	 * Получает шаблон содержимого файла моста.
 	 *
 	 * @returns {string} Шаблон моста компонента.
 	 * @memberof IArchiveRepository
 	 */
-	getBridgeFileContentTemplate(): string;
+	getBridgeTemplate(): string;
 
 	/**
 	 * Получает шаблон содержимого файла контейнера.
@@ -17,7 +16,7 @@ export interface IArchiveProvider {
 	 * @returns {string} Шаблон контейнера компонента.
 	 * @memberof IArchiveRepository
 	 */
-	getContainerFileContentTemplate(accessType: ReduxAccessType): string;
+	getContainerTemplate(accessType: string): string;
 
 	/**
 	 * Получает шаблон содержимого презентационного файла.
@@ -25,7 +24,7 @@ export interface IArchiveProvider {
 	 * @returns {string} Шаблон презентационной части компонента.
 	 * @memberof IArchiveRepository
 	 */
-	getPresentationFileContentTemplate(): string;
+	getPresentationTemplate(): string;
 
 	/**
 	 * Получает шаблон содержимого файла стилей.
@@ -33,7 +32,7 @@ export interface IArchiveProvider {
 	 * @returns {string} Шаблон стилей компонента.
 	 * @memberof IArchiveRepository
 	 */
-	getStyleFileContentTemplate(): string;
+	getStylesTemplate(): string;
 
 	/**
 	 * Получает шаблон списка ключей для действий в хранилище.

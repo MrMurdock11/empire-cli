@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { IBuilder } from "./IBuilder";
 import { Component } from "../modules/Component";
 import { TSComponentBuilderOptions } from "../options/TSComponentBuilderOptions";
-import { ReduxAccessType } from "../types/ReduxAccessType";
+import { ReduxType } from "../services/interfaces/component-service.interface";
 
 /**
  * Строитель React компонента.
@@ -28,7 +28,7 @@ export class TSComponentBuilder implements IBuilder {
 	 * @type {string}
 	 * @memberof TSComponentBuilder
 	 */
-	private readonly bridgeContentTemplate: string;
+	private readonly bridge: string;
 
 	/**
 	 * Шаблон содержимого файла контейнера.
@@ -37,7 +37,7 @@ export class TSComponentBuilder implements IBuilder {
 	 * @type {string}
 	 * @memberof TSComponentBuilder
 	 */
-	private readonly containerContentTemplate: string;
+	private readonly container: string;
 
 	/**
 	 * Шаблон содержимого презентационного файла.
@@ -46,7 +46,7 @@ export class TSComponentBuilder implements IBuilder {
 	 * @type {string}
 	 * @memberof TSComponentBuilder
 	 */
-	private readonly presentationContentTemplate: string;
+	private readonly presentation: string;
 
 	/**
 	 * Шаблон содержимого файла для стилей.
@@ -55,22 +55,22 @@ export class TSComponentBuilder implements IBuilder {
 	 * @type {string}
 	 * @memberof TSComponentBuilder
 	 */
-	private readonly styleContentTemplate: string;
+	private readonly styles: string;
 
 	constructor(
 		componentName: string,
 		{
-			bridgeContentTemplate,
-			containerContentTemplate,
-			presentationContentTemplate,
-			styleContentTemplate,
+			bridgeTemplate,
+			containerTemplate,
+			presentationTemplate,
+			stylesTemplate,
 		}: TSComponentBuilderOptions
 	) {
 		this.component = new Component(componentName);
-		this.bridgeContentTemplate = bridgeContentTemplate;
-		this.containerContentTemplate = containerContentTemplate;
-		this.presentationContentTemplate = presentationContentTemplate;
-		this.styleContentTemplate = styleContentTemplate;
+		this.bridge = bridgeTemplate;
+		this.container = containerTemplate;
+		this.presentation = presentationTemplate;
+		this.styles = stylesTemplate;
 	}
 
 	/** @inheritdoc */
@@ -79,49 +79,49 @@ export class TSComponentBuilder implements IBuilder {
 	}
 
 	/** @inheritdoc */
-	public buildBridgeFileContent(accessType: ReduxAccessType): void {
-		const componentName = this.component.name;
-		const importArea =
-			accessType === "none" ? `{ ${componentName} }` : componentName;
-		const compiled = _.template(this.bridgeContentTemplate);
+	public buildBridge(reduxType: ReduxType): void {
+		const name = this.component.name;
+		const importArea = reduxType === ReduxType.NONE ? `{ ${name} }` : name;
+		const compiled = _.template(this.bridge);
 
-		this.component.bridgeFileContent = compiled({
-			componentName,
+		this.component.bridge = compiled({
+			// TODO: Переименовать в шаблоне аргемент с componentName на name.
+			componentName: name,
 			importArea,
 		});
 	}
 
 	/** @inheritdoc */
-	public buildContainerFileContent(): void {
-		this.component.containerFileContent = this.containerContentTemplate.replace(
+	public buildContainer(): void {
+		this.component.container = this.container.replace(
 			/@component-name@/gm,
 			this.component.name
 		);
 	}
 
 	/** @inheritdoc */
-	public buildPresentaionFileContent(useCssModule: boolean): void {
+	public buildPresentaion(useCssModule: boolean): void {
 		const module = useCssModule ? "styles from " : String();
 		const classname = useCssModule
 			? "{styles.container}"
 			: `"${_.snakeCase(this.component.name)}__container"`;
 
-		this.component.presentationFileContent = this.presentationContentTemplate
+		this.component.presentation = this.presentation
 			.replace(/@component-name@/gm, this.component.name)
 			.replace(/@module@/gm, module)
 			.replace(/@classname@/gm, classname);
 	}
 
 	/** @inheritdoc */
-	public buildStyleFileContent(): void {
-		this.component.styleFileContent = this.styleContentTemplate.replace(
+	public buildStyles(): void {
+		this.component.styles = this.styles.replace(
 			/@component-name@/gm,
 			_.snakeCase(this.component.name)
 		);
 	}
 
 	/**
-	 * Получает результат построения компонента.
+	 * Получает компонент.
 	 *
 	 * @memberof TSComponentBuilder
 	 */

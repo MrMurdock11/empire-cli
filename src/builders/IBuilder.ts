@@ -8,11 +8,11 @@ export interface IBuilder {
 	 */
 	reset(): void;
 
-	buildBridgeFileContent(accessType: ReduxAccessType): void;
+	buildBridge(accessType: string): void;
 
-	buildContainerFileContent(accessType: ReduxAccessType): void;
+	buildContainer(accessType: string): void;
 
-	buildPresentaionFileContent(useCssModule: boolean): void;
+	buildPresentaion(useCssModule: boolean): void;
 
-	buildStyleFileContent(): void;
+	buildStyles(): void;
 }

@@ -32,10 +32,10 @@ export class ComponentDirector {
 	 * @param {boolean} useCssModule
 	 * @memberof ComponentDirector
 	 */
-	public make(accessType: ReduxAccessType, useCssModule: boolean) {
-		this.builder.buildBridgeFileContent(accessType);
-		this.builder.buildContainerFileContent(accessType);
-		this.builder.buildPresentaionFileContent(useCssModule);
-		this.builder.buildStyleFileContent();
+	public make(accessType: string, useCssModule: boolean) {
+		this.builder.buildBridge(accessType);
+		this.builder.buildContainer(accessType);
+		this.builder.buildPresentaion(useCssModule);
+		this.builder.buildStyles();
 	}
 }

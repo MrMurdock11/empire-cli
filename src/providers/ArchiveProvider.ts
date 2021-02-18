@@ -3,6 +3,7 @@ import AdmZip from "adm-zip";
 import { injectable } from "inversify";
 import { ReduxAccessType } from "../types/ReduxAccessType";
 import { IArchiveProvider } from "./IArchiveProvider";
+import { ReduxType } from "../services/interfaces/component-service.interface";
 
 /**
  * Архив.
@@ -33,37 +34,45 @@ export class ArchiveProvider implements IArchiveProvider {
 	constructor() {
 		this.admZip = new AdmZip(fs.readFileSync(this.archivePath));
 	}
-	
+
 	//#region Component
 
 	/**
 	 * @inheritdoc
 	 */
-	public getBridgeFileContentTemplate(): string {
+	public getBridgeTemplate(): string {
 		return this.getContentTemplateByFileName("component/index.txt");
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public getContainerFileContentTemplate(accessType: ReduxAccessType): string {
-		return this.getContentTemplateByFileName(`component/container-${accessType}.txt`);
+	public getContainerTemplate(accessType: ReduxType): string {
+		return this.getContentTemplateByFileName(
+			`component/container-${accessType}.txt`
+		);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public getPresentationFileContentTemplate(): string {
+	public getPresentationTemplate(): string {
 		return this.getContentTemplateByFileName("component/view.txt");
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public getStyleFileContentTemplate(): string {
+	public getStylesTemplate(): string {
 		return this.getContentTemplateByFileName("component/style.txt");
 	}
-	
+
+	// TODO: Перенести сборку шаблона компонента в один метод. Необходимо вернуть ComponentTemplate где уже инициировать все поля с шаблонами.
+	// TODO: В момент создания экземпляра компонента, нужно использовать шаблон компонента.
+	public getComponentTemplate(): void {
+		return void 0;
+	}
+
 	//#endregion
 
 	//#region Store
@@ -102,7 +111,7 @@ export class ArchiveProvider implements IArchiveProvider {
 	public getReducersTestContentTemplate(): string {
 		return this.getContentTemplateByFileName("/store/reducers.test.txt");
 	}
-	
+
 	/**
 	 * @inheritdoc
 	 */

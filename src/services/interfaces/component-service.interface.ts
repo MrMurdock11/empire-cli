@@ -1,22 +1,25 @@
 import { Component } from "../../modules/Component";
-import { ComponentCommandOptions } from "../../options/ComponentCommandOptions";
+
+export enum ReduxType {
+	NONE = "none",
+	STATE = "state",
+	DISPATCH = "dispatch",
+	BOTH = "both",
+}
+
+export type GenerateOptions = {
+	reduxType: ReduxType;
+	useCssModule: boolean;
+};
 
 export interface IComponentService {
 	/**
-	 * Создает компонент.
+	 * Генерирует компонент.
 	 *
-	 * @param {string} originComponentName Наименование компонента.
-	 * @param {ComponentCommandOptions} options Опции команды.
-	 * @returns {Promise<Component>} Ожидаются компонент.
+	 * @param {string} name Наименование компонента.
+	 * @param {GenerateOptions} options Опции команды.
+	 * @returns {Promise<Component>} Ожидается компонент.
 	 * @memberof IComponentService
 	 */
-	create(
-		originComponentName: string,
-		options: ComponentCommandOptions
-	): Promise<Component>;
-
-	generate(
-		name: string,
-		options: ComponentCommandOptions
-	): Promise<Component>;
+	generate(name: string, options: GenerateOptions): void;
 }

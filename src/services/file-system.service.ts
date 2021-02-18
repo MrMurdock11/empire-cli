@@ -4,7 +4,7 @@ import { Utils } from "../shared/Utils";
 import { Component } from "../modules/Component";
 import { Store } from "../modules/Store";
 import { FileSystemError } from "../shared/errors/FileSystemError";
-import { IFileSystemService } from "./interfaces/IFileSystemService";
+import { IFileSystemService } from "./interfaces/file-system-service.interface";
 
 /**
  * Служба для работы с файловой системой.
@@ -21,13 +21,7 @@ export class FileSystemService implements IFileSystemService {
 	 * @memberof FileSystemService
 	 */
 	public writeComponent(component: Component): void {
-		const {
-			name,
-			bridgeFileContent,
-			containerFileContent,
-			presentationFileContent,
-			styleFileContent,
-		} = component;
+		const { name, bridge, container, presentation, styles } = component;
 		const destinationPath = Utils.determineDestinationPath(name);
 
 		if (fs.existsSync(destinationPath)) {
@@ -36,19 +30,10 @@ export class FileSystemService implements IFileSystemService {
 
 		fs.mkdirSync(destinationPath);
 
-		fs.writeFileSync(`${destinationPath}/index.ts`, bridgeFileContent);
-		fs.writeFileSync(
-			`${destinationPath}/${name}.tsx`,
-			containerFileContent
-		);
-		fs.writeFileSync(
-			`${destinationPath}/${name}.view.tsx`,
-			presentationFileContent
-		);
-		fs.writeFileSync(
-			`${destinationPath}/${name}.style.css`,
-			styleFileContent
-		);
+		fs.writeFileSync(`${destinationPath}/index.ts`, bridge);
+		fs.writeFileSync(`${destinationPath}/${name}.tsx`, container);
+		fs.writeFileSync(`${destinationPath}/${name}.view.tsx`, presentation);
+		fs.writeFileSync(`${destinationPath}/${name}.style.css`, styles);
 	}
 
 	public writeStore(store: Store): void {

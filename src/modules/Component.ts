@@ -26,12 +26,12 @@ export class Component {
 	 * @type {string}
 	 * @memberof TSComponent
 	 */
-	private _bridgeFileContent: string = String();
-	public get bridgeFileContent(): string {
-		return this._bridgeFileContent;
+	private _bridge: string = String();
+	public get bridge(): string {
+		return this._bridge;
 	}
-	public set bridgeFileContent(content: string) {
-		this._bridgeFileContent = content;
+	public set bridge(content: string) {
+		this._bridge = content;
 	}
 
 	/**
@@ -41,12 +41,12 @@ export class Component {
 	 * @type {string}
 	 * @memberof TSComponent
 	 */
-	private _containerFileContent: string = String();
-	public get containerFileContent(): string {
-		return this._containerFileContent;
+	private _container: string = String();
+	public get container(): string {
+		return this._container;
 	}
-	public set containerFileContent(content: string) {
-		this._containerFileContent = content;
+	public set container(content: string) {
+		this._container = content;
 	}
 
 	/**
@@ -56,12 +56,12 @@ export class Component {
 	 * @type {string}
 	 * @memberof TSComponent
 	 */
-	private _presentationFileContent: string = String();
-	public get presentationFileContent(): string {
-		return this._presentationFileContent;
+	private _presentation: string = String();
+	public get presentation(): string {
+		return this._presentation;
 	}
-	public set presentationFileContent(content: string) {
-		this._presentationFileContent = content;
+	public set presentation(content: string) {
+		this._presentation = content;
 	}
 
 	/**
@@ -71,12 +71,12 @@ export class Component {
 	 * @type {string}
 	 * @memberof TSComponent
 	 */
-	private _styleFileContent: string = String();
-	public get styleFileContent(): string {
-		return this._styleFileContent;
+	private _styles: string = String();
+	public get styles(): string {
+		return this._styles;
 	}
-	public set styleFileContent(content: string) {
-		this._styleFileContent = content;
+	public set styles(content: string) {
+		this._styles = content;
 	}
 
 	constructor(name: string) {
