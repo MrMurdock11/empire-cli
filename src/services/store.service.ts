@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { Store } from "../modules/store";
 import { injectable, inject } from "inversify";
 import { IStoreService } from "./interfaces/store-service.interface";
-import { IArchiveProvider } from "../providers/IArchiveProvider";
+import { IArchiveProvider } from "../providers/interfaces/archive.provider.interface";
 import { TYPES } from "../di/types/provider.types";
 
 @injectable()

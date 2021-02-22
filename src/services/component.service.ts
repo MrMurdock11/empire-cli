@@ -1,13 +1,12 @@
 import "reflect-metadata";
 import { injectable, inject } from "inversify";
-import { Component } from "../modules/Component";
 import { ComponentDirector } from "../directors/ComponentDirector";
 import { TSComponentBuilder } from "../builders/TSComponentBuilder";
 import {
 	GenerateOptions,
 	IComponentService,
 } from "./interfaces/component-service.interface";
-import { IArchiveProvider } from "../providers/IArchiveProvider";
+import { IArchiveProvider } from "../providers/interfaces/archive.provider.interface";
 import { TYPES as TYPES_PROVIDER } from "../di/types/provider.types";
 import { TYPES as TYPES_SERVICE } from "../di/types/service.types";
 import { IFileSystemService } from "./interfaces/file-system-service.interface";

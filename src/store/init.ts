@@ -1,5 +1,5 @@
 import fs from "fs";
-import { useDirTree } from "../shared/DirTree";
+import { useDirTree } from "../shared/dir-tree";
 
 type InitializationType = "project" | "store";
 
@@ -14,18 +14,20 @@ const initializeStore = (): void => {
 
 	fs.mkdirSync(storePath);
 
-	const content = fs.readFileSync(`${__dirname}/../templates/redux-store/root.txt`).toString();
+	const content = fs
+		.readFileSync(`${__dirname}/../templates/redux-store/root.txt`)
+		.toString();
 	fs.writeFileSync(`${storePath}/index.ts`, content);
 
 	console.log(useDirTree(storePath));
-}
+};
 
 export const init = (type: InitializationType): void => {
-	switch(type) {
+	switch (type) {
 		case "store":
 			initializeStore();
 			break;
 		default:
 			console.log("Неверное наименование проекта для инициализации.");
 	}
-}
+};

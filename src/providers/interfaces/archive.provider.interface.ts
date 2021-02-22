@@ -1,5 +1,3 @@
-import { ReduxAccessType } from "../types/ReduxAccessType";
-
 export interface IArchiveProvider {
 	/**
 	 * Получает шаблон содержимого файла моста.

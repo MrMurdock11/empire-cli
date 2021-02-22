@@ -1,9 +1,8 @@
 import fs from "fs";
 import { injectable } from "inversify";
-import { Utils } from "../shared/Utils";
 import { Component } from "../modules/Component";
 import { Store } from "../modules/Store";
-import { FileSystemError } from "../shared/errors/FileSystemError";
+import { FileSystemError } from "../shared/errors/file-system.error";
 import { IFileSystemService } from "./interfaces/file-system-service.interface";
 
 /**
@@ -14,6 +13,7 @@ import { IFileSystemService } from "./interfaces/file-system-service.interface";
  */
 @injectable()
 export class FileSystemService implements IFileSystemService {
+	constructor(private directory: string) {}
 	/**
 	 * Записывает компонент в файловую систему.
 	 *
@@ -22,7 +22,8 @@ export class FileSystemService implements IFileSystemService {
 	 */
 	public writeComponent(component: Component): void {
 		const { name, bridge, container, presentation, styles } = component;
-		const destinationPath = Utils.determineDestinationPath(name);
+		const directory = this.prepareDirectory(this.directory);
+		const destinationPath = `${directory}/${component.name}`;
 
 		if (fs.existsSync(destinationPath)) {
 			throw new FileSystemError("Создаваемый компонент уже существует.");
@@ -104,5 +105,21 @@ export class FileSystemService implements IFileSystemService {
 			root.slice(appendIndex);
 
 		fs.writeFileSync(`${cwd}/index.ts`, root);
+	}
+
+	private prepareDirectory(directory: string): string {
+		const isComponentFolder = fs
+			.readdirSync(directory)
+			.some(it => /\.(j|t)sx$/gm.test(it));
+
+		if (!isComponentFolder) {
+			return `${directory}`;
+		}
+
+		if (!fs.existsSync("childs")) {
+			fs.mkdirSync("childs");
+		}
+
+		return `${directory}/childs`;
 	}
 }
