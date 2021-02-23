@@ -1,6 +1,6 @@
 import { ReduxAccessType } from "../types/ReduxAccessType";
 
-export interface IBuilder {
+export interface IComponentBuilder {
 	/**
 	 * Сбрасывает работу строителя.
 	 *

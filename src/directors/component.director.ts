@@ -1,4 +1,4 @@
-import { IBuilder } from "../builders/builder.interface";
+import { IComponentBuilder } from "../builders/component-builder.interface";
 import { ReduxType } from "../services/interfaces/component-service.interface";
 
 export class ComponentDirector {
@@ -6,22 +6,22 @@ export class ComponentDirector {
 	 * Строитель.
 	 *
 	 * @private
-	 * @type {IBuilder}
+	 * @type {IComponentBuilder}
 	 * @memberof ReactComponentDirector
 	 */
-	private builder: IBuilder;
+	private builder: IComponentBuilder;
 
-	constructor(builder: IBuilder) {
+	constructor(builder: IComponentBuilder) {
 		this.builder = builder;
 	}
 
 	/**
 	 * Изменяет строителя.
 	 *
-	 * @param {IBuilder} builder
+	 * @param {IComponentBuilder} builder
 	 * @memberof ReactComponentDirector
 	 */
-	public changeBuilder(builder: IBuilder) {
+	public changeBuilder(builder: IComponentBuilder) {
 		this.builder = builder;
 	}
 

@@ -1,87 +1,81 @@
-// TODO: Слишком много полей. Подумать над тем как бы разгрузить класс и его свойства.
-// TODO: Это нормально смотрелось в классе Component. Но там всего 4-5 поля(ей).
+import _ from "lodash";
+
 export class Store {
 	private readonly _name: string;
 	public get name(): string {
 		return this._name;
 	}
 
-	private readonly _validName: string = "";
-	public get validName(): string {
-		return this._validName;
+	private _keys: string = String();
+	public get keys(): string {
+		return this._keys;
+	}
+	public set keys(value: string) {
+		this._keys = value;
 	}
 
-	private _keysFileContent: string = String();
-	public get keysFileContent(): string {
-		return this._keysFileContent;
+	private _actions: string = String();
+	public get actions(): string {
+		return this._actions;
 	}
-	public set keysFileContent(value: string) {
-		this._keysFileContent = value;
-	}
-
-	private _actionsFileContent: string = String();
-	public get actionsFileContent(): string {
-		return this._actionsFileContent;
-	}
-	public set actionsFileContent(value: string) {
-		this._actionsFileContent = value;
+	public set actions(value: string) {
+		this._actions = value;
 	}
 
-	private _actionsTypeFileContent: string = String();
-	public get actionsTypeFileContent(): string {
-		return this._actionsTypeFileContent;
+	private _actionTypes: string = String();
+	public get actionTypes(): string {
+		return this._actionTypes;
 	}
-	public set actionsTypeFileContent(value: string) {
-		this._actionsTypeFileContent = value;
-	}
-
-	private _reducersFileContent: string = String();
-	public get reducersFileContent(): string {
-		return this._reducersFileContent;
-	}
-	public set reducersFileContent(value: string) {
-		this._reducersFileContent = value;
+	public set actionTypes(value: string) {
+		this._actionTypes = value;
 	}
 
-	private _reducersTestFileContent: string = String();
-	public get reducersTestFileContent(): string {
-		return this._reducersTestFileContent;
+	private _reducer: string = String();
+	public get reducer(): string {
+		return this._reducer;
 	}
-	public set reducersTestFileContent(value: string) {
-		this._reducersTestFileContent = value;
+	public set reducer(value: string) {
+		this._reducer = value;
 	}
 
-	private _stateFileContent: string = String();
-	public get stateFileContent(): string {
-		return this._stateFileContent;
+	private _reducerTest: string = String();
+	public get reducerTest(): string {
+		return this._reducerTest;
 	}
-	public set stateFileContent(value: string) {
-		this._stateFileContent = value;
+	public set reducerTest(value: string) {
+		this._reducerTest = value;
+	}
+
+	private _state: string = String();
+	public get state(): string {
+		return this._state;
+	}
+	public set state(value: string) {
+		this._state = value;
 	}
 
 	constructor(name: string) {
-		this._name = name;
-		// TODO: Избавиться от зависимости с классом Convert.
+		this._name = _.upperCase(_.camelCase(name));
 	}
 
-	public make(): void {
-		this._actionsFileContent = this._actionsFileContent.replace(
-			/@store-name@/gm,
-			this._validName
-		);
-		this._actionsTypeFileContent = this._actionsTypeFileContent.replace(
-			/@store-name@/gm,
-			this._validName
-		);
-		this._reducersFileContent = this._reducersFileContent
-			.replace(/@store-name@/gm, this._validName)
-			.replace(
-				/@reducer-name@/gm,
-				this._validName[0].toLowerCase() + this._validName.slice(1)
-			);
-		this._reducersTestFileContent = this._reducersTestFileContent.replace(
-			/@store-name@/gm,
-			this._validName
-		);
-	}
+	// public make(): void {
+	// 	this._actions = this._actions.replace(
+	// 		/@store-name@/gm,
+	// 		this._validName
+	// 	);
+	// 	this._actionTypes = this._actionTypes.replace(
+	// 		/@store-name@/gm,
+	// 		this._validName
+	// 	);
+	// 	this._reducer = this._reducer
+	// 		.replace(/@store-name@/gm, this._validName)
+	// 		.replace(
+	// 			/@reducer-name@/gm,
+	// 			this._validName[0].toLowerCase() + this._validName.slice(1)
+	// 		);
+	// 	this._reducerTest = this._reducerTest.replace(
+	// 		/@store-name@/gm,
+	// 		this._validName
+	// 	);
+	// }
 }

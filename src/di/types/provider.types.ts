@@ -1,4 +1,4 @@
 export const TYPES = {
-	IArchiveProvider: Symbol.for("IArchiveProvider"),
+	IStoreProvider: Symbol.for("IStoreProvider"),
 	IComponentProvider: Symbol.for("IComponentProvider"),
 };

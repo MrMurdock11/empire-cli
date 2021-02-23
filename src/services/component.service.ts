@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { injectable, inject } from "inversify";
 import { ComponentDirector } from "../directors/component.director";
-import { TSComponentBuilder } from "../builders/component.builder";
+import { ComponentBuilder } from "../builders/component.builder";
 import {
 	GenerateOptions,
 	IComponentService,
@@ -31,9 +31,9 @@ export class ComponentService implements IComponentService {
 	 */
 	public generate(name: string, options: GenerateOptions): void {
 		const { reduxType, useCssModule } = options;
-		const componentTemplate = this.provider.getTemplates(reduxType);
+		const template = this.provider.getTemplates(reduxType);
 
-		const builder = new TSComponentBuilder(name, componentTemplate);
+		const builder = new ComponentBuilder(name, template);
 		const director = new ComponentDirector(builder);
 
 		director.make(reduxType, useCssModule);

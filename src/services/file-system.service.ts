@@ -14,6 +14,7 @@ import { IFileSystemService } from "./interfaces/file-system-service.interface";
 @injectable()
 export class FileSystemService implements IFileSystemService {
 	constructor(private directory: string) {}
+
 	/**
 	 * Записывает компонент в файловую систему.
 	 *
@@ -22,68 +23,65 @@ export class FileSystemService implements IFileSystemService {
 	 */
 	public writeComponent(component: Component): void {
 		const { name, bridge, container, presentation, styles } = component;
-		const directory = this.prepareDirectory(this.directory);
-		const destinationPath = `${directory}/${component.name}`;
+		const preparedDirectory = this.prepareDirectoryForComponent();
+		const directory = `${preparedDirectory}/${component.name}`;
 
-		if (fs.existsSync(destinationPath)) {
+		if (fs.existsSync(directory)) {
 			throw new FileSystemError("Создаваемый компонент уже существует.");
 		}
 
-		fs.mkdirSync(destinationPath);
+		const dictionary = new Map([
+			[`${directory}/index.ts`, bridge],
+			[`${directory}/${name}.tsx`, container],
+			[`${directory}/${name}.view.tsx`, presentation],
+			[`${directory}/${name}.style.css`, styles],
+		]);
 
-		fs.writeFileSync(`${destinationPath}/index.ts`, bridge);
-		fs.writeFileSync(`${destinationPath}/${name}.tsx`, container);
-		fs.writeFileSync(`${destinationPath}/${name}.view.tsx`, presentation);
-		fs.writeFileSync(`${destinationPath}/${name}.style.css`, styles);
+		fs.mkdirSync(directory);
+
+		dictionary.forEach((path, content) => fs.writeFileSync(path, content));
 	}
 
 	public writeStore(store: Store): void {
-		const { validName } = store;
-		const destinationPath = `${process.cwd()}/${validName}`;
+		const {
+			name,
+			keys,
+			actions,
+			actionTypes,
+			reducer,
+			reducerTest,
+			state,
+		} = store;
+		const directory = `${this.directory}/${name}`;
 
-		if (fs.existsSync(destinationPath)) {
+		if (fs.existsSync(directory)) {
 			throw new FileSystemError("Создавамое хранилище уже существует.");
 		}
 
-		fs.mkdirSync(destinationPath);
+		const dictionary = new Map([
+			[`${directory}/${name}.keys.ts`, keys],
+			[`${directory}/${name}.actions.ts`, actions],
+			[`${directory}/${name}.actions.type.ts`, actionTypes],
+			[`${directory}/${name}.reducer.ts`, reducer],
+			[`${directory}/${name}.reducer.test.ts`, reducerTest],
+			[`${directory}/${name}.state.ts`, state],
+		]);
 
-		fs.writeFileSync(
-			`${destinationPath}/${validName}.keys.ts`,
-			store.keysFileContent
-		);
-		fs.writeFileSync(
-			`${destinationPath}/${validName}.actions.ts`,
-			store.actionsFileContent
-		);
-		fs.writeFileSync(
-			`${destinationPath}/${validName}.actions.type.ts`,
-			store.actionsTypeFileContent
-		);
-		fs.writeFileSync(
-			`${destinationPath}/${validName}.reducer.ts`,
-			store.reducersFileContent
-		);
-		fs.writeFileSync(
-			`${destinationPath}/${validName}.reducer.test.ts`,
-			store.reducersTestFileContent
-		);
-		fs.writeFileSync(
-			`${destinationPath}/${validName}.state.ts`,
-			store.stateFileContent
-		);
+		fs.mkdirSync(directory);
 
-		this.appendToRootReducer(store.validName);
+		dictionary.forEach((path, content) => fs.writeFileSync(path, content));
+
+		this.appendToRootReducer(name);
 	}
 
 	private appendToRootReducer(name: string): void {
-		const cwd = process.cwd();
 		const reducerName = name.charAt(0).toLowerCase() + name.slice(1);
 
-		if (!fs.existsSync(`${cwd}/index.ts`)) {
-			console.log("Ненайден корневой reducer.");
+		if (!fs.existsSync(`${this.directory}/index.ts`)) {
+			console.log("Не найден корневой reducer.");
 		}
 
-		let root = fs.readFileSync(`${cwd}/index.ts`).toString();
+		let root = fs.readFileSync(`${this.directory}/index.ts`).toString();
 
 		let referencePoint = 0;
 		let appendIndex = 0;
@@ -104,22 +102,22 @@ export class FileSystemService implements IFileSystemService {
 			`\t${reducerName},\n` +
 			root.slice(appendIndex);
 
-		fs.writeFileSync(`${cwd}/index.ts`, root);
+		fs.writeFileSync(`${this.directory}/index.ts`, root);
 	}
 
-	private prepareDirectory(directory: string): string {
+	private prepareDirectoryForComponent(): string {
 		const isComponentFolder = fs
-			.readdirSync(directory)
+			.readdirSync(this.directory)
 			.some(it => /\.(j|t)sx$/gm.test(it));
 
 		if (!isComponentFolder) {
-			return `${directory}`;
+			return `${this.directory}`;
 		}
 
 		if (!fs.existsSync("childs")) {
 			fs.mkdirSync("childs");
 		}
 
-		return `${directory}/childs`;
+		return `${this.directory}/childs`;
 	}
 }

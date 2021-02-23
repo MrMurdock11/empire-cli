@@ -8,7 +8,7 @@ import { IComponentProvider } from "./interfaces/component.provider.interface";
 
 @injectable()
 export class ComponentProvider implements IComponentProvider {
-	private readonly archivePath: string = `${__dirname}/../archive/templates.zip`;
+	private readonly archivePath = `${__dirname}/../archive/templates.zip`;
 	private readonly admZip: AdmZip;
 
 	constructor() {
@@ -17,15 +17,14 @@ export class ComponentProvider implements IComponentProvider {
 
 	getTemplates(accessType: ReduxType): ComponentTemplate {
 		const template = new ComponentTemplate();
-		const pathCollection = [
+		const paths = [
 			"component/index.txt",
 			`component/container-${accessType}.txt`,
 			"component/view.txt",
 			"component/style.txt",
 		];
-		const [bridge, container, presentation, styles] = _.map(
-			pathCollection,
-			path => this.admZip.readAsText(this.admZip.getEntry(path))
+		const [bridge, container, presentation, styles] = _.map(paths, path =>
+			this.admZip.readAsText(this.admZip.getEntry(path))
 		);
 
 		template.bridge = bridge;

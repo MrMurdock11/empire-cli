@@ -21,7 +21,8 @@ export function generateComponent(
 			useCssModule: cssModule,
 			reduxType: redux ?? ReduxType.NONE,
 		});
-		console.log("Done");
+
+		console.log("Component Done!");
 	} catch (error) {
 		if (error instanceof Error) {
 			console.error(error.message);

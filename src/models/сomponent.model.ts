@@ -15,7 +15,7 @@ export class Component {
 	 * @memberof Component
 	 */
 	private readonly _name: string;
-	public get name(): string {
+	public get name() {
 		return this._name;
 	}
 

@@ -2,28 +2,25 @@ import "reflect-metadata";
 import { Store } from "../models/store.model";
 import { injectable, inject } from "inversify";
 import { IStoreService } from "./interfaces/store-service.interface";
-import { IArchiveProvider } from "../providers/interfaces/archive.provider.interface";
 import { TYPES } from "../di/types/provider.types";
+import { IStoreProvider } from "../providers/interfaces/store.provider.interface";
+import { StoreBuilder } from "../builders/store.builder";
+import { StoreDirector } from "../directors/store.director";
 
 @injectable()
 export class StoreService implements IStoreService {
 	constructor(
-		@inject(TYPES.IArchiveProvider)
-		private readonly repository: IArchiveProvider
+		@inject(TYPES.IStoreProvider)
+		private readonly provider: IStoreProvider
 	) {}
 
-	public create(storeName: string): Store {
-		const store = new Store(storeName);
+	public generate(name: string): void {
+		const template = this.provider.getTemplates();
+		const builder = new StoreBuilder(name, template);
+		const director = new StoreDirector(builder);
 
-		store.keysFileContent = this.repository.getKeysFileContentTemplate();
-		store.actionsFileContent = this.repository.getActionsContentTemplate();
-		store.actionsTypeFileContent = this.repository.getActionsTypeContentTemplate();
-		store.reducersFileContent = this.repository.getReducersContentTemplate();
-		store.reducersTestFileContent = this.repository.getReducersTestContentTemplate();
-		store.stateFileContent = this.repository.getStateContentTemplate();
+		director.make();
 
-		store.make();
-
-		return store;
+		const store = builder.getResult();
 	}
 }

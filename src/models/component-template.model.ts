@@ -1,33 +1,33 @@
 export class ComponentTemplate {
-	private _bridge: string = "";
-	public set bridge(value: string) {
-		this._bridge = value;
-	}
-	public get bridge(): string {
+	private _bridge = "";
+	public get bridge() {
 		return this._bridge;
 	}
-
-	private _container: string = "";
-	public set container(value: string) {
-		this._container = value;
+	public set bridge(value) {
+		this._bridge = value;
 	}
-	public get container(): string {
+
+	private _container = "";
+	public get container() {
 		return this._container;
 	}
-
-	private _presentation: string = "";
-	public set presentation(value: string) {
-		this._presentation = value;
+	public set container(value) {
+		this._container = value;
 	}
-	public get presentation(): string {
+
+	private _presentation = "";
+	public get presentation() {
 		return this._presentation;
 	}
-
-	private _styles: string = "";
-	public set styles(value: string) {
-		this._styles = value;
+	public set presentation(value) {
+		this._presentation = value;
 	}
-	public get styles(): string {
+
+	private _styles = "";
+	public get styles() {
 		return this._styles;
+	}
+	public set styles(value) {
+		this._styles = value;
 	}
 }

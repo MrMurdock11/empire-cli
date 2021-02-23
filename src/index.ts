@@ -4,6 +4,7 @@ import chalk from "chalk";
 import figlet from "figlet";
 import application, { Option } from "commander";
 import { generateComponent } from "./actions/component.actions";
+import { generateStore } from "./actions/store.actions";
 
 const bootstrap = () => {
 	const PACKAGE_JSON = require(`${__dirname}/../package.json`);
@@ -36,10 +37,7 @@ const bootstrap = () => {
 		.addOption(option.choices(["state", "dispatch", "both"]))
 		.action(generateComponent);
 
-	application
-		.command("store <name>")
-		.alias("s")
-		.action(() => void 0);
+	application.command("store <name>").alias("s").action(generateStore);
 
 	if (!process.argv.slice(2).length) {
 		application.outputHelp();

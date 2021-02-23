@@ -1,30 +1,17 @@
 import _ from "lodash";
 import "reflect-metadata";
-import { IBuilder } from "./builder.interface";
+import { IComponentBuilder } from "./component-builder.interface";
 import { Component } from "../models/сomponent.model";
 import { ReduxType } from "../services/interfaces/component-service.interface";
 import { ComponentTemplate } from "../models/component-template.model";
 
-/**
- * Строитель React компонента.
- *
- * @export
- * @class Builder
- */
-export class TSComponentBuilder implements IBuilder {
-	/**
-	 * Объект для хранения информации по компоненту.
-	 *
-	 * @private
-	 * @type {Component}
-	 * @memberof TSComponentBuilder
-	 */
+export class ComponentBuilder implements IComponentBuilder {
 	private component: Component;
 
 	private template: ComponentTemplate;
 
-	constructor(componentName: string, template: ComponentTemplate) {
-		this.component = new Component(componentName);
+	constructor(name: string, template: ComponentTemplate) {
+		this.component = new Component(name);
 		this.template = template;
 	}
 
@@ -35,7 +22,7 @@ export class TSComponentBuilder implements IBuilder {
 
 	/** @inheritdoc */
 	public buildBridge(reduxType: ReduxType): void {
-		const name = this.component.name;
+		const { name } = this.component;
 		const area = reduxType === ReduxType.NONE ? `{ ${name} }` : name;
 		const compiled = _.template(this.template.bridge);
 
@@ -72,10 +59,5 @@ export class TSComponentBuilder implements IBuilder {
 		this.component.styles = compiled({ name });
 	}
 
-	/**
-	 * Получает компонент.
-	 *
-	 * @memberof TSComponentBuilder
-	 */
 	public getResult = () => this.component;
 }
