@@ -1,4 +1,4 @@
-import { Component } from "../../modules/Component";
+import { Component } from "../../models/сomponent.model";
 
 export enum ReduxType {
 	NONE = "none",

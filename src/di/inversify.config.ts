@@ -3,28 +3,28 @@ import { ComponentService } from "../services/component.service";
 import { FileSystemService } from "../services/file-system.service";
 import { ArchiveProvider } from "../providers/archive.provider";
 import { StoreService } from "../services/store.service";
-import { IArchiveProvider } from "../providers/interfaces/archive.provider.interface";
 import { IComponentService } from "../services/interfaces/component-service.interface";
 import { IStoreService } from "../services/interfaces/store-service.interface";
 import { IFileSystemService } from "../services/interfaces/file-system-service.interface";
-import { TYPES as SERVICE_TYPE } from "./types/service.types";
-import { TYPES as PROVIDER_TYPE } from "./types/provider.types";
-import { TYPES as COMMAND_TYPE } from "./types/command.types";
+import { TYPES as SERVICE_TYPES } from "./types/service.types";
+import { TYPES as PROVIDER_TYPES } from "./types/provider.types";
+import { IComponentProvider } from "../providers/interfaces/component.provider.interface";
+import { ComponentProvider } from "../providers/component.provider";
 
 const DIContainer = new Container();
 
 // Services
-DIContainer.bind<IComponentService>(SERVICE_TYPE.IComponentService).to(
+DIContainer.bind<IComponentService>(SERVICE_TYPES.IComponentService).to(
 	ComponentService
 );
-DIContainer.bind<IStoreService>(SERVICE_TYPE.IStoreService).to(StoreService);
+DIContainer.bind<IStoreService>(SERVICE_TYPES.IStoreService).to(StoreService);
 DIContainer.bind<IFileSystemService>(
-	SERVICE_TYPE.IFileSystemService
+	SERVICE_TYPES.IFileSystemService
 ).toConstantValue(new FileSystemService(process.cwd()));
 
 // Providers
-DIContainer.bind<IArchiveProvider>(PROVIDER_TYPE.IArchiveProvider).to(
-	ArchiveProvider
+DIContainer.bind<IComponentProvider>(PROVIDER_TYPES.IComponentProvider).to(
+	ComponentProvider
 );
 
 // Commands

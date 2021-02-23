@@ -1,7 +1,7 @@
 import fs from "fs";
 import { injectable } from "inversify";
-import { Component } from "../modules/Component";
-import { Store } from "../modules/Store";
+import { Component } from "../models/сomponent.model";
+import { Store } from "../models/store.model";
 import { FileSystemError } from "../shared/errors/file-system.error";
 import { IFileSystemService } from "./interfaces/file-system-service.interface";
 

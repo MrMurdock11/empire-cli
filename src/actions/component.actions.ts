@@ -1,4 +1,3 @@
-import { upperCase } from "lodash";
 import DIContainer from "../di/inversify.config";
 import { TYPES } from "../di/types/service.types";
 import { GenerateComponentOptions } from "../options/generate-component.options";
@@ -16,9 +15,11 @@ export function generateComponent(
 	options: GenerateComponentOptions
 ): void {
 	try {
+		const { cssModule, redux } = options;
+
 		componentService.generate(name, {
-			useCssModule: options.cssModule,
-			reduxType: options.redux ?? ReduxType.NONE,
+			useCssModule: cssModule,
+			reduxType: redux ?? ReduxType.NONE,
 		});
 		console.log("Done");
 	} catch (error) {

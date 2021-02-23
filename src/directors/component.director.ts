@@ -1,5 +1,5 @@
-import { IBuilder } from "../builders/IBuilder";
-import { ReduxAccessType } from "../types/ReduxAccessType";
+import { IBuilder } from "../builders/builder.interface";
+import { ReduxType } from "../services/interfaces/component-service.interface";
 
 export class ComponentDirector {
 	/**
@@ -32,7 +32,7 @@ export class ComponentDirector {
 	 * @param {boolean} useCssModule
 	 * @memberof ComponentDirector
 	 */
-	public make(accessType: string, useCssModule: boolean) {
+	public make(accessType: ReduxType, useCssModule: boolean) {
 		this.builder.buildBridge(accessType);
 		this.builder.buildContainer(accessType);
 		this.builder.buildPresentaion(useCssModule);

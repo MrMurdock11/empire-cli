@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Store } from "../modules/store";
+import { Store } from "../models/store.model";
 import { injectable, inject } from "inversify";
 import { IStoreService } from "./interfaces/store-service.interface";
 import { IArchiveProvider } from "../providers/interfaces/archive.provider.interface";

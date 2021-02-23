@@ -25,7 +25,7 @@ const bootstrap = () => {
 	});
 
 	const option = new Option(
-		"-r, --redux [type]",
+		"-r, --redux <type>",
 		"Generate component for connect to redux store."
 	);
 
@@ -33,9 +33,7 @@ const bootstrap = () => {
 		.command("component <name>")
 		.alias("c")
 		.option("-C, --no-css-module", "Generate component without css-module.")
-		.addOption(
-			option.choices(["state", "dispatch", "both"]).default("state")
-		)
+		.addOption(option.choices(["state", "dispatch", "both"]))
 		.action(generateComponent);
 
 	application
