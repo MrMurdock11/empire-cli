@@ -19,14 +19,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/MrMurdock11/Empire-CLI.git"
+		"url": "git+https://github.com/MrMurdock11/empire-cli.git"
 	},
-	"author": "RedMask",
+	"author": "Azamat Mambetov",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/MrMurdock11/Empire-CLI/issues"
+		"url": "https://github.com/MrMurdock11/empire-cli/issues"
 	},
-	"homepage": "https://github.com/MrMurdock11/Empire-CLI#readme",
+	"homepage": "https://github.com/MrMurdock11/empire-cli#readme",
 	"dependencies": {
 		"adm-zip": "^0.4.14",
 		"chalk": "^3.0.0",

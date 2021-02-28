@@ -4,7 +4,7 @@ import chalk from "chalk";
 import figlet from "figlet";
 import application, { Option } from "commander";
 import { generateComponent } from "./actions/component.actions";
-import { generateStore } from "./actions/store.actions";
+import { generateStore, initStore } from "./actions/store.actions";
 
 const bootstrap = () => {
 	const PACKAGE_JSON = require(`${__dirname}/../package.json`);
@@ -18,9 +18,9 @@ const bootstrap = () => {
 		.helpOption("-h, --help", "Output usage information.");
 
 	application.command("show-off").action(() => {
-		const SIGN = figlet.textSync("Empire", { font: "ANSI Shadow" });
+		const sign = figlet.textSync("empire", { font: "ANSI Shadow" });
 
-		console.log(chalk.bold.blue(SIGN));
+		console.log(chalk.bold.blue(sign));
 		console.log(`${chalk.bold.green("Author")}:\t ${chalk.cyan(AUTHOR)}`);
 		console.log(`${chalk.bold.green("GitHub")}:\t ${chalk.cyan(HOMEPAGE)}`);
 	});
@@ -38,6 +38,8 @@ const bootstrap = () => {
 		.action(generateComponent);
 
 	application.command("store <name>").alias("s").action(generateStore);
+
+	application.command("new store").alias("ns").action(initStore);
 
 	if (!process.argv.slice(2).length) {
 		application.outputHelp();

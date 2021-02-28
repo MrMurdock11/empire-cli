@@ -44,4 +44,8 @@ export class StoreProvider implements IStoreProvider {
 
 		return template;
 	}
+
+	public getRootTemplate(): string {
+		return this.admZip.readAsText(this.admZip.getEntry("store/root.txt"));
+	}
 }

@@ -58,7 +58,7 @@ export class FileSystemService implements IFileSystemService {
 			throw new FileSystemError("Создавамое хранилище уже существует.");
 		}
 
-		const dictionary = new Map([
+		const pathsAndTemplates = new Map([
 			[`${directory}/${name}.keys.ts`, keys],
 			[`${directory}/${name}.actions.ts`, actions],
 			[`${directory}/${name}.actions.type.ts`, actionTypes],
@@ -69,9 +69,23 @@ export class FileSystemService implements IFileSystemService {
 
 		fs.mkdirSync(directory);
 
-		dictionary.forEach((path, content) => fs.writeFileSync(path, content));
+		pathsAndTemplates.forEach((content, path) =>
+			fs.writeFileSync(path, content)
+		);
 
 		this.appendToRootReducer(name);
+	}
+
+	public writeRootStore(rootTemplate: string): void {
+		const directory = `${this.directory}/store`;
+		const path = `${this.directory}/store/index.ts`;
+
+		if (fs.existsSync(path)) {
+			throw new FileSystemError("Хранилище уже проинициализировано.");
+		}
+
+		fs.mkdirSync(directory);
+		fs.writeFileSync(path, rootTemplate);
 	}
 
 	private appendToRootReducer(name: string): void {
