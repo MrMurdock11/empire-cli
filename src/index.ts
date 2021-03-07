@@ -1,41 +1,51 @@
 #!/usr/bin/env node
 
-import fs from "fs";
 import chalk from "chalk";
-import clear from "clear";
 import figlet from "figlet";
-import prog from "commander";
-import { init } from "./store/init";
-import { createComponentAndWriteFileSystem, createStoreAndWriteFileSystem } from "./Actions";
+import application, { Option } from "commander";
+import { generateComponent } from "./actions/component.actions";
+import { generateStore, initStore } from "./actions/store.actions";
 
-const PACKAGE = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`).toString());
-const VERSION: string = PACKAGE.version;
-const AUTHOR: string = PACKAGE.author;
-const HOMEPAGE: string = PACKAGE.homepage;
+const bootstrap = () => {
+	const PACKAGE_JSON = require(`${__dirname}/../package.json`);
+	const VERSION = PACKAGE_JSON.version;
+	const AUTHOR = PACKAGE_JSON.author;
+	const HOMEPAGE = PACKAGE_JSON.homepage;
 
-clear();
+	application
+		.version(VERSION, "-v, --version", "Output the current version.")
+		.usage("<command> [options]")
+		.helpOption("-h, --help", "Output usage information.");
 
-prog.version(VERSION);
+	application.command("show-off").action(() => {
+		const sign = figlet.textSync("empire", { font: "ANSI Shadow" });
 
-prog.command("about")
-	.action(() => {
-		console.log(chalk.bold.blue(figlet.textSync("Empire", { font: "ANSI Shadow" })));
-		console.log(`${chalk.bold.green("Version")}: ${chalk.cyan(VERSION)}`);
+		console.log(chalk.bold.blue(sign));
 		console.log(`${chalk.bold.green("Author")}:\t ${chalk.cyan(AUTHOR)}`);
 		console.log(`${chalk.bold.green("GitHub")}:\t ${chalk.cyan(HOMEPAGE)}`);
-	})
+	});
 
-prog.command("component <name>")
-	.alias("c")
-	.option("-C, --no-css-module", "Create component with css module.")
-	.option("-r, --redux", "Create component for connect to redux store.")
-	.action(createComponentAndWriteFileSystem);
+	const option = new Option(
+		"-r, --redux <type>",
+		"Generate component for connect to redux store."
+	);
 
-prog.command("store <name>")
-	.alias("s")
-	.action(createStoreAndWriteFileSystem);
+	application
+		.command("component <name>")
+		.alias("c")
+		.option("-C, --no-css-module", "Generate component without css-module.")
+		.addOption(option.choices(["state", "dispatch", "both"]))
+		.action(generateComponent);
 
-prog.command("init <type>")
-	.action(init);
+	application.command("store <name>").alias("s").action(generateStore);
 
-prog.parse(process.argv);
+	application.command("new store").alias("ns").action(initStore);
+
+	if (!process.argv.slice(2).length) {
+		application.outputHelp();
+	}
+
+	application.parse(process.argv);
+};
+
+bootstrap();
