@@ -1,5 +1,3 @@
-import { Component } from "../../models/сomponent.model";
-
 export enum ReduxType {
 	NONE = "none",
 	STATE = "state",
@@ -14,11 +12,10 @@ export type GenerateOptions = {
 
 export interface IComponentService {
 	/**
-	 * Генерирует компонент.
+	 * Генерирует компонент и сохраняет в директории.
 	 *
 	 * @param {string} name Наименование компонента.
-	 * @param {GenerateOptions} options Опции команды.
-	 * @returns {Promise<Component>} Ожидается компонент.
+	 * @param {GenerateOptions} options Опции команды..
 	 * @memberof IComponentService
 	 */
 	generate(name: string, options: GenerateOptions): void;

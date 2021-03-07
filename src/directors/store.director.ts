@@ -1,16 +1,46 @@
-import { IStoreBuilder } from "../builders/store-builder.interface";
+import { IStoreBuilder } from "../builders/interfaces/store-builder.interface";
 
+/**
+ * Директор для сборки хранилища.
+ *
+ * @export
+ * @class StoreDirector
+ */
 export class StoreDirector {
+	/**
+	 * Строитель хранилища.
+	 *
+	 * @private
+	 * @type {IStoreBuilder}
+	 * @memberof StoreDirector
+	 */
 	private builder: IStoreBuilder;
 
+	/**
+	 * Создает экземпляр объекта StoreDirector.
+	 *
+	 * @param {IStoreBuilder} builder Строитель хранилища.
+	 * @memberof StoreDirector
+	 */
 	constructor(builder: IStoreBuilder) {
 		this.builder = builder;
 	}
 
+	/**
+	 * Изменяет строителя.
+	 *
+	 * @param {IStoreBuilder} builder Строитель хранилища.
+	 * @memberof StoreDirector
+	 */
 	public changeBuilder(builder: IStoreBuilder) {
 		this.builder = builder;
 	}
 
+	/**
+	 * Выполняет сборку хранилища.
+	 *
+	 * @memberof StoreDirector
+	 */
 	public make() {
 		this.builder.buildKeys();
 		this.builder.buildActions();

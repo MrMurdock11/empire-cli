@@ -15,33 +15,31 @@ import { IFileSystemService } from "./interfaces/file-system-service.interface";
 export class FileSystemService implements IFileSystemService {
 	constructor(private directory: string) {}
 
-	/**
-	 * Записывает компонент в файловую систему.
-	 *
-	 * @param {Component} component Компонент.
-	 * @memberof FileSystemService
-	 */
+	/** @inheritdoc */
 	public writeComponent(component: Component): void {
 		const { name, bridge, container, presentation, styles } = component;
-		const preparedDirectory = this.prepareDirectoryForComponent();
-		const directory = `${preparedDirectory}/${component.name}`;
+		const preparedPath = this.preparePathForComponent();
+		const path = `${preparedPath}/${component.name}`;
 
-		if (fs.existsSync(directory)) {
+		if (fs.existsSync(path)) {
 			throw new FileSystemError("Создаваемый компонент уже существует.");
 		}
 
-		const dictionary = new Map([
-			[`${directory}/index.ts`, bridge],
-			[`${directory}/${name}.tsx`, container],
-			[`${directory}/${name}.view.tsx`, presentation],
-			[`${directory}/${name}.style.css`, styles],
+		const componentItems = new Map([
+			[`${path}/index.ts`, bridge],
+			[`${path}/${name}.tsx`, container],
+			[`${path}/${name}.view.tsx`, presentation],
+			[`${path}/${name}.style.css`, styles],
 		]);
 
-		fs.mkdirSync(directory);
+		fs.mkdirSync(path);
 
-		dictionary.forEach((path, content) => fs.writeFileSync(path, content));
+		componentItems.forEach((content, path) =>
+			fs.writeFileSync(path, content)
+		);
 	}
 
+	/** @inheritdoc */
 	public writeStore(store: Store): void {
 		const {
 			name,
@@ -52,30 +50,29 @@ export class FileSystemService implements IFileSystemService {
 			reducerTest,
 			state,
 		} = store;
-		const directory = `${this.directory}/${name}`;
+		const path = `${this.directory}/${name}`;
 
-		if (fs.existsSync(directory)) {
+		if (fs.existsSync(path)) {
 			throw new FileSystemError("Создавамое хранилище уже существует.");
 		}
 
-		const pathsAndTemplates = new Map([
-			[`${directory}/${name}.keys.ts`, keys],
-			[`${directory}/${name}.actions.ts`, actions],
-			[`${directory}/${name}.actions.type.ts`, actionTypes],
-			[`${directory}/${name}.reducer.ts`, reducer],
-			[`${directory}/${name}.reducer.test.ts`, reducerTest],
-			[`${directory}/${name}.state.ts`, state],
+		const storeItems = new Map([
+			[`${path}/${name}.keys.ts`, keys],
+			[`${path}/${name}.actions.ts`, actions],
+			[`${path}/${name}.actions.type.ts`, actionTypes],
+			[`${path}/${name}.reducer.ts`, reducer],
+			[`${path}/${name}.reducer.test.ts`, reducerTest],
+			[`${path}/${name}.state.ts`, state],
 		]);
 
-		fs.mkdirSync(directory);
+		fs.mkdirSync(path);
 
-		pathsAndTemplates.forEach((content, path) =>
-			fs.writeFileSync(path, content)
-		);
+		storeItems.forEach((content, path) => fs.writeFileSync(path, content));
 
-		this.appendToRootReducer(name);
+		this.appendStoreReducerToRootReducer(name);
 	}
 
+	/** @inheritdoc */
 	public writeRootStore(rootTemplate: string): void {
 		const directory = `${this.directory}/store`;
 		const path = `${this.directory}/store/index.ts`;
@@ -88,7 +85,14 @@ export class FileSystemService implements IFileSystemService {
 		fs.writeFileSync(path, rootTemplate);
 	}
 
-	private appendToRootReducer(name: string): void {
+	/**
+	 * Добавляет редуктор хранилища в корневой редуктор.
+	 *
+	 * @private
+	 * @param {string} name Наименование хранилища.
+	 * @memberof FileSystemService
+	 */
+	private appendStoreReducerToRootReducer(name: string): void {
 		const reducerName = name.charAt(0).toLowerCase() + name.slice(1);
 
 		if (!fs.existsSync(`${this.directory}/index.ts`)) {
@@ -119,7 +123,14 @@ export class FileSystemService implements IFileSystemService {
 		fs.writeFileSync(`${this.directory}/index.ts`, root);
 	}
 
-	private prepareDirectoryForComponent(): string {
+	/**
+	 * Формирует новый путь для сохранения компонента.
+	 *
+	 * @private
+	 * @return {string} Обновленный путь для сохранения компонента.
+	 * @memberof FileSystemService
+	 */
+	private preparePathForComponent(): string {
 		const isComponentFolder = fs
 			.readdirSync(this.directory)
 			.some(it => /\.(j|t)sx$/gm.test(it));

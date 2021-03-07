@@ -1,10 +1,15 @@
-enum ReduxType {
-	STATE = "state",
-	DISPATCH = "dispatch",
-	BOTH = "both",
-}
-
 export type GenerateComponentOptions = {
-	redux?: ReduxType;
+	/**
+	 * Тип построения компонента для работы с менеджером состояний.
+	 *
+	 * @type {string}
+	 */
+	redux?: string;
+
+	/**
+	 * Значение, показывающее, что используется css-module.
+	 *
+	 * @type {boolean}
+	 */
 	cssModule: boolean;
 };

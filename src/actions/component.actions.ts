@@ -10,6 +10,13 @@ const componentService = DIContainer.get<IComponentService>(
 	TYPES.IComponentService
 );
 
+/**
+ * Генерирует компонент и сохраняет в выбранной директории.
+ *
+ * @export
+ * @param {string} name Наименование компонента.
+ * @param {GenerateComponentOptions} options Опции для генерации компонентов.
+ */
 export function generateComponent(
 	name: string,
 	options: GenerateComponentOptions
@@ -19,7 +26,7 @@ export function generateComponent(
 
 		componentService.generate(name, {
 			useCssModule: cssModule,
-			reduxType: redux ?? ReduxType.NONE,
+			reduxType: <ReduxType>redux ?? ReduxType.NONE,
 		});
 
 		console.log("Component Done!");

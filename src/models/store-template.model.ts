@@ -1,4 +1,16 @@
+/**
+ * Хранилище с шаблонами.
+ *
+ * @export
+ * @class StoreTemplate
+ */
 export class StoreTemplate {
+	/**
+	 * Получает или задает шаблон для файла ключей.
+	 *
+	 * @private
+	 * @memberof StoreTemplate
+	 */
 	private _keys = "";
 	public get keys() {
 		return this._keys;
@@ -7,6 +19,12 @@ export class StoreTemplate {
 		this._keys = value;
 	}
 
+	/**
+	 * Получает или задает шаблон для файла действий.
+	 *
+	 * @private
+	 * @memberof StoreTemplate
+	 */
 	private _actions = "";
 	public get actions() {
 		return this._actions;
@@ -15,6 +33,12 @@ export class StoreTemplate {
 		this._actions = value;
 	}
 
+	/**
+	 * Получает или задает шаблон для файла типа действий.
+	 *
+	 * @private
+	 * @memberof StoreTemplate
+	 */
 	private _actionTypes = "";
 	public get actionTypes() {
 		return this._actionTypes;
@@ -23,6 +47,12 @@ export class StoreTemplate {
 		this._actionTypes = value;
 	}
 
+	/**
+	 * Получает или задает шаблон для файла редуктора.
+	 *
+	 * @private
+	 * @memberof StoreTemplate
+	 */
 	private _reducer = "";
 	public get reducer() {
 		return this._reducer;
@@ -31,6 +61,12 @@ export class StoreTemplate {
 		this._reducer = value;
 	}
 
+	/**
+	 * Получает или задает шаблон для файла теста редуктора.
+	 *
+	 * @private
+	 * @memberof StoreTemplate
+	 */
 	private _reducerTest = "";
 	public get reducerTest() {
 		return this._reducerTest;
@@ -39,6 +75,12 @@ export class StoreTemplate {
 		this._reducerTest = value;
 	}
 
+	/**
+	 * Получает или задает шаблон для файла состояния.
+	 *
+	 * @private
+	 * @memberof StoreTemplate
+	 */
 	private _state = "";
 	public get state() {
 		return this._state;

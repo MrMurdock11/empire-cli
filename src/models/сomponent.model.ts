@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 /**
  * Компонент.
  *
@@ -30,8 +28,8 @@ export class Component {
 	public get bridge(): string {
 		return this._bridge;
 	}
-	public set bridge(content: string) {
-		this._bridge = content;
+	public set bridge(value: string) {
+		this._bridge = value;
 	}
 
 	/**
@@ -45,8 +43,8 @@ export class Component {
 	public get container(): string {
 		return this._container;
 	}
-	public set container(content: string) {
-		this._container = content;
+	public set container(value: string) {
+		this._container = value;
 	}
 
 	/**
@@ -60,8 +58,8 @@ export class Component {
 	public get presentation(): string {
 		return this._presentation;
 	}
-	public set presentation(content: string) {
-		this._presentation = content;
+	public set presentation(value: string) {
+		this._presentation = value;
 	}
 
 	/**
@@ -75,11 +73,17 @@ export class Component {
 	public get styles(): string {
 		return this._styles;
 	}
-	public set styles(content: string) {
-		this._styles = content;
+	public set styles(value: string) {
+		this._styles = value;
 	}
 
+	/**
+	 * Создает экземпляр объекта Component.
+	 *
+	 * @param {string} name Наименование компонента.
+	 * @memberof Component
+	 */
 	constructor(name: string) {
-		this._name = _.upperFirst(_.camelCase(name));
+		this._name = name;
 	}
 }

@@ -4,7 +4,13 @@ import { IStoreService } from "../services/interfaces/store-service.interface";
 
 const storeService = DIContainer.get<IStoreService>(TYPES.IStoreService);
 
-export const generateStore = (name: string): void => {
+/**
+ * Генерирует хранилище и сохраняет в выбранной директории.
+ *
+ * @export
+ * @param {string} name Наименование хранилища.
+ */
+export function generateStore(name: string): void {
 	try {
 		storeService.generate(name);
 
@@ -15,9 +21,14 @@ export const generateStore = (name: string): void => {
 			process.exit(1);
 		}
 	}
-};
+}
 
-export const initStore = (): void => {
+/**
+ * Инициализирует корневой модуль для регистрации хранилищ.
+ *
+ * @export
+ */
+export function initStore(): void {
 	try {
 		storeService.init();
 
@@ -28,4 +39,4 @@ export const initStore = (): void => {
 			process.exit(1);
 		}
 	}
-};
+}

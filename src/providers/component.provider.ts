@@ -1,21 +1,43 @@
 import AdmZip from "adm-zip";
 import fs from "fs";
 import { injectable } from "inversify";
-import _ from "lodash";
+import { map } from "lodash";
 import { ComponentTemplate } from "../models/component-template.model";
 import { ReduxType } from "../services/interfaces/component-service.interface";
 import { IComponentProvider } from "./interfaces/component.provider.interface";
 
+/**
+ * Поставщик шаблонов для компонента.
+ *
+ * @export
+ * @class ComponentProvider
+ * @implements {IComponentProvider}
+ */
 @injectable()
 export class ComponentProvider implements IComponentProvider {
+	/**
+	 * Путь к архиву с шаблонами.
+	 *
+	 * @private
+	 * @memberof ComponentProvider
+	 */
 	private readonly archivePath = `${__dirname}/../archive/templates.zip`;
-	private readonly admZip: AdmZip;
+
+	/**
+	 * Архиватор.
+	 *
+	 * @private
+	 * @type {AdmZip}
+	 * @memberof ComponentProvider
+	 */
+	private readonly zipper: AdmZip;
 
 	constructor() {
-		this.admZip = new AdmZip(fs.readFileSync(this.archivePath));
+		this.zipper = new AdmZip(fs.readFileSync(this.archivePath));
 	}
 
-	getTemplates(accessType: ReduxType): ComponentTemplate {
+	/** @inheritdoc */
+	public getTemplates(accessType: ReduxType): ComponentTemplate {
 		const template = new ComponentTemplate();
 		const paths = [
 			"component/index.txt",
@@ -23,8 +45,8 @@ export class ComponentProvider implements IComponentProvider {
 			"component/view.txt",
 			"component/style.txt",
 		];
-		const [bridge, container, presentation, styles] = _.map(paths, path =>
-			this.admZip.readAsText(this.admZip.getEntry(path))
+		const [bridge, container, presentation, styles] = map(paths, path =>
+			this.zipper.readAsText(this.zipper.getEntry(path))
 		);
 
 		template.bridge = bridge;

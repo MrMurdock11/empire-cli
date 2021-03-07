@@ -31,6 +31,4 @@ DIContainer.bind<IStoreProvider>(PROVIDER_TYPES.IStoreProvider).to(
 	StoreProvider
 );
 
-// Commands
-
 export default DIContainer;

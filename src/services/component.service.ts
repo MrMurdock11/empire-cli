@@ -26,9 +26,7 @@ export class ComponentService implements IComponentService {
 		private readonly provider: IComponentProvider
 	) {}
 
-	/**
-	 * @inheritdoc
-	 */
+	/** @inheritdoc */
 	public generate(name: string, options: GenerateOptions): void {
 		const { reduxType, useCssModule } = options;
 		const template = this.provider.getTemplates(reduxType);

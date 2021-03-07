@@ -1,11 +1,31 @@
 import _ from "lodash";
 
+/**
+ * Хранилище.
+ *
+ * @export
+ * @class Store
+ */
 export class Store {
+	/**
+	 * Получает наименование хранилища.
+	 *
+	 * @private
+	 * @type {string}
+	 * @memberof Store
+	 */
 	private readonly _name: string;
 	public get name(): string {
 		return this._name;
 	}
 
+	/**
+	 * Получает или задает содержимое файла ключей.
+	 *
+	 * @private
+	 * @type {string}
+	 * @memberof Store
+	 */
 	private _keys: string = String();
 	public get keys(): string {
 		return this._keys;
@@ -14,6 +34,13 @@ export class Store {
 		this._keys = value;
 	}
 
+	/**
+	 * Получает или задает содержимое файла действий.
+	 *
+	 * @private
+	 * @type {string}
+	 * @memberof Store
+	 */
 	private _actions: string = String();
 	public get actions(): string {
 		return this._actions;
@@ -22,6 +49,13 @@ export class Store {
 		this._actions = value;
 	}
 
+	/**
+	 * Получает или задает содержимое файла типов действий.
+	 *
+	 * @private
+	 * @type {string}
+	 * @memberof Store
+	 */
 	private _actionTypes: string = String();
 	public get actionTypes(): string {
 		return this._actionTypes;
@@ -30,6 +64,13 @@ export class Store {
 		this._actionTypes = value;
 	}
 
+	/**
+	 * Получает или задает содержимое файла редуктора.
+	 *
+	 * @private
+	 * @type {string}
+	 * @memberof Store
+	 */
 	private _reducer: string = String();
 	public get reducer(): string {
 		return this._reducer;
@@ -38,6 +79,13 @@ export class Store {
 		this._reducer = value;
 	}
 
+	/**
+	 * Получает или задает содержимое файла теста редуктора.
+	 *
+	 * @private
+	 * @type {string}
+	 * @memberof Store
+	 */
 	private _reducerTest: string = String();
 	public get reducerTest(): string {
 		return this._reducerTest;
@@ -46,6 +94,13 @@ export class Store {
 		this._reducerTest = value;
 	}
 
+	/**
+	 * Получает или задает содержимое файла состояния.
+	 *
+	 * @private
+	 * @type {string}
+	 * @memberof Store
+	 */
 	private _state: string = String();
 	public get state(): string {
 		return this._state;
@@ -54,28 +109,13 @@ export class Store {
 		this._state = value;
 	}
 
+	/**
+	 * Создает экземпляр объекта Store.
+	 *
+	 * @param {string} name Наименование хранилища.
+	 * @memberof Store
+	 */
 	constructor(name: string) {
-		this._name = _.upperCase(_.camelCase(name));
+		this._name = name;
 	}
-
-	// public make(): void {
-	// 	this._actions = this._actions.replace(
-	// 		/@store-name@/gm,
-	// 		this._validName
-	// 	);
-	// 	this._actionTypes = this._actionTypes.replace(
-	// 		/@store-name@/gm,
-	// 		this._validName
-	// 	);
-	// 	this._reducer = this._reducer
-	// 		.replace(/@store-name@/gm, this._validName)
-	// 		.replace(
-	// 			/@reducer-name@/gm,
-	// 			this._validName[0].toLowerCase() + this._validName.slice(1)
-	// 		);
-	// 	this._reducerTest = this._reducerTest.replace(
-	// 		/@store-name@/gm,
-	// 		this._validName
-	// 	);
-	// }
 }

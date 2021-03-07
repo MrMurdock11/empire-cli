@@ -8,6 +8,13 @@ import { StoreBuilder } from "../builders/store.builder";
 import { StoreDirector } from "../directors/store.director";
 import { IFileSystemService } from "./interfaces/file-system-service.interface";
 
+/**
+ * Служба для работы с хранилищем.
+ *
+ * @export
+ * @class StoreService
+ * @implements {IStoreService}
+ */
 @injectable()
 export class StoreService implements IStoreService {
 	constructor(
@@ -17,12 +24,14 @@ export class StoreService implements IStoreService {
 		private readonly fileSystemService: IFileSystemService
 	) {}
 
+	/** @inheritdoc */
 	public init(): void {
 		const template = this.provider.getRootTemplate();
 
 		this.fileSystemService.writeRootStore(template);
 	}
 
+	/** @inheritdoc */
 	public generate(name: string): void {
 		const template = this.provider.getTemplates();
 		const builder = new StoreBuilder(name, template);

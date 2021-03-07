@@ -1,9 +1,15 @@
-import { IComponentBuilder } from "../builders/component-builder.interface";
+import { IComponentBuilder } from "../builders/interfaces/component-builder.interface";
 import { ReduxType } from "../services/interfaces/component-service.interface";
 
+/**
+ * Директор для постройки компонентов.
+ *
+ * @export
+ * @class ComponentDirector
+ */
 export class ComponentDirector {
 	/**
-	 * Строитель.
+	 * Строитель компонента.
 	 *
 	 * @private
 	 * @type {IComponentBuilder}
@@ -11,6 +17,12 @@ export class ComponentDirector {
 	 */
 	private builder: IComponentBuilder;
 
+	/**
+	 * Создает экземпляр объекта ComponentDirector.
+	 *
+	 * @param {IComponentBuilder} builder Строитель компонента.
+	 * @memberof ComponentDirector
+	 */
 	constructor(builder: IComponentBuilder) {
 		this.builder = builder;
 	}
@@ -18,7 +30,7 @@ export class ComponentDirector {
 	/**
 	 * Изменяет строителя.
 	 *
-	 * @param {IComponentBuilder} builder
+	 * @param {IComponentBuilder} builder Строитель компонента.
 	 * @memberof ReactComponentDirector
 	 */
 	public changeBuilder(builder: IComponentBuilder) {
@@ -28,13 +40,13 @@ export class ComponentDirector {
 	/**
 	 * Выполняет последовательность действий строителя.
 	 *
-	 * @param {ReduxAccessType} accessType
-	 * @param {boolean} useCssModule
+	 * @param {ReduxAccessType} reduxType Тип компонента для работы с redux.
+	 * @param {boolean} useCssModule Значение, показывающее, что нужно использовать css-module при построении компонента.
 	 * @memberof ComponentDirector
 	 */
-	public make(accessType: ReduxType, useCssModule: boolean) {
-		this.builder.buildBridge(accessType);
-		this.builder.buildContainer(accessType);
+	public make(reduxType: ReduxType, useCssModule: boolean) {
+		this.builder.buildBridge(reduxType);
+		this.builder.buildContainer();
 		this.builder.buildPresentaion(useCssModule);
 		this.builder.buildStyles();
 	}

@@ -1,30 +1,62 @@
-import _ from "lodash";
 import "reflect-metadata";
-import { IComponentBuilder } from "./component-builder.interface";
+import { IComponentBuilder } from "./interfaces/component-builder.interface";
 import { Component } from "../models/сomponent.model";
 import { ReduxType } from "../services/interfaces/component-service.interface";
 import { ComponentTemplate } from "../models/component-template.model";
+import { camelCase, template, upperFirst } from "lodash";
 
+/**
+ * Строитель компонентов.
+ *
+ * @export
+ * @class ComponentBuilder
+ * @implements {IComponentBuilder}
+ */
 export class ComponentBuilder implements IComponentBuilder {
+	/**
+	 * Компонент со структурой.
+	 *
+	 * @private
+	 * @type {Component}
+	 * @memberof ComponentBuilder
+	 */
 	private component: Component;
 
+	/**
+	 * Компонент с шаблонами.
+	 *
+	 * @private
+	 * @type {ComponentTemplate}
+	 * @memberof ComponentBuilder
+	 */
 	private template: ComponentTemplate;
 
+	/**
+	 * Создает экземпляр объекта ComponentBuilder.
+	 *
+	 * @param {string} name Наименование компонента.
+	 * @param {ComponentTemplate} template Шаблоны для компонента.
+	 * @memberof ComponentBuilder
+	 */
 	constructor(name: string, template: ComponentTemplate) {
+		name = upperFirst(camelCase(name));
+
 		this.component = new Component(name);
 		this.template = template;
 	}
 
 	/** @inheritdoc */
 	public reset(): void {
-		this.component = new Component(this.component.name);
+		const name = upperFirst(camelCase(this.component.name));
+
+		this.component = new Component(name);
 	}
 
 	/** @inheritdoc */
 	public buildBridge(reduxType: ReduxType): void {
 		const { name } = this.component;
 		const area = reduxType === ReduxType.NONE ? `{ ${name} }` : name;
-		const compiled = _.template(this.template.bridge);
+		const compiled = template(this.template.bridge);
 
 		this.component.bridge = compiled({
 			name,
@@ -35,7 +67,7 @@ export class ComponentBuilder implements IComponentBuilder {
 	/** @inheritdoc */
 	public buildContainer(): void {
 		const { name } = this.component;
-		const compiled = _.template(this.template.container);
+		const compiled = template(this.template.container);
 
 		this.component.container = compiled({ name });
 	}
@@ -43,7 +75,7 @@ export class ComponentBuilder implements IComponentBuilder {
 	/** @inheritdoc */
 	public buildPresentaion(useCssModule: boolean): void {
 		const { name } = this.component;
-		const compiled = _.template(this.template.presentation);
+		const compiled = template(this.template.presentation);
 
 		this.component.presentation = compiled({
 			useCssModule,
@@ -54,10 +86,11 @@ export class ComponentBuilder implements IComponentBuilder {
 	/** @inheritdoc */
 	public buildStyles(): void {
 		const { name } = this.component;
-		const compiled = _.template(this.template.styles);
+		const compiled = template(this.template.styles);
 
 		this.component.styles = compiled({ name });
 	}
 
-	public getResult = () => this.component;
+	/** @inheritdoc */
+	public getResult = (): Component => this.component;
 }

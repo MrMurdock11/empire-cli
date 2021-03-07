@@ -1,20 +1,42 @@
 import AdmZip from "adm-zip";
 import fs from "fs";
 import { injectable } from "inversify";
-import _ from "lodash";
+import { map } from "lodash";
 import { StoreTemplate } from "../models/store-template.model";
 import { IStoreProvider } from "./interfaces/store.provider.interface";
 
+/**
+ * Поставщик шаблонов для хранилища.
+ *
+ * @export
+ * @class StoreProvider
+ * @implements {IStoreProvider}
+ */
 @injectable()
 export class StoreProvider implements IStoreProvider {
+	/**
+	 * Путь к архиву с шаблонами.
+	 *
+	 * @private
+	 * @memberof StoreProvider
+	 */
 	private readonly archivePath = `${__dirname}/../archive/templates.zip`;
-	private readonly admZip: AdmZip;
+
+	/**
+	 * Архиватор.
+	 *
+	 * @private
+	 * @type {AdmZip}
+	 * @memberof StoreProvider
+	 */
+	private readonly zipper: AdmZip;
 
 	constructor() {
-		this.admZip = new AdmZip(fs.readFileSync(this.archivePath));
+		this.zipper = new AdmZip(fs.readFileSync(this.archivePath));
 	}
 
-	getTemplates(): StoreTemplate {
+	/** @inheritdoc */
+	public getTemplates(): StoreTemplate {
 		const template = new StoreTemplate();
 		const paths = [
 			"store/keys.txt",
@@ -31,8 +53,8 @@ export class StoreProvider implements IStoreProvider {
 			reducer,
 			reducerTest,
 			state,
-		] = _.map(paths, path =>
-			this.admZip.readAsText(this.admZip.getEntry(path))
+		] = map(paths, path =>
+			this.zipper.readAsText(this.zipper.getEntry(path))
 		);
 
 		template.keys = keys;
@@ -45,7 +67,8 @@ export class StoreProvider implements IStoreProvider {
 		return template;
 	}
 
+	/** @inheritdoc */
 	public getRootTemplate(): string {
-		return this.admZip.readAsText(this.admZip.getEntry("store/root.txt"));
+		return this.zipper.readAsText(this.zipper.getEntry("store/root.txt"));
 	}
 }
