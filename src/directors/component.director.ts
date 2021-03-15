@@ -48,6 +48,6 @@ export class ComponentDirector {
 		this.builder.buildBridge(reduxType);
 		this.builder.buildContainer();
 		this.builder.buildPresentaion(useCssModule);
-		this.builder.buildStyles();
+		this.builder.buildStyles(useCssModule);
 	}
 }
