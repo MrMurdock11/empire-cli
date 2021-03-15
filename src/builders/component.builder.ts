@@ -84,11 +84,11 @@ export class ComponentBuilder implements IComponentBuilder {
 	}
 
 	/** @inheritdoc */
-	public buildStyles(): void {
+	public buildStyles(useCssModule: boolean): void {
 		const { name } = this.component;
 		const compiled = template(this.template.styles);
 
-		this.component.styles = compiled({ name });
+		this.component.styles = compiled({ name, useCssModule });
 	}
 
 	/** @inheritdoc */
