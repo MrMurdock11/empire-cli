@@ -6,10 +6,6 @@ import {
 	ReduxType,
 } from "../services/interfaces/component-service.interface";
 
-const componentService = DIContainer.get<IComponentService>(
-	TYPES.IComponentService
-);
-
 /**
  * Генерирует компонент и сохраняет в выбранной директории.
  *
@@ -22,6 +18,9 @@ export function generateComponent(
 	options: GenerateComponentOptions
 ): void {
 	try {
+		const componentService = DIContainer.get<IComponentService>(
+			TYPES.IComponentService
+		);
 		const { cssModule, redux } = options;
 
 		componentService.generate(name, {
