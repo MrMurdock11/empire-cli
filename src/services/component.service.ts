@@ -19,12 +19,11 @@ import { IComponentProvider } from "../providers/interfaces/component.provider.i
  */
 @injectable()
 export class ComponentService implements IComponentService {
-	constructor(
-		@inject(TYPES_SERVICE.IFileSystemService)
-		private readonly fileSystemService: IFileSystemService,
-		@inject(TYPES_PROVIDER.IComponentProvider)
-		private readonly provider: IComponentProvider
-	) {}
+	@inject(TYPES_SERVICE.IFileSystemService)
+	private readonly fileSystemService: IFileSystemService;
+
+	@inject(TYPES_PROVIDER.IComponentProvider)
+	private readonly provider: IComponentProvider;
 
 	/** @inheritdoc */
 	public generate(name: string, options: GenerateOptions): void {

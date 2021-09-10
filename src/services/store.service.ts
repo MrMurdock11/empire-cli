@@ -17,12 +17,11 @@ import { IFileSystemService } from "./interfaces/file-system-service.interface";
  */
 @injectable()
 export class StoreService implements IStoreService {
-	constructor(
-		@inject(TYPES_PROVIDER.IStoreProvider)
-		private readonly provider: IStoreProvider,
-		@inject(TYPES_SERVICE.IFileSystemService)
-		private readonly fileSystemService: IFileSystemService
-	) {}
+	@inject(TYPES_PROVIDER.IStoreProvider)
+	private readonly provider: IStoreProvider;
+
+	@inject(TYPES_SERVICE.IFileSystemService)
+	private readonly fileSystemService: IFileSystemService;
 
 	/** @inheritdoc */
 	public init(): void {

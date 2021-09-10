@@ -1,4 +1,5 @@
 import AdmZip from "adm-zip";
+import path from "path";
 import fs from "fs";
 import { injectable } from "inversify";
 import { map } from "lodash";
@@ -20,7 +21,10 @@ export class StoreProvider implements IStoreProvider {
 	 * @private
 	 * @memberof StoreProvider
 	 */
-	private readonly archivePath = `${__dirname}/../archive/templates.zip`;
+	private readonly archivePath = path.join(
+		__dirname,
+		"/archive/templates.zip"
+	);
 
 	/**
 	 * Архиватор.
@@ -46,15 +50,9 @@ export class StoreProvider implements IStoreProvider {
 			"store/reducer-test.txt",
 			"store/state.txt",
 		];
-		const [
-			keys,
-			actions,
-			actionTypes,
-			reducer,
-			reducerTest,
-			state,
-		] = map(paths, path =>
-			this.zipper.readAsText(this.zipper.getEntry(path))
+		const [keys, actions, actionTypes, reducer, reducerTest, state] = map(
+			paths,
+			path => this.zipper.readAsText(this.zipper.getEntry(path))
 		);
 
 		template.keys = keys;
