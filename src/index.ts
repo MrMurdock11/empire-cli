@@ -15,14 +15,6 @@ const bootstrap = () => {
 		.usage("<command> [options]")
 		.helpOption("-h, --help", "Output usage information.");
 
-	application.command("show-off").action(() => {
-		const sign = figlet.textSync("empire", { font: "ANSI Shadow" });
-
-		console.log(chalk.bold.blue(sign));
-		console.log(`${chalk.bold.green("Author")}:\t ${chalk.cyan(AUTHOR)}`);
-		console.log(`${chalk.bold.green("GitHub")}:\t ${chalk.cyan(HOMEPAGE)}`);
-	});
-
 	const option = new Option(
 		"-r, --redux <type>",
 		"Generate component for connect to redux store."
