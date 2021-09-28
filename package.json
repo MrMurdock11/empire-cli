@@ -7,16 +7,8 @@
     "empire": "./dist/index.js"
   },
   "scripts": {
-    "start": "npm run remove:win:dist && npm run copy:win:archive && npm run build",
-    "start:dev": "npm run remove:win:dist && npm run copy:win:archive && npm run build:dev",
-    "build": "tsc -p .",
-    "build:dev": "tsc -p . -w",
-    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
-    "remove:win:dist": "rmdir /q /s dist",
-    "remove:unix:dist": "rm -rf ./dist",
-    "copy:win:archive": "xcopy /e /i src\\archive dist\\archive",
-    "copy:unix:archive": "cp -r ./src/archive ./dist",
-    "prod": "webpack --mode development"
+    "start": "webpack --mode development --watch",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
