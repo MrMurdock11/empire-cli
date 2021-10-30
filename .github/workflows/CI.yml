@@ -9,7 +9,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        # node-version: [10.x, 12.x, 14.x]
+        node-version: [14.x]
 
     steps:
     - uses: actions/checkout@v1
@@ -18,7 +19,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install dependancies
-      run: npm run install
+      run: npm install
     - name: Build Empire
       run: npm run build
       env:
