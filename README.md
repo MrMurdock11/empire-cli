@@ -1,2 +1,1 @@
-# Empire CLI
- 
+# 👑 Empire

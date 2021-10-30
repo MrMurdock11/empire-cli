@@ -7,8 +7,6 @@ import { generateStore, initStore } from "./actions/store.actions";
 const bootstrap = () => {
 	const PACKAGE_JSON = require(`${__dirname}/../package.json`);
 	const VERSION = PACKAGE_JSON.version;
-	const AUTHOR = PACKAGE_JSON.author;
-	const HOMEPAGE = PACKAGE_JSON.homepage;
 
 	application
 		.version(VERSION, "-v, --version", "Output the current version.")
