@@ -2,6 +2,8 @@ name: Empire Regular Build
 
 on:
   push:
+    branches:
+      - develop
 
 jobs:
   build:
