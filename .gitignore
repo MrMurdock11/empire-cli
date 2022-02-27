@@ -1,0 +1,9 @@
+#folders
+dist/
+public/
+lib/
+node_modules/
+coverage/
+
+#files
+package-lock.json
