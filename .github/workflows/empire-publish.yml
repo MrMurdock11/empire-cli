@@ -1,7 +1,7 @@
 name: Empire Publish
 
 on:
-  pull_request:
+  push:
     branches:
       - master
 
@@ -25,6 +25,7 @@ jobs:
       - name: Building application
         run: npm run build
       - name: Publishing package
+        working-directory: ./dist
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
