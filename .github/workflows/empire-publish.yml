@@ -19,7 +19,7 @@ jobs:
       - run: npm install
       - name: Building application
       - run: npm run build
-      # - name: Publishing package
-      # - run: npm publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Publishing package
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
