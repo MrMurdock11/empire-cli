@@ -73,7 +73,7 @@ export class ComponentBuilder implements IComponentBuilder {
 	}
 
 	/** @inheritdoc */
-	public buildPresentaion(useCssModule: boolean): void {
+	public buildPresentation(useCssModule: boolean): void {
 		const { name } = this.component;
 		const compiled = template(this.template.presentation);
 

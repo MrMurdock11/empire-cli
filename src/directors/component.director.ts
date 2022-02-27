@@ -47,7 +47,7 @@ export class ComponentDirector {
 	public make(reduxType: ReduxType, useCssModule: boolean) {
 		this.builder.buildBridge(reduxType);
 		this.builder.buildContainer();
-		this.builder.buildPresentaion(useCssModule);
+		this.builder.buildPresentation(useCssModule);
 		this.builder.buildStyles(useCssModule);
 	}
 }

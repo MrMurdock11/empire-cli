@@ -30,7 +30,7 @@ export interface IComponentBuilder {
 	 * @param {boolean} useCssModule Значение, показывающее, что нужно использовать css-module при построении компонента.
 	 * @memberof IComponentBuilder
 	 */
-	buildPresentaion(useCssModule: boolean): void;
+	buildPresentation(useCssModule: boolean): void;
 
 	/**
 	 * Собирает слой стилей.
