@@ -5,6 +5,7 @@
 	"bin": {
 		"empire": "./index.js"
 	},
+	"private": false,
 	"scripts": {
 		"start": "webpack --mode development --watch",
 		"prebuild": "rimraf dist",
