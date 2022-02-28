@@ -4,7 +4,7 @@ import { generateComponent } from "./actions/component.actions";
 import { generateStore, initStore } from "./actions/store.actions";
 
 const bootstrap = () => {
-	const { version } = require(path.join(process.cwd(), "package.json"));
+	const { version } = require(path.join(__dirname, "package.json"));
 
 	application
 		.version(version, "-v, --version", "Output the current version.")
