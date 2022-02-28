@@ -21,7 +21,7 @@ export class ComponentProvider implements IComponentProvider {
 	 * @private
 	 * @memberof ComponentProvider
 	 */
-	private readonly archivePath = `${__dirname}/../archive/templates.zip`;
+	private readonly archivePath = `${__dirname}/archive/templates.zip`;
 
 	/**
 	 * Архиватор.
@@ -45,7 +45,7 @@ export class ComponentProvider implements IComponentProvider {
 			"component/view.txt",
 			"component/style.txt",
 		];
-		const [bridge, container, presentation, styles] = map(paths, path =>
+		const [bridge, container, presentation, styles] = map(paths, (path) =>
 			this.zipper.readAsText(this.zipper.getEntry(path))
 		);
 

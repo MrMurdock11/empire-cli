@@ -1,15 +1,13 @@
-import chalk from "chalk";
-import figlet from "figlet";
 import application, { Option } from "commander";
+import path from "path";
 import { generateComponent } from "./actions/component.actions";
 import { generateStore, initStore } from "./actions/store.actions";
 
 const bootstrap = () => {
-	const PACKAGE_JSON = require(`${__dirname}/../package.json`);
-	const VERSION = PACKAGE_JSON.version;
+	const { version } = require(path.join(process.cwd(), "package.json"));
 
 	application
-		.version(VERSION, "-v, --version", "Output the current version.")
+		.version(version, "-v, --version", "Output the current version.")
 		.usage("<command> [options]")
 		.helpOption("-h, --help", "Output usage information.");
 

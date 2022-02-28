@@ -52,7 +52,7 @@ export class StoreProvider implements IStoreProvider {
 		];
 		const [keys, actions, actionTypes, reducer, reducerTest, state] = map(
 			paths,
-			path => this.zipper.readAsText(this.zipper.getEntry(path))
+			(path) => this.zipper.readAsText(this.zipper.getEntry(path))
 		);
 
 		template.keys = keys;
