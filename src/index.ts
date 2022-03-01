@@ -1,26 +1,24 @@
 import application, { Option } from "commander";
 import path from "path";
+import fs from "fs";
 import { generateComponent } from "./actions/component.actions";
 import { generateStore, initStore } from "./actions/store.actions";
 
 const bootstrap = () => {
-	const { version } = require(path.join(__dirname, "package.json"));
+	const packageJsonContent = fs
+		.readFileSync(path.join(__dirname, "package.json"))
+		.toString();
+	const { version } = JSON.parse(packageJsonContent);
 
 	application
 		.version(version, "-v, --version", "Output the current version.")
 		.usage("<command> [options]")
 		.helpOption("-h, --help", "Output usage information.");
 
-	const option = new Option(
-		"-r, --redux <type>",
-		"Generate component for connect to redux store."
-	);
-
 	application
 		.command("component <name>")
 		.alias("c")
 		.option("-C, --no-css-module", "Generate component without css-module.")
-		.addOption(option.choices(["state", "dispatch", "both"]))
 		.action(generateComponent);
 
 	application.command("store <name>").alias("s").action(generateStore);
