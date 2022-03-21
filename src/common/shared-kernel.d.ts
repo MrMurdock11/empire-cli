@@ -1,0 +1,1 @@
+type TSchematic = "component" | "store";

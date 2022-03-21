@@ -4,7 +4,6 @@
 		"module": "CommonJS",
 		"declaration": true,
 		"declarationMap": true,
-		// "emitDeclarationOnly": true,
 		"outDir": "./dist",
 		"rootDir": "./src",
 		"moduleResolution": "node",
@@ -14,12 +13,29 @@
 		"types": [
 			"reflect-metadata",
 			"node"
-		]
+		],
+		"baseUrl": "./src",
+		"paths": {
+			"@commands/*": [
+				"commands/*"
+			],
+			"@actions/*": [
+				"actions/*"
+			],
+			"@di/*": [
+				"di/*"
+			]
+		}
 	},
 	"include": [
 		"src/**/*"
 	],
 	"exclude": [
 		"node_modules"
-	]
+	],
+	"ts-node": {
+		"require": [
+			"tsconfig-paths/register"
+		]
+	}
 }

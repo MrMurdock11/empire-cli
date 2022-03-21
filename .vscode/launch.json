@@ -2,27 +2,28 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "node",
-			"name": "Empire-Tests",
-			"request": "launch",
-			"program": "${workspaceFolder}/node_modules/jest/bin/jest",
-			"args": ["--runInBand"],
-			"cwd": "${workspaceFolder}",
-			"console": "integratedTerminal",
-			"internalConsoleOptions": "neverOpen",
-			"disableOptimisticBPs": true
-		},
-		{
-			"name": "Debug App-CLI",
+			"name": "debug cli",
 			"type": "node",
 			"request": "launch",
-			// "args": ["c", "foo", "-r"],
-			"args": ["s", "foo"],
-			"runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
-			"program": "${workspaceRoot}/src/index.ts",
-			"sourceMaps": true,
+			"runtimeExecutable": "node",
+			"runtimeArgs": [
+				"--nolazy",
+				"-r",
+				"ts-node/register/transpile-only"
+			],
+			"args": [
+				"src/index.ts",
+				"generate",
+				"component",
+				"react.component"
+			],
+			"localRoot": "${workspaceRoot}",
 			"cwd": "${workspaceRoot}",
-			"protocol": "inspector",
+			"internalConsoleOptions": "openOnSessionStart",
+			"skipFiles": [
+				"<node_internals>/**",
+				"node_modules/**"
+			]
 		}
 	]
 }

@@ -1,0 +1,11 @@
+import styles from "./{{name}}.style.css";
+
+import React from "react";
+
+export type {{name}}Props = {
+	// add your property
+}
+
+export const {{name}}: React.FC<{{name}}Props> = (props) => {
+	return <div className={styles.container}>{"{{name}}"}</div>;
+};

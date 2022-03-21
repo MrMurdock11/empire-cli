@@ -1,35 +1,30 @@
-import application, { Option } from "commander";
+import app from "commander";
 import path from "path";
 import fs from "fs";
-import { generateComponent } from "./actions/component.actions";
 import { generateStore, initStore } from "./actions/store.actions";
+import { CommandLoader } from "@commands/command-loader";
 
 const bootstrap = () => {
 	const packageJsonContent = fs
-		.readFileSync(path.join(__dirname, "package.json"))
+		.readFileSync(path.join(__dirname, "../package.json"))
 		.toString();
 	const { version } = JSON.parse(packageJsonContent);
 
-	application
-		.version(version, "-v, --version", "Output the current version.")
-		.usage("<command> [options]")
-		.helpOption("-h, --help", "Output usage information.");
+	// app.version(version, "-v, --version", "Output the current version.")
+	// 	.usage("<command> [options]")
+	// 	.helpOption("-h, --help", "Output usage information.");
 
-	application
-		.command("component <name>")
-		.alias("c")
-		.option("-C, --no-css-module", "Generate component without css-module.")
-		.action(generateComponent);
+	// app.command("store <name>").alias("s").action(generateStore);
 
-	application.command("store <name>").alias("s").action(generateStore);
+	// app.command("new store").alias("ns").action(initStore);
 
-	application.command("new store").alias("ns").action(initStore);
+	CommandLoader.load(app);
 
 	if (!process.argv.slice(2).length) {
-		application.outputHelp();
+		app.outputHelp();
 	}
 
-	application.parse(process.argv);
+	app.parse(process.argv);
 };
 
 bootstrap();

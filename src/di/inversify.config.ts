@@ -11,8 +11,20 @@ import { IComponentProvider } from "../providers/interfaces/component.provider.i
 import { ComponentProvider } from "../providers/component.provider";
 import { IStoreProvider } from "../providers/interfaces/store.provider.interface";
 import { StoreProvider } from "../providers/store.provider";
+import { CommandToken } from "./types/command.token";
+import { ICommand } from "@commands/command.interface";
+import { GenerateCommand } from "@commands/generate.command";
+import { IAction } from "@actions/action.interface";
+import { GenerateActionToken } from "./types/actions.token";
+import { GenerateAction } from "@actions/generate.action";
 
 const DIContainer = new Container();
+
+// Commands
+DIContainer.bind<ICommand>(CommandToken).to(GenerateCommand);
+
+// Actions
+DIContainer.bind<IAction>(GenerateActionToken).to(GenerateAction);
 
 // Services
 DIContainer.bind<IComponentService>(SERVICE_TYPES.IComponentService).to(

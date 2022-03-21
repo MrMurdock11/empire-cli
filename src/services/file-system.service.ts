@@ -133,7 +133,7 @@ export class FileSystemService implements IFileSystemService {
 	private preparePathForComponent(): string {
 		const isComponentFolder = fs
 			.readdirSync(this.directory)
-			.some(it => /\.(j|t)sx$/gm.test(it));
+			.some((it) => /\.(j|t)sx$/gm.test(it));
 
 		if (!isComponentFolder) {
 			return `${this.directory}`;
