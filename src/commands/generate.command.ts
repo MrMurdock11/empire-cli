@@ -1,10 +1,12 @@
 import { CommanderStatic } from "commander";
 import { ICommand } from "./command.interface";
-import { injectable } from "inversify";
-import { GenerateService } from "services/generate.service";
+import { inject, injectable } from "inversify";
+import { GenerateService } from "@services/generate.service";
+import { GenerateServiceToken } from "@di/types/service.token";
 
 @injectable()
 export class GenerateCommand implements ICommand {
+	@inject(GenerateServiceToken)
 	private readonly _generateService: GenerateService;
 
 	register(app: CommanderStatic): void {
@@ -16,7 +18,7 @@ export class GenerateCommand implements ICommand {
 			.action(this.actionPreset.bind(this));
 	}
 
-	private actionPreset(name: string, path?: string): void {
+	private actionPreset(schematic: string, name: string, path?: string): void {
 		this._generateService.generateComponent({
 			schematic: "component",
 			name,

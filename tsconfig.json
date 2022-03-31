@@ -12,7 +12,8 @@
 		"esModuleInterop": true,
 		"types": [
 			"reflect-metadata",
-			"node"
+			"node",
+			"jest"
 		],
 		"baseUrl": "./src",
 		"paths": {
@@ -24,7 +25,10 @@
 			],
 			"@di/*": [
 				"di/*"
-			]
+			],
+			"@services/*": [
+				"services/*"
+			],
 		}
 	},
 	"include": [

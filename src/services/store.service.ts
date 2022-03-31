@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { injectable, inject } from "inversify";
 import { IStoreService } from "./interfaces/store-service.interface";
 import { TYPES as TYPES_PROVIDER } from "../di/types/provider.types";

@@ -9,7 +9,8 @@
 		"start": "webpack --mode development --watch",
 		"prebuild": "rimraf dist",
 		"build": "webpack --mode production",
-		"postbuild": "cpx package.json dist"
+		"postbuild": "cpx package.json dist",
+		"test": "jest --coverage"
 	},
 	"repository": {
 		"type": "git",
@@ -23,10 +24,12 @@
 	"homepage": "https://github.com/MrMurdock11/empire-cli#readme",
 	"dependencies": {
 		"adm-zip": "0.5.5",
+		"app-root-path": "3.0.0",
 		"chalk": "4.1.2",
 		"clear": "^0.1.0",
 		"commander": "^7.1.0",
 		"figlet": "^1.3.0",
+		"fs-extra": "10.0.1",
 		"handlebars": "4.7.7",
 		"inquirer": "^7.1.0",
 		"inversify": "^5.0.5",
@@ -41,8 +44,10 @@
 		"@babel/preset-env": "7.15.6",
 		"@babel/preset-typescript": "7.15.0",
 		"@types/adm-zip": "^0.4.33",
+		"@types/app-root-path": "1.2.4",
 		"@types/clear": "^0.1.0",
 		"@types/figlet": "^1.2.0",
+		"@types/fs-extra": "9.0.13",
 		"@types/inquirer": "^6.5.0",
 		"@types/jest": "^26.0.20",
 		"@types/lodash": "^4.14.165",
@@ -51,7 +56,7 @@
 		"copy-webpack-plugin": "9.0.1",
 		"cpx": "1.5.0",
 		"rimraf": "3.0.2",
-		"ts-jest": "^26.5.1",
+		"ts-jest": "26.5.6",
 		"ts-loader": "9.2.5",
 		"ts-node": "^9.0.0",
 		"tsconfig-paths": "3.14.0",

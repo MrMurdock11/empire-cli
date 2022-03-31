@@ -1,14 +1,13 @@
 import DIContainer from "@di/inversify.config";
 import { CommandToken } from "@di/types/command.token";
 import { CommanderStatic } from "commander";
-import { injectable, multiInject } from "inversify";
 import { forEach } from "lodash";
-import { ICommand } from "./command.interface";
+import { ICommand } from "./commands/command.interface";
 
-export class CommandLoader {
+export class ApplicationLoader {
 	static load(app: CommanderStatic): void {
 		const commands = DIContainer.getAll<ICommand>(CommandToken);
 
-		forEach(commands, (command) => command.register(app));
+		forEach(commands, command => command.register(app));
 	}
 }

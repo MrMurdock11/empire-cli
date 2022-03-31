@@ -1,46 +1,54 @@
 import { Container } from "inversify";
-import { ComponentService } from "../services/component.service";
 import { FileSystemService } from "../services/file-system.service";
 import { StoreService } from "../services/store.service";
-import { IComponentService } from "../services/interfaces/component-service.interface";
 import { IStoreService } from "../services/interfaces/store-service.interface";
 import { IFileSystemService } from "../services/interfaces/file-system-service.interface";
 import { TYPES as SERVICE_TYPES } from "./types/service.types";
 import { TYPES as PROVIDER_TYPES } from "./types/provider.types";
-import { IComponentProvider } from "../providers/interfaces/component.provider.interface";
-import { ComponentProvider } from "../providers/component.provider";
 import { IStoreProvider } from "../providers/interfaces/store.provider.interface";
 import { StoreProvider } from "../providers/store.provider";
-import { CommandToken } from "./types/command.token";
+import { CommandToken, GenerateCommandName } from "./types/command.token";
 import { ICommand } from "@commands/command.interface";
 import { GenerateCommand } from "@commands/generate.command";
-import { IAction } from "@actions/action.interface";
-import { GenerateActionToken } from "./types/actions.token";
-import { GenerateAction } from "@actions/generate.action";
+import { GenerateServiceToken } from "./types/service.token";
+import { GenerateService } from "@services/generate.service";
+import {
+	ITemplateProvider,
+	TemplateProvider,
+} from "../providers/template.provider";
+import { ITemplateProviderToken } from "./types/provider.token";
+import { ITemplateEngine } from "../template-engine/template-engine.interface";
+import { ITemplateEngineToken } from "./types/general.token";
+import { TemplateEngine } from "../template-engine/template-engine";
+import { IComponentWriterToken } from "./types/writer.token";
+import { ComponentWriter } from "../writers/component.writer";
 
 const DIContainer = new Container();
 
 // Commands
-DIContainer.bind<ICommand>(CommandToken).to(GenerateCommand);
-
-// Actions
-DIContainer.bind<IAction>(GenerateActionToken).to(GenerateAction);
+DIContainer.bind<ICommand>(CommandToken)
+	.to(GenerateCommand)
+	.whenTargetNamed(GenerateCommandName);
 
 // Services
-DIContainer.bind<IComponentService>(SERVICE_TYPES.IComponentService).to(
-	ComponentService
-);
 DIContainer.bind<IStoreService>(SERVICE_TYPES.IStoreService).to(StoreService);
 DIContainer.bind<IFileSystemService>(
 	SERVICE_TYPES.IFileSystemService
 ).toConstantValue(new FileSystemService(process.cwd()));
+DIContainer.bind(GenerateServiceToken).to(GenerateService);
 
 // Providers
-DIContainer.bind<IComponentProvider>(PROVIDER_TYPES.IComponentProvider).to(
-	ComponentProvider
-);
 DIContainer.bind<IStoreProvider>(PROVIDER_TYPES.IStoreProvider).to(
 	StoreProvider
 );
+DIContainer.bind<ITemplateProvider>(ITemplateProviderToken).to(
+	TemplateProvider
+);
+
+// Writers
+DIContainer.bind(IComponentWriterToken).to(ComponentWriter);
+
+// General
+DIContainer.bind<ITemplateEngine>(ITemplateEngineToken).to(TemplateEngine);
 
 export default DIContainer;

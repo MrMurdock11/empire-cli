@@ -1,13 +1,19 @@
 import path from "path";
 import fs from "fs";
 import { ComponentTemplate } from "../template-engine/models/component.template";
+import { injectable } from "inversify";
+import appRoot from "app-root-path";
 
-export type ITemplateProvider {
-	getComponentTemplate(): ComponentTemplate
+export interface ITemplateProvider {
+	getComponentTemplate(): ComponentTemplate;
 }
 
+@injectable()
 export class TemplateProvider implements ITemplateProvider {
-	private readonly _resourcePath: string = path.join(__dirname, "resource");
+	private readonly _resourcePath: string = path.join(
+		appRoot.path,
+		"resources"
+	);
 
 	getComponentTemplate(): ComponentTemplate {
 		const componentPath = path.join(this._resourcePath, "component");

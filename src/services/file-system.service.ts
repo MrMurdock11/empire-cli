@@ -1,6 +1,6 @@
+import { Component } from "../domains/component";
 import fs from "fs";
 import { injectable } from "inversify";
-import { Component } from "../models/сomponent.model";
 import { Store } from "../models/store.model";
 import { FileSystemError } from "../shared/errors/file-system.error";
 import { IFileSystemService } from "./interfaces/file-system-service.interface";
@@ -16,30 +16,6 @@ export class FileSystemService implements IFileSystemService {
 	constructor(private directory: string) {}
 
 	/** @inheritdoc */
-	public writeComponent(component: Component): void {
-		const { name, bridge, container, presentation, styles } = component;
-		const preparedPath = this.preparePathForComponent();
-		const path = `${preparedPath}/${component.name}`;
-
-		if (fs.existsSync(path)) {
-			throw new FileSystemError("Создаваемый компонент уже существует.");
-		}
-
-		const componentItems = new Map([
-			[`${path}/index.ts`, bridge],
-			[`${path}/${name}.tsx`, container],
-			[`${path}/${name}.view.tsx`, presentation],
-			[`${path}/${name}.style.css`, styles],
-		]);
-
-		fs.mkdirSync(path);
-
-		componentItems.forEach((content, path) =>
-			fs.writeFileSync(path, content)
-		);
-	}
-
-	/** @inheritdoc */
 	public writeStore(store: Store): void {
 		const {
 			name,
@@ -53,7 +29,7 @@ export class FileSystemService implements IFileSystemService {
 		const path = `${this.directory}/${name}`;
 
 		if (fs.existsSync(path)) {
-			throw new FileSystemError("Создавамое хранилище уже существует.");
+			throw new FileSystemError("Создаваемое хранилище уже существует.");
 		}
 
 		const storeItems = new Map([
@@ -121,28 +97,5 @@ export class FileSystemService implements IFileSystemService {
 			root.slice(appendIndex);
 
 		fs.writeFileSync(`${this.directory}/index.ts`, root);
-	}
-
-	/**
-	 * Формирует новый путь для сохранения компонента.
-	 *
-	 * @private
-	 * @return {string} Обновленный путь для сохранения компонента.
-	 * @memberof FileSystemService
-	 */
-	private preparePathForComponent(): string {
-		const isComponentFolder = fs
-			.readdirSync(this.directory)
-			.some((it) => /\.(j|t)sx$/gm.test(it));
-
-		if (!isComponentFolder) {
-			return `${this.directory}`;
-		}
-
-		if (!fs.existsSync("childs")) {
-			fs.mkdirSync("childs");
-		}
-
-		return `${this.directory}/childs`;
 	}
 }

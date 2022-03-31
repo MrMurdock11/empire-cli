@@ -1,15 +1,7 @@
+import { Component } from "../../domains/component";
 import { Store } from "../../models/store.model";
-import { Component } from "../../models/сomponent.model";
 
 export interface IFileSystemService {
-	/**
-	 * Сохраняет структуру компонента в указанную директорию.
-	 *
-	 * @param {Component} component Компонент.
-	 * @memberof IFileSystemService
-	 */
-	writeComponent(component: Component): void;
-
 	/**
 	 * Сохраняет структуру хранилища в указанную директорию.
 	 *
