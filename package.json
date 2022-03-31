@@ -10,7 +10,8 @@
 		"prebuild": "rimraf dist",
 		"build": "webpack --mode production",
 		"postbuild": "cpx package.json dist",
-		"test": "jest --coverage"
+		"test": "jest",
+		"test:dev": "jest --coverage"
 	},
 	"repository": {
 		"type": "git",
