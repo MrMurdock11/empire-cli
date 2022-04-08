@@ -13,7 +13,7 @@ export class GenerateCommand implements ICommand {
 		app.command("generate <schematic> <name> [path]")
 			.alias("g")
 			.description(
-				"Generates a React component based on 👑 Empire rules."
+				"Generates and/or modifies files based on a schematic."
 			)
 			.action(this.actionPreset.bind(this));
 	}

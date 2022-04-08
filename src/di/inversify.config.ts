@@ -7,10 +7,17 @@ import { TYPES as SERVICE_TYPES } from "./types/service.types";
 import { TYPES as PROVIDER_TYPES } from "./types/provider.types";
 import { IStoreProvider } from "../providers/interfaces/store.provider.interface";
 import { StoreProvider } from "../providers/store.provider";
-import { CommandToken, GenerateCommandName } from "./types/command.token";
+import {
+	CommandToken,
+	GenerateCommandName,
+	InitCommandName,
+} from "./types/command.token";
 import { ICommand } from "@commands/command.interface";
 import { GenerateCommand } from "@commands/generate.command";
-import { GenerateServiceToken } from "./types/service.token";
+import {
+	GenerateServiceToken,
+	InitializeServiceToken,
+} from "./types/service.token";
 import { GenerateService } from "@services/generate.service";
 import {
 	ITemplateProvider,
@@ -22,6 +29,8 @@ import { ITemplateEngineToken } from "./types/general.token";
 import { TemplateEngine } from "../template-engine/template-engine";
 import { IComponentWriterToken } from "./types/writer.token";
 import { ComponentWriter } from "../writers/component.writer";
+import { InitCommand } from "@commands/init.command";
+import { InitializeService } from "@services/initialize.service";
 
 const DIContainer = new Container();
 
@@ -29,6 +38,9 @@ const DIContainer = new Container();
 DIContainer.bind<ICommand>(CommandToken)
 	.to(GenerateCommand)
 	.whenTargetNamed(GenerateCommandName);
+DIContainer.bind<ICommand>(CommandToken)
+	.to(InitCommand)
+	.whenTargetNamed(InitCommandName);
 
 // Services
 DIContainer.bind<IStoreService>(SERVICE_TYPES.IStoreService).to(StoreService);
@@ -36,6 +48,7 @@ DIContainer.bind<IFileSystemService>(
 	SERVICE_TYPES.IFileSystemService
 ).toConstantValue(new FileSystemService(process.cwd()));
 DIContainer.bind(GenerateServiceToken).to(GenerateService);
+DIContainer.bind(InitializeServiceToken).to(InitializeService);
 
 // Providers
 DIContainer.bind<IStoreProvider>(PROVIDER_TYPES.IStoreProvider).to(
