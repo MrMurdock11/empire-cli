@@ -1,5 +1,7 @@
+import { COMPONENT } from "../configuration/defaults";
+
 export class Component {
-	public styles = ".container {\n\tdisplay: flex;\n}\n";
+	public styles = COMPONENT.STYLES;
 
 	constructor(
 		public name: string,

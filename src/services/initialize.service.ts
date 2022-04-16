@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import findRoot from "find-root";
 import fse from "fs-extra";
 import { join } from "path";
-import { path } from "app-root-path";
+import { STORE } from "../configuration/defaults";
 
 @injectable()
 export class InitializeService {
@@ -18,15 +18,9 @@ export class InitializeService {
 
 			fse.mkdir(destinationStorePath);
 
-			const rootStoreContent = `import { combineReducers } from "redux";
-
-export const rootReducer = combineReducers({});
-
-export type AppState = ReturnType<typeof rootReducer>;`;
-
 			fse.writeFileSync(
 				`${destinationStorePath}/index.ts`,
-				rootStoreContent
+				STORE.ROOT_REDUCER
 			);
 		} catch (error) {
 			console.error(error.message);

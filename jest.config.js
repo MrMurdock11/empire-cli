@@ -1,6 +1,6 @@
 module.exports = {
 	preset: "ts-jest",
-	testMatch: ["**/__tests__/**/*.test.ts"],
+	testMatch: ["**/__tests__/**/*.spec.ts"],
 	moduleFileExtensions: ["ts", "js"],
 	collectCoverage: true,
 	clearMocks: true,
