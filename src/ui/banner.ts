@@ -1,4 +1,4 @@
-import { green, magenta } from "chalk";
+import { magenta } from "chalk";
 import { random } from "lodash";
 
 const BANNER_3D = `

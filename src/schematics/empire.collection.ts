@@ -1,7 +1,7 @@
 import { find, includes } from "lodash";
 
 export type TSchematic = {
-	name: string;
+	name: TSchematicName;
 	alias: string;
 	description: string;
 };

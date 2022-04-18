@@ -12,8 +12,7 @@
 		"esModuleInterop": true,
 		"types": [
 			"reflect-metadata",
-			"node",
-			"jest"
+			"node"
 		],
 		"baseUrl": "./src",
 		"paths": {

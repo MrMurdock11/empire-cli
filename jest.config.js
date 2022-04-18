@@ -12,5 +12,9 @@ module.exports = {
 	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
 		prefix: "<rootDir>/src/",
 	}),
-	transformIgnorePatterns: ["<rootDir>/node_modules/(?!pkg-dir/.*)"],
+	globals: {
+		"ts-jest": {
+			tsconfig: "./tsconfig.spec.json",
+		},
+	},
 };

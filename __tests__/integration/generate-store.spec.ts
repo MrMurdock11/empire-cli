@@ -1,3 +1,5 @@
+import appRoot from "app-root-path";
+import { CommanderStatic } from "commander";
 import {
 	emptyDirSync,
 	existsSync,
@@ -6,15 +8,36 @@ import {
 	removeSync,
 	writeFileSync,
 } from "fs-extra";
-import appRoot from "app-root-path";
 import { join, normalize } from "path";
+
+import { ICommand } from "../../src/commands/command.interface";
 import { STORE } from "../../src/configuration/defaults";
 import DIContainer from "../../src/di/inversify.config";
-import { GenerateServiceToken } from "../../src/di/types/service.token";
-import { GenerateService } from "../../src/services/generate.service";
+import { GenerateCommandName, ICommandToken } from "../../src/di/tokens";
 
 describe("GenerateStore", () => {
 	const playgroundPath = `${appRoot.path}/playground`;
+	const getAppMock = jest.fn(
+		(schematic: string, name: string, path?: string) => {
+			return {
+				command: jest.fn(() => {
+					return {
+						alias: jest.fn(() => {
+							return {
+								description: jest.fn(() => {
+									return {
+										action: jest.fn(cb =>
+											cb(schematic, name, path)
+										),
+									};
+								}),
+							};
+						}),
+					};
+				}),
+			} as unknown as CommanderStatic;
+		}
+	);
 
 	beforeAll(() => {
 		jest.spyOn(process, "cwd").mockImplementation(() =>
@@ -38,10 +61,12 @@ describe("GenerateStore", () => {
 		mkdirSync(storePath);
 		writeFileSync(storeRootReducer, STORE.ROOT_REDUCER);
 
-		const generateService =
-			DIContainer.get<GenerateService>(GenerateServiceToken);
+		const command = DIContainer.getNamed<ICommand>(
+			ICommandToken,
+			GenerateCommandName
+		);
 
-		generateService.store({ schematic: "store", name: "users" });
+		command.register(getAppMock("store", "users"));
 
 		const storeRootReducerContent =
 			readFileSync(storeRootReducer).toString();

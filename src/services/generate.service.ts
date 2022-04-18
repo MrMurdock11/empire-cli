@@ -1,10 +1,9 @@
-import { TGenerateOptions } from "@actions/types/generate-options";
-import { ITemplateEngineToken } from "@di/types/general.token";
-import { ITemplateProviderToken } from "@di/types/provider.token";
+import { ITemplateEngineToken } from "@di/tokens/general.token";
+import { ITemplateProviderToken } from "@di/tokens/providers.token";
 import {
 	IComponentWriterToken,
 	IStoreWriterToken,
-} from "@di/types/writer.token";
+} from "@di/tokens/writers.token";
 import { inject, injectable } from "inversify";
 import { camelCase, upperFirst } from "lodash";
 import { ComponentWriter } from "../writers/component.writer";
@@ -15,7 +14,7 @@ import findRoot from "find-root";
 import fse from "fs-extra";
 import { StoreWriter } from "../writers/store.writer";
 import { ModifyService } from "./modify.service";
-import { ModifyServiceToken } from "@di/types/service.token";
+import { ModifyServiceToken } from "@di/tokens/services.token";
 
 @injectable()
 export class GenerateService {
@@ -34,23 +33,23 @@ export class GenerateService {
 	@inject(ITemplateEngineToken)
 	private readonly _templateEngine: ITemplateEngine;
 
-	component(options?: TGenerateOptions): void {
+	component(name: string, path?: string): void {
 		const template = this._templateProvider.getComponent();
-		const name = upperFirst(camelCase(options.name));
-		const path = normalize(options.path ?? process.cwd());
+		const pascalCaseName = upperFirst(camelCase(name));
+		const currentPath = normalize(path ?? process.cwd());
 
 		const component = this._templateEngine.createComponent(
 			template,
-			name,
-			path
+			pascalCaseName,
+			currentPath
 		);
 		this._componentWriter.write(component);
 	}
 
-	public store(options?: TGenerateOptions): void {
+	public store(name: string): void {
 		const template = this._templateProvider.getStore();
-		const pascalCaseName = upperFirst(camelCase(options.name));
-		const camelCaseName = camelCase(options.name);
+		const pascalCaseName = upperFirst(camelCase(name));
+		const camelCaseName = camelCase(name);
 
 		const projectRootPath = findRoot(process.cwd());
 
@@ -69,7 +68,7 @@ export class GenerateService {
 		this._storeWriter.writer(store);
 		this._modifyService.addStoreReducerToRootReducer(
 			projectRootPath,
-			camelCase(options.name)
+			camelCase(name)
 		);
 	}
 }

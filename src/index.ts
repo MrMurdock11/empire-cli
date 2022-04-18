@@ -1,12 +1,13 @@
-import "reflect-metadata";
+import boxen from "boxen";
+import { green } from "chalk";
 import app from "commander";
-import { join } from "path";
 import { readFileSync } from "fs";
-import { ApplicationLoader } from "./application.loader";
+import { join } from "path";
+import "reflect-metadata";
 import { getBanner } from "ui/banner";
 import { EMOJIS } from "ui/emojis";
-import { green } from "chalk";
-import boxen from "boxen";
+
+import { ApplicationLoader } from "./application.loader";
 
 const bootstrap = () => {
 	const packageJsonContent = readFileSync(

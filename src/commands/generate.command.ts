@@ -1,14 +1,16 @@
 import { CommanderStatic } from "commander";
 import { ICommand } from "./command.interface";
-import { inject, injectable } from "inversify";
-import { GenerateService } from "@services/generate.service";
-import { GenerateServiceToken } from "@di/types/service.token";
-import { EmpireCollection } from "../schematics/empire.collection";
+import { inject, injectable} from "inversify";
+import { IAction } from "@actions/action.interface";
 
 @injectable()
 export class GenerateCommand implements ICommand {
-	@inject(GenerateServiceToken)
-	private readonly _generateService: GenerateService;
+	private readonly _command = "generate";
+
+	constructor(
+		@inject("Factory<IAction>")
+		private readonly _factory: (actionName) => IAction
+	) {}
 
 	register(app: CommanderStatic): void {
 		app.command("generate <schematic> <name> [path]")
@@ -19,26 +21,15 @@ export class GenerateCommand implements ICommand {
 			.action(this.actionPreset.bind(this));
 	}
 
-	private actionPreset(schematic: string, name: string, path?: string): void {
-		const key = EmpireCollection.find(schematic);
-		switch (key) {
-			case "component": {
-				this._generateService.component({
-					schematic: key,
-					name,
-					path,
-				});
+	private actionPreset(schematic: TSchematicName, name: string, path?: string): void {
+		const inputs: TInputCollection = [];
 
-				break;
-			}
-			case "store":
-				this._generateService.store({
-					schematic: key,
-					name,
-				});
-				break;
-			default:
-				throw new Error("Indicated a unsupported schematic.");
-		}
+		inputs.push(
+			{ name: "name", value: name },
+			{ name: "path", value: path }
+		);
+
+		const action = this._factory(`${this._command}:${schematic}`);
+		action.execute(inputs);
 	}
 }

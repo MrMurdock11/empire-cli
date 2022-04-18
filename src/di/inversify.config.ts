@@ -1,39 +1,65 @@
-import { Container } from "inversify";
-import {
-	CommandToken,
-	GenerateCommandName,
-	InitCommandName,
-} from "./types/command.token";
+import { Container, interfaces } from "inversify";
+
+import { GenerateService } from "@services/generate.service";
+import { InitializeService } from "@services/initialize.service";
+import { ModifyService } from "@services/modify.service";
+
 import { ICommand } from "@commands/command.interface";
 import { GenerateCommand } from "@commands/generate.command";
-import {
-	GenerateServiceToken,
-	InitializeServiceToken,
-	ModifyServiceToken,
-} from "./types/service.token";
-import { GenerateService } from "@services/generate.service";
+import { InitCommand } from "@commands/init.command";
+
+import { IAction } from "@actions/action.interface";
+import { GenerateComponentAction } from "@actions/generate-component.action";
+import { GenerateStoreAction } from "@actions/generate-store.action";
+
 import {
 	ITemplateProvider,
 	TemplateProvider,
 } from "../providers/template.provider";
-import { ITemplateProviderToken } from "./types/provider.token";
-import { ITemplateEngine } from "../template-engine/template-engine.interface";
-import { ITemplateEngineToken } from "./types/general.token";
 import { TemplateEngine } from "../template-engine/template-engine";
-import { IComponentWriterToken, IStoreWriterToken } from "./types/writer.token";
+import { ITemplateEngine } from "../template-engine/template-engine.interface";
 import { ComponentWriter } from "../writers/component.writer";
 import { StoreWriter } from "../writers/store.writer";
-import { InitCommand } from "@commands/init.command";
-import { InitializeService } from "@services/initialize.service";
-import { ModifyService } from "@services/modify.service";
+import {
+	GenerateActionsToken,
+	GenerateCommandName,
+	GenerateComponentActionName,
+	GenerateServiceToken,
+	GenerateStoreActionName,
+	ICommandToken,
+	IComponentWriterToken,
+	IStoreWriterToken,
+	ITemplateEngineToken,
+	ITemplateProviderToken,
+	InitCommandName,
+	InitializeServiceToken,
+	ModifyServiceToken,
+} from "./tokens";
 
 const DIContainer = new Container();
 
+// Actions
+DIContainer.bind<IAction>(GenerateActionsToken)
+	.to(GenerateComponentAction)
+	.whenTargetNamed("generate:component");
+DIContainer.bind<IAction>(GenerateActionsToken)
+	.to(GenerateStoreAction)
+	.whenTargetNamed("generate:store");
+
+DIContainer.bind<interfaces.Factory<IAction>>("Factory<IAction>").toFactory(
+	context => {
+		return (actionName: string) => {
+			console.log(actionName);
+			return context.container.getNamed(GenerateActionsToken, actionName);
+		};
+	}
+);
+
 // Commands
-DIContainer.bind<ICommand>(CommandToken)
+DIContainer.bind<ICommand>(ICommandToken)
 	.to(GenerateCommand)
 	.whenTargetNamed(GenerateCommandName);
-DIContainer.bind<ICommand>(CommandToken)
+DIContainer.bind<ICommand>(ICommandToken)
 	.to(InitCommand)
 	.whenTargetNamed(InitCommandName);
 

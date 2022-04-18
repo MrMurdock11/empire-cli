@@ -1,9 +1,5 @@
-import DIContainer from "../../src/di/inversify.config";
-import { GenerateServiceToken } from "../../src/di/types/service.token";
-import { GenerateService } from "../../src/services/generate.service";
-import { TGenerateOptions } from "../../src/actions/types/generate-options";
 import appRoot from "app-root-path";
-import { normalize } from "path";
+import { CommanderStatic } from "commander";
 import {
 	emptyDirSync,
 	existsSync,
@@ -12,9 +8,35 @@ import {
 	removeSync,
 	writeFileSync,
 } from "fs-extra";
+import { normalize } from "path";
+
+import { ICommand } from "../../src/commands/command.interface";
+import DIContainer from "../../src/di/inversify.config";
+import { GenerateCommandName, ICommandToken } from "../../src/di/tokens";
 
 describe("Generate module", () => {
 	const playgroundPath = `${appRoot.path}/playground`;
+	const getAppMock = jest.fn(
+		(schematic: string, name: string, path?: string) => {
+			return {
+				command: jest.fn(() => {
+					return {
+						alias: jest.fn(() => {
+							return {
+								description: jest.fn(() => {
+									return {
+										action: jest.fn(cb =>
+											cb(schematic, name, path)
+										),
+									};
+								}),
+							};
+						}),
+					};
+				}),
+			} as unknown as CommanderStatic;
+		}
+	);
 
 	beforeAll(() => {
 		jest.spyOn(process, "cwd").mockImplementation(() =>
@@ -34,16 +56,13 @@ describe("Generate module", () => {
 	it.each([playgroundPath, undefined])(
 		"Should generate component (path => %s)",
 		path => {
-			const options: TGenerateOptions = {
-				schematic: "component",
-				name: "test.component",
-				path,
-			};
 			const expectedComponentName = "TestComponent";
-			const generateService =
-				DIContainer.get<GenerateService>(GenerateServiceToken);
+			const command = DIContainer.getNamed<ICommand>(
+				ICommandToken,
+				GenerateCommandName
+			);
 
-			generateService.component(options);
+			command.register(getAppMock("component", "test.component", path));
 
 			const componentPath = `${playgroundPath}/${expectedComponentName}`;
 			const isComponentExists = existsSync(componentPath);
@@ -65,14 +84,14 @@ describe("Generate module", () => {
 	it("Should generate component as child component", () => {
 		writeFileSync(`${playgroundPath}/index.tsx`, "");
 
-		const generateService =
-			DIContainer.get<GenerateService>(GenerateServiceToken);
+		const command = DIContainer.getNamed<ICommand>(
+			ICommandToken,
+			GenerateCommandName
+		);
 
-		generateService.component({
-			schematic: "component",
-			name: "test.component",
-			path: playgroundPath,
-		});
+		command.register(
+			getAppMock("component", "test.component", playgroundPath)
+		);
 
 		const childrenPath = `${playgroundPath}/children`;
 		const isChildrenDirectoryExists = pathExistsSync(childrenPath);
