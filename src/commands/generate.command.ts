@@ -1,7 +1,9 @@
 import { CommanderStatic } from "commander";
-import { ICommand } from "./command.interface";
-import { inject, injectable} from "inversify";
+import { inject, injectable } from "inversify";
+
 import { IAction } from "@actions/action.interface";
+
+import { ICommand } from "./command.interface";
 
 @injectable()
 export class GenerateCommand implements ICommand {
@@ -21,7 +23,11 @@ export class GenerateCommand implements ICommand {
 			.action(this.actionPreset.bind(this));
 	}
 
-	private actionPreset(schematic: TSchematicName, name: string, path?: string): void {
+	private actionPreset(
+		schematic: TSchematicName,
+		name: string,
+		path?: string
+	): void {
 		const inputs: TInputCollection = [];
 
 		inputs.push(

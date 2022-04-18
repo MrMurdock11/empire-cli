@@ -1,7 +1,8 @@
-import { Store } from "../domains/store";
 import fse from "fs-extra";
 import { injectable } from "inversify";
 import { join } from "path";
+
+import { Store } from "../domains/store";
 
 @injectable()
 export class StoreWriter {

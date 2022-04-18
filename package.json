@@ -46,6 +46,7 @@
 		"@babel/plugin-proposal-decorators": "7.15.4",
 		"@babel/preset-env": "7.15.6",
 		"@babel/preset-typescript": "7.15.0",
+		"@faker-js/faker": "6.1.2",
 		"@trivago/prettier-plugin-sort-imports": "3.2.0",
 		"@types/adm-zip": "^0.4.33",
 		"@types/app-root-path": "1.2.4",

@@ -1,7 +1,8 @@
-import { injectable } from "inversify";
 import findRoot from "find-root";
 import fse from "fs-extra";
+import { injectable } from "inversify";
 import { join } from "path";
+
 import { STORE } from "../configuration/defaults";
 
 @injectable()

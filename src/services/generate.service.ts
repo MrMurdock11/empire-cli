@@ -1,20 +1,22 @@
-import { ITemplateEngineToken } from "@di/tokens/general.token";
-import { ITemplateProviderToken } from "@di/tokens/providers.token";
+import findRoot from "find-root";
+import fse from "fs-extra";
+import { inject, injectable } from "inversify";
+import { camelCase, upperFirst } from "lodash";
+import { join, normalize } from "path";
+
 import {
 	IComponentWriterToken,
 	IStoreWriterToken,
-} from "@di/tokens/writers.token";
-import { inject, injectable } from "inversify";
-import { camelCase, upperFirst } from "lodash";
-import { ComponentWriter } from "../writers/component.writer";
+	ITemplateEngineToken,
+	ITemplateProviderToken,
+	ModifyServiceToken,
+} from "@di/tokens";
+
 import { ITemplateProvider } from "../providers/template.provider";
 import { ITemplateEngine } from "../template-engine/template-engine.interface";
-import { join, normalize } from "path";
-import findRoot from "find-root";
-import fse from "fs-extra";
+import { ComponentWriter } from "../writers/component.writer";
 import { StoreWriter } from "../writers/store.writer";
 import { ModifyService } from "./modify.service";
-import { ModifyServiceToken } from "@di/tokens/services.token";
 
 @injectable()
 export class GenerateService {

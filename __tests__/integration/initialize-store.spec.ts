@@ -1,3 +1,5 @@
+import { faker } from "@faker-js/faker";
+import appRoot from "app-root-path";
 import {
 	emptyDirSync,
 	existsSync,
@@ -6,14 +8,16 @@ import {
 	removeSync,
 	writeFileSync,
 } from "fs-extra";
-import appRoot from "app-root-path";
 import { join, normalize } from "path";
+
 import DIContainer from "../../src/di/inversify.config";
-import { InitializeServiceToken } from "../../src/di/types/service.token";
+import { InitializeServiceToken } from "../../src/di/tokens";
 import { InitializeService } from "../../src/services/initialize.service";
 
 describe("InitializeStore", () => {
-	const playgroundPath = `${appRoot.path}/playground`;
+	const playgroundPath = `${
+		appRoot.path
+	}/playground-${faker.datatype.uuid()}`;
 
 	beforeAll(() => {
 		jest.spyOn(process, "cwd").mockImplementation(() =>

@@ -1,10 +1,11 @@
-import { Store } from "../domains/store";
 import { compile } from "handlebars";
 import { injectable } from "inversify";
+
 import { Component } from "../domains/component";
+import { Store } from "../domains/store";
 import { ComponentTemplate } from "./models/component.template";
-import { ITemplateEngine } from "./template-engine.interface";
 import { StoreTemplate } from "./models/store.template";
+import { ITemplateEngine } from "./template-engine.interface";
 
 @injectable()
 export class TemplateEngine implements ITemplateEngine {

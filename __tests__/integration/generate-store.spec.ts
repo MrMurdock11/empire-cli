@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import appRoot from "app-root-path";
 import { CommanderStatic } from "commander";
 import {
@@ -16,7 +17,9 @@ import DIContainer from "../../src/di/inversify.config";
 import { GenerateCommandName, ICommandToken } from "../../src/di/tokens";
 
 describe("GenerateStore", () => {
-	const playgroundPath = `${appRoot.path}/playground`;
+	const playgroundPath = `${
+		appRoot.path
+	}/playground-${faker.datatype.uuid()}`;
 	const getAppMock = jest.fn(
 		(schematic: string, name: string, path?: string) => {
 			return {

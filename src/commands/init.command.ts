@@ -1,7 +1,10 @@
-import { InitializeServiceToken } from "@di/tokens/services.token";
-import { InitializeService } from "@services/initialize.service";
 import { CommanderStatic } from "commander";
 import { inject, injectable } from "inversify";
+
+import { InitializeServiceToken } from "@di/tokens/services.token";
+
+import { InitializeService } from "@services/initialize.service";
+
 import { ICommand } from "./command.interface";
 
 @injectable()

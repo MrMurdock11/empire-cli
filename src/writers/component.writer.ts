@@ -1,7 +1,8 @@
-import { Component } from "../domains/component";
-import { injectable } from "inversify";
 import fs from "fs";
+import { injectable } from "inversify";
 import { some } from "lodash";
+
+import { Component } from "../domains/component";
 
 @injectable()
 export class ComponentWriter {

@@ -1,7 +1,7 @@
-import { join } from "path";
 import { readFileSync, writeFileSync } from "fs-extra";
 import { injectable } from "inversify";
 import { upperFirst } from "lodash";
+import { join } from "path";
 
 @injectable()
 export class ModifyService {

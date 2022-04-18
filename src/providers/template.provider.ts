@@ -1,10 +1,8 @@
-import path from "path";
-import fs from "fs";
-import { ComponentTemplate } from "../template-engine/models/component.template";
 import { injectable } from "inversify";
-import appRoot from "app-root-path";
-import { StoreTemplate } from "../template-engine/models/store.template";
+
 import { COMPONENT_TEMPLATES, STORE_TEMPLATES } from "../resources/templates";
+import { ComponentTemplate } from "../template-engine/models/component.template";
+import { StoreTemplate } from "../template-engine/models/store.template";
 
 export interface ITemplateProvider {
 	getComponent(): ComponentTemplate;
