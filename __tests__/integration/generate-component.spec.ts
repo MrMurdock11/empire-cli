@@ -16,9 +16,7 @@ import DIContainer from "../../src/di/inversify.config";
 import { GenerateCommandName, ICommandToken } from "../../src/di/tokens";
 
 describe("Generate module", () => {
-	const playgroundPath = `${
-		appRoot.path
-	}/playground-${faker.datatype.uuid()}`;
+	const playgroundPath = `${appRoot.path}/${faker.datatype.uuid()}`;
 	const getAppMock = jest.fn(
 		(schematic: string, name: string, path?: string) => {
 			return {

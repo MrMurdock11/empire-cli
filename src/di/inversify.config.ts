@@ -23,9 +23,7 @@ import { StoreWriter } from "../writers/store.writer";
 import {
 	GenerateActionsToken,
 	GenerateCommandName,
-	GenerateComponentActionName,
 	GenerateServiceToken,
-	GenerateStoreActionName,
 	ICommandToken,
 	IComponentWriterToken,
 	IStoreWriterToken,

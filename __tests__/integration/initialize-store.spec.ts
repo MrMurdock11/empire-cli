@@ -15,9 +15,7 @@ import { InitializeServiceToken } from "../../src/di/tokens";
 import { InitializeService } from "../../src/services/initialize.service";
 
 describe("InitializeStore", () => {
-	const playgroundPath = `${
-		appRoot.path
-	}/playground-${faker.datatype.uuid()}`;
+	const playgroundPath = `${appRoot.path}/${faker.datatype.uuid()}`;
 
 	beforeAll(() => {
 		jest.spyOn(process, "cwd").mockImplementation(() =>

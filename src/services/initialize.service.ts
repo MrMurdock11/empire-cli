@@ -1,5 +1,5 @@
 import findRoot from "find-root";
-import fse from "fs-extra";
+import { existsSync, mkdirSync, writeFileSync } from "fs-extra";
 import { injectable } from "inversify";
 import { join } from "path";
 
@@ -12,14 +12,14 @@ export class InitializeService {
 			const targetPath = findRoot(process.cwd());
 			const destinationStorePath = join(targetPath, "store");
 
-			const isStoreDirExists = fse.existsSync(destinationStorePath);
+			const isStoreDirExists = existsSync(destinationStorePath);
 			if (isStoreDirExists) {
 				throw new Error("store exists.");
 			}
 
-			fse.mkdir(destinationStorePath);
+			mkdirSync(destinationStorePath);
 
-			fse.writeFileSync(
+			writeFileSync(
 				`${destinationStorePath}/index.ts`,
 				STORE.ROOT_REDUCER
 			);
