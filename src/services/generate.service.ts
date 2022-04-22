@@ -1,5 +1,5 @@
 import findRoot from "find-root";
-import fse from "fs-extra";
+import fse, { existsSync } from "fs-extra";
 import { inject, injectable } from "inversify";
 import { camelCase, upperFirst } from "lodash";
 import { join, normalize } from "path";
@@ -56,7 +56,7 @@ export class GenerateService {
 		const projectRootPath = findRoot(process.cwd());
 
 		const projectStorePath = join(projectRootPath, "store");
-		const isStoreInitialized = fse.existsSync(projectStorePath);
+		const isStoreInitialized = existsSync(projectStorePath);
 		if (!isStoreInitialized) {
 			throw new Error("");
 		}

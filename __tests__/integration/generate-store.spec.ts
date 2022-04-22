@@ -49,7 +49,7 @@ describe("GenerateStore", () => {
 	});
 
 	afterEach(() => {
-		emptyDirSync(playgroundPath);
+		removeSync(`${playgroundPath}/store`);
 	});
 
 	afterAll(() => {
@@ -146,6 +146,36 @@ export const usersReducer = (state = initState, action: Actions): State => {
 		).toBe(`describe("UsersReducer", () => {
 	it("should be true", () => expect(true).toBeTruthy());
 });
+`);
+	});
+
+	it("should generate two store items successively", () => {
+		const storePath = join(playgroundPath, "store");
+		const storeRootReducer = join(storePath, "index.ts");
+		mkdirSync(storePath);
+		writeFileSync(storeRootReducer, STORE.ROOT_REDUCER);
+
+		const command = DIContainer.getNamed<ICommand>(
+			ICommandToken,
+			GenerateCommandName
+		);
+
+		command.register(getAppMock("store", "users"));
+		command.register(getAppMock("store", "navbar"));
+
+		const storeRootReducerContent =
+			readFileSync(storeRootReducer).toString();
+		expect(storeRootReducerContent)
+			.toBe(`import { combineReducers } from "redux";
+import { usersReducer } from "./Users/Users.reducer";
+import { navbarReducer } from "./Navbar/Navbar.reducer";
+
+export const rootReducer = combineReducers({
+	usersReducer,
+	navbarReducer,
+});
+
+export type AppState = ReturnType<typeof rootReducer>;
 `);
 	});
 });
