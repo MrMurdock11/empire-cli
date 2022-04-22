@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import appRoot from "app-root-path";
+import { CommanderStatic } from "commander";
 import {
 	emptyDirSync,
 	existsSync,
@@ -10,12 +11,32 @@ import {
 } from "fs-extra";
 import { join, normalize } from "path";
 
+import { ICommand } from "../../src/commands/command.interface";
 import DIContainer from "../../src/di/inversify.config";
-import { InitializeServiceToken } from "../../src/di/tokens";
+import {
+	ICommandToken,
+	InitCommandName,
+	InitializeServiceToken,
+} from "../../src/di/tokens";
 import { InitializeService } from "../../src/services/initialize.service";
 
 describe("InitializeStore", () => {
 	const playgroundPath = `${appRoot.path}/${faker.datatype.uuid()}`;
+	const appMock = {
+		command: jest.fn(() => {
+			return {
+				alias: jest.fn(() => {
+					return {
+						description: jest.fn(() => {
+							return {
+								action: jest.fn(cb => cb()),
+							};
+						}),
+					};
+				}),
+			};
+		}),
+	} as unknown as CommanderStatic;
 
 	beforeAll(() => {
 		jest.spyOn(process, "cwd").mockImplementation(() =>
@@ -34,11 +55,12 @@ describe("InitializeStore", () => {
 	});
 
 	it("should initialize store", () => {
-		const initializeService = DIContainer.get<InitializeService>(
-			InitializeServiceToken
+		const command = DIContainer.getNamed<ICommand>(
+			ICommandToken,
+			InitCommandName
 		);
 
-		initializeService.store("store");
+		command.register(appMock);
 
 		const storePath = join(playgroundPath, "store");
 		const isStoreExists = existsSync(storePath);

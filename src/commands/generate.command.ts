@@ -1,6 +1,8 @@
 import { CommanderStatic } from "commander";
 import { inject, injectable } from "inversify";
 
+import { ActionsProviderToken } from "@di/tokens";
+
 import { IAction } from "@actions/action.interface";
 
 import { ICommand } from "./command.interface";
@@ -10,8 +12,8 @@ export class GenerateCommand implements ICommand {
 	private readonly _command = "generate";
 
 	constructor(
-		@inject("Factory<IAction>")
-		private readonly _factory: (actionName) => IAction
+		@inject(ActionsProviderToken)
+		private readonly _actionsProvider: (actionName: string) => IAction
 	) {}
 
 	register(app: CommanderStatic): void {
@@ -35,7 +37,7 @@ export class GenerateCommand implements ICommand {
 			{ name: "path", value: path }
 		);
 
-		const action = this._factory(`${this._command}:${schematic}`);
+		const action = this._actionsProvider(`${this._command}:${schematic}`);
 		action.execute(inputs);
 	}
 }

@@ -11,6 +11,7 @@ import { InitCommand } from "@commands/init.command";
 import { IAction } from "@actions/action.interface";
 import { GenerateComponentAction } from "@actions/generate-component.action";
 import { GenerateStoreAction } from "@actions/generate-store.action";
+import { InitStoreAction } from "@actions/init-store.action";
 
 import {
 	ITemplateProvider,
@@ -20,10 +21,12 @@ import { TemplateEngine } from "../template-engine/template-engine";
 import { ITemplateEngine } from "../template-engine/template-engine.interface";
 import { ComponentWriter } from "../writers/component.writer";
 import { StoreWriter } from "../writers/store.writer";
+import { ACTION_KEYS } from "./keys";
 import {
-	GenerateActionsToken,
+	ActionsProviderToken,
 	GenerateCommandName,
 	GenerateServiceToken,
+	IActionToken,
 	ICommandToken,
 	IComponentWriterToken,
 	IStoreWriterToken,
@@ -37,21 +40,22 @@ import {
 const DIContainer = new Container();
 
 // Actions
-DIContainer.bind<IAction>(GenerateActionsToken)
+DIContainer.bind<IAction>(IActionToken)
 	.to(GenerateComponentAction)
-	.whenTargetNamed("generate:component");
-DIContainer.bind<IAction>(GenerateActionsToken)
+	.whenTargetNamed(ACTION_KEYS.GENERATE_COMPONENT);
+DIContainer.bind<IAction>(IActionToken)
 	.to(GenerateStoreAction)
-	.whenTargetNamed("generate:store");
+	.whenTargetNamed(ACTION_KEYS.GENERATE_STORE);
+DIContainer.bind<IAction>(IActionToken)
+	.to(InitStoreAction)
+	.whenTargetNamed(ACTION_KEYS.INIT_STORE);
 
-DIContainer.bind<interfaces.Factory<IAction>>("Factory<IAction>").toFactory(
-	context => {
-		return (actionName: string) => {
-			console.log(actionName);
-			return context.container.getNamed(GenerateActionsToken, actionName);
-		};
-	}
-);
+DIContainer.bind<interfaces.Provider<IAction>>(
+	ActionsProviderToken
+).toProvider<IAction>(context => {
+	return (actionName: string) =>
+		context.container.getNamed(IActionToken, actionName);
+});
 
 // Commands
 DIContainer.bind<ICommand>(ICommandToken)

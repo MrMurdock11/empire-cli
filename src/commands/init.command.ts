@@ -1,25 +1,34 @@
 import { CommanderStatic } from "commander";
 import { inject, injectable } from "inversify";
 
-import { InitializeServiceToken } from "@di/tokens/services.token";
+import { ActionsProviderToken } from "@di/tokens";
 
-import { InitializeService } from "@services/initialize.service";
+import { IAction } from "@actions/action.interface";
 
 import { ICommand } from "./command.interface";
 
 @injectable()
 export class InitCommand implements ICommand {
-	@inject(InitializeServiceToken)
-	private readonly _service: InitializeService;
+	private readonly _command = "init";
+
+	constructor(
+		@inject(ActionsProviderToken)
+		private readonly _actionsProvider: (actionName: string) => IAction
+	) {}
 
 	register(app: CommanderStatic): void {
-		app.command("init <module-name>")
+		app.command("init [module-name]")
 			.alias("in")
 			.description("Initializes module based on module name.")
 			.action(this.actionPreset.bind(this));
 	}
 
-	private actionPreset(moduleName: string): void {
-		this._service.store(moduleName);
+	private actionPreset(moduleName?: string): void {
+		// TODO: Remove forced initialization of moduleName when adding other module than "store".
+		moduleName = "store";
+		const inputs: TInputCollection = [];
+
+		const action = this._actionsProvider(`${this._command}:${moduleName}`);
+		action.execute(inputs);
 	}
 }

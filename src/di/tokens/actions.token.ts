@@ -1,6 +1,5 @@
 // Tokens
-export const GenerateActionsToken = Symbol.for("GenerateActions");
+export const IActionToken = Symbol.for("IAction");
 
-// Names
-export const GenerateComponentActionName = Symbol.for("GenerateComponent");
-export const GenerateStoreActionName = Symbol.for("GenerateStore");
+// Providers
+export const ActionsProviderToken = Symbol.for("ActionsProvider");
