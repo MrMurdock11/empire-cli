@@ -1,8 +1,14 @@
-<center><font size="10">👑 Empire - CLI</font></center>
+<p align="center">
+	<img  src=".md/empire.logo.png" />
+</p>
+
+<p align="center">
+	<img src="https://img.shields.io/npm/v/@emp1re/cli" />
+</p>
 
 # Description
 
-The Empire CLI is a command-line interface tool that helps you to initialize, develop your React applications. It assists you generate application parts based on an architecture approach and builds application structure which developed the "empire" team.
+The Empire CLI is a command-line interface tool that helps you to initialize and develop your `react` applications. It assists you generate application parts based on an architecture approach and builds application structure which developed the "empire" team.
 
 # Installation
 
@@ -42,18 +48,18 @@ $ empire g <schematic> <name> [path]
 
 #### Arguments
 
-| <center>Argument</center> | <center>Description</center>                                                                    |
-| :------------------------ | :---------------------------------------------------------------------------------------------- |
-| `<schematic>`             | The `collection:schematic`. See the table below for the available schematic.                    |
-| `<name>`                  | The name of the generated entity.                                                               |
-| `[path]`                  | The path where an entity is generated. :warning: Working not for all of `collection:schematic.` |
+| Argument      | Description                                                                                     |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| `<schematic>` | The `collection:schematic`. See the table below for the available schematic.                    |
+| `<name>`      | The name of the generated entity.                                                               |
+| `[path]`      | The path where an entity is generated. :warning: Working not for all of `collection:schematic`. |
 
 #### Schematic
 
-| <center>Name</center> | <center>Alias</center> | <center>Description</center>        |
-| --------------------- | :--------------------: | ----------------------------------- |
-| `component`           |          `c`           | Generate a new react component.     |
-| `store`               |          `s`           | Generate a new part of redux store. |
+| Name        | Alias | Description                         |
+| ----------- | :---: | ----------------------------------- |
+| `component` |  `c`  | Generate a new react component.     |
+| `store`     |  `s`  | Generate a new part of redux store. |
 
 ### empire init
 
