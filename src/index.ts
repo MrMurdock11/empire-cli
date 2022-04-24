@@ -4,10 +4,10 @@ import app from "commander";
 import { readFileSync } from "fs";
 import { join } from "path";
 import "reflect-metadata";
-import { getBanner } from "ui/banner";
-import { EMOJIS } from "ui/emojis";
 
 import { ApplicationLoader } from "./application.loader";
+import { getBanner } from "./ui/banner";
+import { EMOJIS } from "./ui/emojis";
 
 const bootstrap = () => {
 	const packageJsonContent = readFileSync(

@@ -17,6 +17,7 @@ export class GenerateCommand implements ICommand {
 	) {}
 
 	register(app: CommanderStatic): void {
+		// TODO: Move [path] argument to options.
 		app.command("generate <schematic> <name> [path]")
 			.alias("g")
 			.description(

@@ -19,7 +19,7 @@ export class InitCommand implements ICommand {
 	register(app: CommanderStatic): void {
 		app.command("init [module-name]")
 			.alias("in")
-			.description("Initializes module based on module name.")
+			.description("Initializes a module.")
 			.action(this.actionPreset.bind(this));
 	}
 
