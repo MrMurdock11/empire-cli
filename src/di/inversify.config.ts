@@ -1,7 +1,7 @@
 import { Container, interfaces } from "inversify";
 
 import { GenerateService } from "@services/generate.service";
-import { InitializeService } from "@services/initialize.service";
+import { InitializationService } from "@services/initialization.service";
 import { ModifyService } from "@services/modify.service";
 
 import { ICommand } from "@commands/command.interface";
@@ -67,7 +67,7 @@ DIContainer.bind<ICommand>(ICommandToken)
 
 // Services
 DIContainer.bind(GenerateServiceToken).to(GenerateService);
-DIContainer.bind(InitializeServiceToken).to(InitializeService);
+DIContainer.bind(InitializeServiceToken).to(InitializationService);
 DIContainer.bind(ModifyServiceToken).to(ModifyService);
 
 // Providers

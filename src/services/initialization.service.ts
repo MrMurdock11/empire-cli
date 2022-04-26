@@ -6,7 +6,7 @@ import { join } from "path";
 import { STORE } from "../configuration/defaults";
 
 @injectable()
-export class InitializeService {
+export class InitializationService {
 	store(): void {
 		try {
 			const targetPath = findRoot(process.cwd());
