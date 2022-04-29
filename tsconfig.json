@@ -4,7 +4,7 @@
 		"module": "CommonJS",
 		"declaration": true,
 		"declarationMap": true,
-		"outDir": "./dist",
+		"outDir": "./bin",
 		"rootDir": "./src",
 		"moduleResolution": "node",
 		"experimentalDecorators": true,

@@ -26,3 +26,4 @@ export class ApplicationLoader {
 		forEach(commands, command => command.register(app));
 	}
 }
+

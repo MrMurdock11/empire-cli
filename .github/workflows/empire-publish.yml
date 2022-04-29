@@ -25,7 +25,7 @@ jobs:
       - name: Building application
         run: npm run build
       - name: Publishing package
-        working-directory: ./dist
+        working-directory: ./bin
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

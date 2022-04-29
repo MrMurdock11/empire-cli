@@ -15,3 +15,4 @@ export interface ICommand {
 	 */
 	register(app: CommanderStatic): void;
 }
+

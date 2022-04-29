@@ -7,9 +7,9 @@
 	},
 	"scripts": {
 		"start": "webpack --mode development --watch",
-		"prebuild": "rimraf dist",
+		"prebuild": "rimraf bin",
 		"build": "webpack --mode production",
-		"postbuild": "cpx package.json dist",
+		"postbuild": "cpx package.json bin",
 		"test": "jest",
 		"test:dev": "jest --coverage"
 	},

@@ -6,15 +6,12 @@ module.exports = {
 	target: "node",
 	devtool: "source-map",
 	output: {
-		path: resolve(__dirname, "../dist"),
+		path: resolve(__dirname, "../bin"),
 		filename: "index.js",
 	},
 	resolve: {
 		extensions: [".ts", ".js"],
 		plugins: [new TsconfigPathsPlugin()],
-		alias: {
-			handlebars: "handlebars/dist/handlebars.min.js",
-		},
 	},
 	module: {
 		rules: require("./webpack.rules"),
