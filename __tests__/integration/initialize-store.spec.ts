@@ -13,12 +13,7 @@ import { join, normalize } from "path";
 
 import { ICommand } from "../../src/commands/command.interface";
 import DIContainer from "../../src/di/inversify.config";
-import {
-	ICommandToken,
-	InitCommandName,
-	InitializeServiceToken,
-} from "../../src/di/tokens";
-import { InitializeService } from "../../src/services/initialize.service";
+import { ICommandToken, InitCommandName } from "../../src/di/tokens";
 
 describe("InitializeStore", () => {
 	const playgroundPath = `${appRoot.path}/${faker.datatype.uuid()}`;
@@ -76,3 +71,4 @@ export type AppState = ReturnType<typeof rootReducer>;
 `);
 	});
 });
+
