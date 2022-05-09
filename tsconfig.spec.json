@@ -3,7 +3,9 @@
 	"compilerOptions": {
 		"rootDir": "./src",
 		"types": [
-			"jest"
+			"jest",
+			"reflect-metadata",
+			"node"
 		]
 	},
 	"include": [

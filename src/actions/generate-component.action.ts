@@ -1,13 +1,13 @@
 import { inject, injectable } from "inversify";
 
-import { GenerateServiceToken } from "@di/tokens";
+import { IReactServiceToken } from "@di/tokens";
 
-import { GenerateService } from "@services/generate.service";
+import { IReactService } from "@services/interfaces/react.service.interface";
 
 import { IAction } from "./action.interface";
 
 /**
- * Generate component action class.
+ * Generate component action class {@link IAction}.
  *
  * @export
  * @class GenerateComponentAction
@@ -16,20 +16,21 @@ import { IAction } from "./action.interface";
 @injectable()
 export class GenerateComponentAction implements IAction {
 	/**
-	 * Generate service.
+	 * Creates an instance of GenerateComponentAction.
 	 *
-	 * @private
-	 * @type {GenerateService}
+	 * @param {IReactService} reactService The react service used for create/modify react components.
 	 * @memberof GenerateComponentAction
 	 */
-	@inject(GenerateServiceToken)
-	private readonly _generateService: GenerateService;
+	constructor(
+		@inject(IReactServiceToken)
+		private readonly reactService: IReactService
+	) {}
 
 	/** @inheritdoc */
 	public execute(inputs: TInputCollection): void {
 		const name = inputs.find(input => input.name === "name").value;
 		const path = inputs.find(input => input.name === "path").value;
 
-		this._generateService.component(name, path);
+		this.reactService.generateComponent(name, path);
 	}
 }

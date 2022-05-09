@@ -1,13 +1,13 @@
 import { inject, injectable } from "inversify";
 
-import { GenerateServiceToken } from "@di/tokens";
+import { IReduxServiceToken } from "@di/tokens";
 
-import { GenerateService } from "@services/generate.service";
+import { IReduxService } from "@services/interfaces/redux.service.interface";
 
 import { IAction } from "./action.interface";
 
 /**
- * Generate store action class.
+ * Generate store action class {@link IAction}.
  *
  * @export
  * @class GenerateStoreAction
@@ -16,19 +16,20 @@ import { IAction } from "./action.interface";
 @injectable()
 export class GenerateStoreAction implements IAction {
 	/**
-	 * Generate service.
+	 * Creates an instance of GenerateStoreAction.
 	 *
-	 * @private
-	 * @type {GenerateService}
+	 * @param {IReduxService} reduxService The redux service used for create/modify redux components.
 	 * @memberof GenerateStoreAction
 	 */
-	@inject(GenerateServiceToken)
-	private readonly _generateService: GenerateService;
+	constructor(
+		@inject(IReduxServiceToken)
+		private readonly reduxService: IReduxService
+	) {}
 
 	/** @inheritdoc */
 	public execute(inputs: TInputCollection): void {
 		const name = inputs.find(input => input.name === "name").value;
 
-		this._generateService.store(name);
+		this.reduxService.generateStoreItem(name);
 	}
 }

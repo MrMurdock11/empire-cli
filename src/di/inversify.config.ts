@@ -1,8 +1,10 @@
 import { Container, interfaces } from "inversify";
 
-import { GenerateService } from "@services/generate.service";
-import { InitializationService } from "@services/initialization.service";
+import { IReactService } from "@services/interfaces/react.service.interface";
+import { IReduxService } from "@services/interfaces/redux.service.interface";
 import { ModifyService } from "@services/modify.service";
+import { ReactService } from "@services/react.service";
+import { ReduxService } from "@services/redux.service";
 
 import { ICommand } from "@commands/command.interface";
 import { GenerateCommand } from "@commands/generate.command";
@@ -25,15 +27,15 @@ import { ACTION_KEYS } from "./keys";
 import {
 	ActionsProviderToken,
 	GenerateCommandName,
-	GenerateServiceToken,
 	IActionToken,
 	ICommandToken,
 	IComponentWriterToken,
+	IReactServiceToken,
+	IReduxServiceToken,
 	IStoreWriterToken,
 	ITemplateEngineToken,
 	ITemplateProviderToken,
 	InitCommandName,
-	InitializeServiceToken,
 	ModifyServiceToken,
 } from "./tokens";
 
@@ -66,8 +68,8 @@ DIContainer.bind<ICommand>(ICommandToken)
 	.whenTargetNamed(InitCommandName);
 
 // Services
-DIContainer.bind(GenerateServiceToken).to(GenerateService);
-DIContainer.bind(InitializeServiceToken).to(InitializationService);
+DIContainer.bind<IReactService>(IReactServiceToken).to(ReactService);
+DIContainer.bind<IReduxService>(IReduxServiceToken).to(ReduxService);
 DIContainer.bind(ModifyServiceToken).to(ModifyService);
 
 // Providers

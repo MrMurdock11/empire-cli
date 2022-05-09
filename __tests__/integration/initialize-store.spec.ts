@@ -71,4 +71,3 @@ export type AppState = ReturnType<typeof rootReducer>;
 `);
 	});
 });
-

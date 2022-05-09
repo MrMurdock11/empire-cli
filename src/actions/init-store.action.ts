@@ -1,13 +1,13 @@
 import { inject, injectable } from "inversify";
 
-import { InitializeServiceToken } from "@di/tokens";
+import { IReduxServiceToken } from "@di/tokens";
 
-import { InitializationService } from "@services/initialization.service";
+import { IReduxService } from "@services/interfaces/redux.service.interface";
 
 import { IAction } from "./action.interface";
 
 /**
- * Initialization store action class.
+ * Initialization store action class {@link IAction}.
  *
  * @export
  * @class InitStoreAction
@@ -16,17 +16,18 @@ import { IAction } from "./action.interface";
 @injectable()
 export class InitStoreAction implements IAction {
 	/**
-	 * Initialization service.
+	 * Creates an instance of InitStoreAction.
 	 *
-	 * @private
-	 * @type {InitializationService}
+	 * @param {IReduxService} reduxService The redux service used for create/modify redux components.
 	 * @memberof InitStoreAction
 	 */
-	@inject(InitializeServiceToken)
-	private readonly _service: InitializationService;
+	constructor(
+		@inject(IReduxServiceToken)
+		private readonly reduxService: IReduxService
+	) {}
 
 	/** @inheritdoc */
 	execute(): void {
-		this._service.store();
+		this.reduxService.initStore();
 	}
 }

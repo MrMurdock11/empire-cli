@@ -1,3 +1,4 @@
-export const GenerateServiceToken = Symbol.for("GenerateService");
-export const InitializeServiceToken = Symbol.for("InitializeService");
 export const ModifyServiceToken = Symbol.for("ModifyService");
+export const IReactServiceToken = Symbol.for("IReactService");
+export const IReduxServiceToken = Symbol.for("IReduxService");
+

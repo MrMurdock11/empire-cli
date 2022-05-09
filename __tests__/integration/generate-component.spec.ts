@@ -54,6 +54,7 @@ describe("Generate module", () => {
 		removeSync(playgroundPath);
 	});
 
+	// TODO: Use another approach instead work with a file system.
 	it.each([playgroundPath, undefined])(
 		"Should generate component (path => %s)",
 		path => {
@@ -114,3 +115,4 @@ describe("Generate module", () => {
 		expect(isStylesFileExists).toBeTruthy();
 	});
 });
+

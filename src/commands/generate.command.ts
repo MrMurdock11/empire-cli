@@ -8,7 +8,7 @@ import { IAction } from "@actions/action.interface";
 import { ICommand } from "./command.interface";
 
 /**
- * Generate command class.
+ * Generate command class {@link ICommand}.
  *
  * @export
  * @class GenerateCommand
@@ -17,22 +17,22 @@ import { ICommand } from "./command.interface";
 @injectable()
 export class GenerateCommand implements ICommand {
 	/**
-	 * Command name.
+	 * Command type.
 	 *
 	 * @private
 	 * @memberof GenerateCommand
 	 */
-	private readonly _command = "generate";
+	private static readonly COMMAND_TYPE = "generate";
 
 	/**
 	 * Creates an instance of GenerateCommand.
 	 *
-	 * @param {(actionName: string) => IAction} _actionsProvider Actions provider.
+	 * @param {(actionName: string) => IAction} actionsProvider Actions provider used to find the required action instance.
 	 * @memberof GenerateCommand
 	 */
 	constructor(
 		@inject(ActionsProviderToken)
-		private readonly _actionsProvider: (actionName: string) => IAction
+		private readonly actionsProvider: (actionName: string) => IAction
 	) {}
 
 	/** @inheritdoc */
@@ -67,7 +67,9 @@ export class GenerateCommand implements ICommand {
 			{ name: "path", value: path }
 		);
 
-		const action = this._actionsProvider(`${this._command}:${schematic}`);
+		const action = this.actionsProvider(
+			`${GenerateCommand.COMMAND_TYPE}:${schematic}`
+		);
 		action.execute(inputs);
 	}
 }

@@ -8,7 +8,7 @@ import { IAction } from "@actions/action.interface";
 import { ICommand } from "./command.interface";
 
 /**
- * Initialization command class.
+ * Initialization command class {@link ICommand}.
  *
  * @export
  * @class InitCommand
@@ -22,17 +22,17 @@ export class InitCommand implements ICommand {
 	 * @private
 	 * @memberof InitCommand
 	 */
-	private readonly _command = "init";
+	private static readonly COMMAND_TYPE = "init";
 
 	/**
 	 * Creates an instance of InitCommand.
 	 *
-	 * @param {(actionName: string) => IAction} _actionsProvider Actions provider.
+	 * @param {(actionName: string) => IAction} actionsProvider Actions provider used to find the required action instance.
 	 * @memberof InitCommand
 	 */
 	constructor(
 		@inject(ActionsProviderToken)
-		private readonly _actionsProvider: (actionName: string) => IAction
+		private readonly actionsProvider: (actionName: string) => IAction
 	) {}
 
 	/** @inheritdoc */
@@ -55,7 +55,9 @@ export class InitCommand implements ICommand {
 		moduleName = "store";
 		const inputs: TInputCollection = [];
 
-		const action = this._actionsProvider(`${this._command}:${moduleName}`);
+		const action = this.actionsProvider(
+			`${InitCommand.COMMAND_TYPE}:${moduleName}`
+		);
 		action.execute(inputs);
 	}
 }
