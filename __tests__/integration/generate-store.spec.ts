@@ -1,8 +1,6 @@
 import { faker } from "@faker-js/faker";
 import appRoot from "app-root-path";
-import { CommanderStatic } from "commander";
 import {
-	emptyDirSync,
 	existsSync,
 	mkdirSync,
 	readFileSync,
@@ -15,30 +13,10 @@ import { ICommand } from "../../src/commands/command.interface";
 import { STORE } from "../../src/configuration/defaults";
 import DIContainer from "../../src/di/inversify.config";
 import { GenerateCommandName, ICommandToken } from "../../src/di/tokens";
+import { getCommanderMock } from "../helpers/get-commander-mock";
 
 describe("GenerateStore", () => {
 	const playgroundPath = `${appRoot.path}/${faker.datatype.uuid()}`;
-	const getAppMock = jest.fn(
-		(schematic: string, name: string, path?: string) => {
-			return {
-				command: jest.fn(() => {
-					return {
-						alias: jest.fn(() => {
-							return {
-								description: jest.fn(() => {
-									return {
-										action: jest.fn(cb =>
-											cb(schematic, name, path)
-										),
-									};
-								}),
-							};
-						}),
-					};
-				}),
-			} as unknown as CommanderStatic;
-		}
-	);
 
 	beforeAll(() => {
 		jest.spyOn(process, "cwd").mockImplementation(() =>
@@ -67,7 +45,7 @@ describe("GenerateStore", () => {
 			GenerateCommandName
 		);
 
-		command.register(getAppMock("store", "users"));
+		command.register(getCommanderMock("store", "users"));
 
 		const storeRootReducerContent =
 			readFileSync(storeRootReducer).toString();
@@ -160,8 +138,8 @@ export const usersReducer = (state = initState, action: Actions): State => {
 			GenerateCommandName
 		);
 
-		command.register(getAppMock("store", "users"));
-		command.register(getAppMock("store", "navbar"));
+		command.register(getCommanderMock("store", "users"));
+		command.register(getCommanderMock("store", "navbar"));
 
 		const storeRootReducerContent =
 			readFileSync(storeRootReducer).toString();

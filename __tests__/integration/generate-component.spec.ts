@@ -1,6 +1,5 @@
 import { faker } from "@faker-js/faker";
 import appRoot from "app-root-path";
-import { CommanderStatic } from "commander";
 import {
 	emptyDirSync,
 	existsSync,
@@ -14,30 +13,10 @@ import { normalize } from "path";
 import { ICommand } from "../../src/commands/command.interface";
 import DIContainer from "../../src/di/inversify.config";
 import { GenerateCommandName, ICommandToken } from "../../src/di/tokens";
+import { getCommanderMock } from "../helpers/get-commander-mock";
 
 describe("Generate module", () => {
 	const playgroundPath = `${appRoot.path}/${faker.datatype.uuid()}`;
-	const getAppMock = jest.fn(
-		(schematic: string, name: string, path?: string) => {
-			return {
-				command: jest.fn(() => {
-					return {
-						alias: jest.fn(() => {
-							return {
-								description: jest.fn(() => {
-									return {
-										action: jest.fn(cb =>
-											cb(schematic, name, path)
-										),
-									};
-								}),
-							};
-						}),
-					};
-				}),
-			} as unknown as CommanderStatic;
-		}
-	);
 
 	beforeAll(() => {
 		jest.spyOn(process, "cwd").mockImplementation(() =>
@@ -64,7 +43,9 @@ describe("Generate module", () => {
 				GenerateCommandName
 			);
 
-			command.register(getAppMock("component", "test.component", path));
+			command.register(
+				getCommanderMock("component", "test.component", path)
+			);
 
 			const componentPath = `${playgroundPath}/${expectedComponentName}`;
 			const isComponentExists = existsSync(componentPath);
@@ -92,7 +73,7 @@ describe("Generate module", () => {
 		);
 
 		command.register(
-			getAppMock("component", "test.component", playgroundPath)
+			getCommanderMock("component", "test.component", playgroundPath)
 		);
 
 		const childrenPath = `${playgroundPath}/children`;
@@ -115,4 +96,3 @@ describe("Generate module", () => {
 		expect(isStylesFileExists).toBeTruthy();
 	});
 });
-

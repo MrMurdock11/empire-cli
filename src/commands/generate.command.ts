@@ -1,5 +1,6 @@
-import { CommanderStatic } from "commander";
+import { Command, CommanderStatic } from "commander";
 import { inject, injectable } from "inversify";
+import { normalize } from "path";
 
 import { ActionsProviderToken } from "@di/tokens";
 
@@ -17,14 +18,6 @@ import { ICommand } from "./command.interface";
 @injectable()
 export class GenerateCommand implements ICommand {
 	/**
-	 * Command type.
-	 *
-	 * @private
-	 * @memberof GenerateCommand
-	 */
-	private static readonly COMMAND_TYPE = "generate";
-
-	/**
 	 * Creates an instance of GenerateCommand.
 	 *
 	 * @param {(actionName: string) => IAction} actionsProvider Actions provider used to find the required action instance.
@@ -37,9 +30,12 @@ export class GenerateCommand implements ICommand {
 
 	/** @inheritdoc */
 	register(app: CommanderStatic): void {
-		// TODO: Move [path] argument to options.
-		app.command("generate <schematic> <name> [path]")
+		app.command("generate <schematic> <name>")
 			.alias("g")
+			.option(
+				"-p, --path <path>",
+				"the path where an entity is generated"
+			)
 			.description(
 				"Generates and/or modifies files based on a schematic."
 			)
@@ -58,18 +54,17 @@ export class GenerateCommand implements ICommand {
 	private actionPreset(
 		schematic: TSchematicName,
 		name: string,
-		path?: string
+		options: { path: string },
+		command: Command
 	): void {
 		const inputs: TInputCollection = [];
 
 		inputs.push(
 			{ name: "name", value: name },
-			{ name: "path", value: path }
+			{ name: "path", value: options.path && normalize(options.path) }
 		);
 
-		const action = this.actionsProvider(
-			`${GenerateCommand.COMMAND_TYPE}:${schematic}`
-		);
+		const action = this.actionsProvider(`${command.name()}:${schematic}`);
 		action.execute(inputs);
 	}
 }
