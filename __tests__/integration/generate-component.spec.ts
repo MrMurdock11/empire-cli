@@ -34,17 +34,28 @@ describe("Generate module", () => {
 	});
 
 	// TODO: Use another approach instead work with a file system.
-	it.each([playgroundPath, undefined])(
-		"Should generate component (path => %s)",
-		path => {
-			const expectedComponentName = "TestComponent";
+	it.each`
+		path              | componentName       | expectedComponentName
+		${playgroundPath} | ${"test.component"} | ${"TestComponent"}
+		${playgroundPath} | ${"test"}           | ${"Test"}
+		${playgroundPath} | ${"TestComponent"}  | ${"TestComponent"}
+		${playgroundPath} | ${"test-component"} | ${"TestComponent"}
+		${playgroundPath} | ${"Test_component"} | ${"TestComponent"}
+		${undefined}      | ${"test.component"} | ${"TestComponent"}
+		${undefined}      | ${"test"}           | ${"Test"}
+		${undefined}      | ${"TestComponent"}  | ${"TestComponent"}
+		${undefined}      | ${"test-component"} | ${"TestComponent"}
+		${undefined}      | ${"Test_component"} | ${"TestComponent"}
+	`(
+		"Should generate '$componentName' component in '$path' folder",
+		({ path, componentName, expectedComponentName }): void => {
 			const command = DIContainer.getNamed<ICommand>(
 				ICommandToken,
 				GenerateCommandName
 			);
 
 			command.register(
-				getCommanderMock("component", "test.component", path)
+				getCommanderMock("component", componentName, path)
 			);
 
 			const componentPath = `${playgroundPath}/${expectedComponentName}`;
