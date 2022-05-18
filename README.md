@@ -61,6 +61,12 @@ $ empire g <schematic> <name> [path]
 | `component` |  `c`  | Generate a new react component.     |
 | `store`     |  `s`  | Generate a new part of redux store. |
 
+#### Options
+
+| Option          | Description                                                                                                    |
+| --------------- | -------------------------------------------------------------------------------------------------------------- |
+| `--path <path>` | The path where an entity is generated. \n Alias: -p \n :warning: Working not for all of `collection:schematic` |
+
 ### empire init
 
 Initializes a module.
