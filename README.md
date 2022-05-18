@@ -48,11 +48,10 @@ $ empire g <schematic> <name> [path]
 
 #### Arguments
 
-| Argument      | Description                                                                                     |
-| ------------- | ----------------------------------------------------------------------------------------------- |
-| `<schematic>` | The `collection:schematic`. See the table below for the available schematic.                    |
-| `<name>`      | The name of the generated entity.                                                               |
-| `[path]`      | The path where an entity is generated. :warning: Working not for all of `collection:schematic`. |
+| Argument      | Description                                                                  |
+| ------------- | ---------------------------------------------------------------------------- |
+| `<schematic>` | The `collection:schematic`. See the table below for the available schematic. |
+| `<name>`      | The name of the generated entity.                                            |
 
 #### Schematic
 
@@ -63,9 +62,9 @@ $ empire g <schematic> <name> [path]
 
 #### Options
 
-| Option          | Description                                                                                                    |
-| --------------- | -------------------------------------------------------------------------------------------------------------- |
-| `--path <path>` | The path where an entity is generated. \n Alias: -p \n :warning: Working not for all of `collection:schematic` |
+| Option          | Description                                                                                                            |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `--path <path>` | The path where an entity is generated. <br /> Alias: -p <br /> :warning: Working not for all of `collection:schematic` |
 
 ### empire init
 
