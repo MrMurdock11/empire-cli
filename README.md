@@ -78,4 +78,4 @@ $ empire init [module-name]
 $ empire init [module-name]
 ```
 
-> :warning: Because `empire` can only initialize a store module you can just call `empire init`, which means the same thing. It's a temporary solution.
+> :warning: Because `empire` can only initialize a store module. You can just call `empire init`, which means the same thing. It's a temporary solution.
