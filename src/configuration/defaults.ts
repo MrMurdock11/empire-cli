@@ -21,6 +21,6 @@ export const initState: State = {
 
 export const COMPONENT = {
 	STYLES: `.container {
-		display: flex;
-	}`,
+	display: flex;
+}`,
 };

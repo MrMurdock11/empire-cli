@@ -1,11 +1,14 @@
 import { Command, CommanderStatic } from "commander";
 import { inject, injectable } from "inversify";
+import { isUndefined } from "lodash";
 import { normalize } from "path";
 
 import { ActionsProviderToken } from "@di/tokens";
 
 import { IAction } from "@actions/action.interface";
 
+import { findSchematic } from "../schematics/empire.collection";
+import { ERROR_MESSAGES } from "../ui/messages";
 import { ICommand } from "./command.interface";
 
 /**
@@ -64,7 +67,14 @@ export class GenerateCommand implements ICommand {
 			{ name: "path", value: options.path && normalize(options.path) }
 		);
 
-		const action = this.actionsProvider(`${command.name()}:${schematic}`);
+		const schematicObject = findSchematic(schematic);
+		if (isUndefined(schematicObject)) {
+			throw new Error(ERROR_MESSAGES.INCORRECT_SCHEMATIC);
+		}
+
+		const action = this.actionsProvider(
+			`${command.name()}:${schematicObject.name}`
+		);
 		action.execute(inputs);
 	}
 }

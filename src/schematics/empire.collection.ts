@@ -1,4 +1,4 @@
-import { find, includes } from "lodash";
+import { find, includes, isNil } from "lodash";
 
 export type TSchematic = {
 	name: TSchematicName;
@@ -6,22 +6,43 @@ export type TSchematic = {
 	description: string;
 };
 
-export class EmpireCollection {
-	private static _schematics: TSchematic[] = [
+const schematics: Map<string, TSchematic> = new Map([
+	[
+		"component",
 		{
 			name: "component",
 			alias: "c",
 			description: "",
 		},
+	],
+	[
+		"store",
 		{
 			name: "store",
 			alias: "s",
 			description: "",
 		},
-	];
+	],
+]);
 
-	public static find(key: string): string {
-		return find(this._schematics, sc => includes([sc.name, sc.alias], key))
-			.name;
+/**
+ * Finds the schematic by schematic name or alias.
+ *
+ * @param {string} key A schematic name or alias.
+ * @return {(TSchematic | undefined)} Returns the existing "schematic", otherwise returns undefined.
+ */
+export const findSchematic = (key: string): TSchematic | undefined => {
+	const hasSchematic = schematics.has(key);
+	if (hasSchematic) {
+		return schematics.get(key);
 	}
-}
+
+	const schematicsArray = Array.from(schematics.values());
+	const schematic = find(schematicsArray, sc => sc.alias === key);
+
+	if (isNil(schematic)) {
+		return void 0;
+	}
+
+	return schematic;
+};
