@@ -35,28 +35,31 @@ describe("Generate module", () => {
 
 	// TODO: Use another approach instead work with a file system.
 	it.each`
-		path              | componentName       | expectedComponentName
-		${playgroundPath} | ${"test.component"} | ${"TestComponent"}
-		${playgroundPath} | ${"test"}           | ${"Test"}
-		${playgroundPath} | ${"TestComponent"}  | ${"TestComponent"}
-		${playgroundPath} | ${"test-component"} | ${"TestComponent"}
-		${playgroundPath} | ${"Test_component"} | ${"TestComponent"}
-		${undefined}      | ${"test.component"} | ${"TestComponent"}
-		${undefined}      | ${"test"}           | ${"Test"}
-		${undefined}      | ${"TestComponent"}  | ${"TestComponent"}
-		${undefined}      | ${"test-component"} | ${"TestComponent"}
-		${undefined}      | ${"Test_component"} | ${"TestComponent"}
+		path              | schematic      | componentName       | expectedComponentName
+		${playgroundPath} | ${"component"} | ${"test.component"} | ${"TestComponent"}
+		${playgroundPath} | ${"component"} | ${"test"}           | ${"Test"}
+		${playgroundPath} | ${"component"} | ${"TestComponent"}  | ${"TestComponent"}
+		${playgroundPath} | ${"component"} | ${"test-component"} | ${"TestComponent"}
+		${playgroundPath} | ${"component"} | ${"Test_component"} | ${"TestComponent"}
+		${playgroundPath} | ${"c"}         | ${"test"}           | ${"Test"}
+		${playgroundPath} | ${"c"}         | ${"test"}           | ${"Test"}
+		${playgroundPath} | ${"c"}         | ${"TestComponent"}  | ${"TestComponent"}
+		${playgroundPath} | ${"c"}         | ${"test-component"} | ${"TestComponent"}
+		${playgroundPath} | ${"c"}         | ${"Test_component"} | ${"TestComponent"}
+		${undefined}      | ${"component"} | ${"test.component"} | ${"TestComponent"}
+		${undefined}      | ${"component"} | ${"test"}           | ${"Test"}
+		${undefined}      | ${"component"} | ${"TestComponent"}  | ${"TestComponent"}
+		${undefined}      | ${"component"} | ${"test-component"} | ${"TestComponent"}
+		${undefined}      | ${"component"} | ${"Test_component"} | ${"TestComponent"}
 	`(
-		"Should generate '$componentName' component in '$path' folder",
-		({ path, componentName, expectedComponentName }): void => {
+		"Should generate '$componentName' component in '$path' folder with (schematic => $schematic)",
+		({ path, schematic, componentName, expectedComponentName }): void => {
 			const command = DIContainer.getNamed<ICommand>(
 				ICommandToken,
 				GenerateCommandName
 			);
 
-			command.register(
-				getCommanderMock("component", componentName, path)
-			);
+			command.register(getCommanderMock(schematic, componentName, path));
 
 			const componentPath = `${playgroundPath}/${expectedComponentName}`;
 			const isComponentExists = existsSync(componentPath);

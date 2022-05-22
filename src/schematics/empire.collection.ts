@@ -40,9 +40,5 @@ export const findSchematic = (key: string): TSchematic | undefined => {
 	const schematicsArray = Array.from(schematics.values());
 	const schematic = find(schematicsArray, sc => sc.alias === key);
 
-	if (isNil(schematic)) {
-		return void 0;
-	}
-
 	return schematic;
 };

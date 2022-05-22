@@ -49,13 +49,13 @@ export class GenerateCommand implements ICommand {
 	 * Prepares inputs for an action instance.
 	 *
 	 * @private
-	 * @param {TSchematicName} schematic Schematic name.
+	 * @param {string} schematic Schematic name or alias.
 	 * @param {string} name Name.
 	 * @param {string} [path] Path to the place of generation.
 	 * @memberof GenerateCommand
 	 */
 	private actionPreset(
-		schematic: TSchematicName,
+		schematic: string,
 		name: string,
 		options: { path: string },
 		command: Command
