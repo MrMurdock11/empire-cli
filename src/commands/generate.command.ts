@@ -7,6 +7,7 @@ import { ActionsProviderToken } from "@di/tokens";
 
 import { IAction } from "@actions/action.interface";
 
+import { Bound } from "../decorators/bound.decorator";
 import { findSchematic } from "../schematics/empire.collection";
 import { ERROR_MESSAGES } from "../ui/messages";
 import { ICommand } from "./command.interface";
@@ -42,7 +43,7 @@ export class GenerateCommand implements ICommand {
 			.description(
 				"Generates and/or modifies files based on a schematic."
 			)
-			.action(this.actionPreset.bind(this));
+			.action(this.actionPreset);
 	}
 
 	/**
@@ -54,6 +55,7 @@ export class GenerateCommand implements ICommand {
 	 * @param {string} [path] Path to the place of generation.
 	 * @memberof GenerateCommand
 	 */
+	@Bound
 	private actionPreset(
 		schematic: string,
 		name: string,
@@ -69,7 +71,7 @@ export class GenerateCommand implements ICommand {
 
 		const schematicObject = findSchematic(schematic);
 		if (isUndefined(schematicObject)) {
-			throw new Error(ERROR_MESSAGES.INCORRECT_SCHEMATIC);
+			throw new TypeError(ERROR_MESSAGES.INCORRECT_SCHEMATIC);
 		}
 
 		const action = this.actionsProvider(

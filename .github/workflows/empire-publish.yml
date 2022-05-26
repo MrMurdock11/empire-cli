@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [12.x, 14.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -22,6 +22,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - name: Installing dependencies
         run: npm install
+      - name: Testing application
+        run: npm test
       - name: Building application
         run: npm run build
       - name: Publishing package

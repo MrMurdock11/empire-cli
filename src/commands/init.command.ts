@@ -5,6 +5,7 @@ import { ActionsProviderToken } from "@di/tokens";
 
 import { IAction } from "@actions/action.interface";
 
+import { Bound } from "../decorators/bound.decorator";
 import { ICommand } from "./command.interface";
 
 /**
@@ -40,7 +41,7 @@ export class InitCommand implements ICommand {
 		app.command("init [module-name]")
 			.alias("in")
 			.description("Initializes a module.")
-			.action(this.actionPreset.bind(this));
+			.action(this.actionPreset);
 	}
 
 	/**
@@ -50,6 +51,7 @@ export class InitCommand implements ICommand {
 	 * @param {string} [moduleName] Module name.
 	 * @memberof InitCommand
 	 */
+	@Bound
 	private actionPreset(moduleName?: string): void {
 		// TODO: Remove forced initialization of moduleName when adding other module than "store".
 		moduleName = "store";
