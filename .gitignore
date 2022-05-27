@@ -1,9 +1,10 @@
-#folders
+# Folder
 dist/
+bin/
 public/
 lib/
 node_modules/
 coverage/
 
-#files
+# NPM
 package-lock.json

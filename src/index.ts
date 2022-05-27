@@ -1,35 +1,50 @@
-import application, { Option } from "commander";
-import path from "path";
-import fs from "fs";
-import { generateComponent } from "./actions/component.actions";
-import { generateStore, initStore } from "./actions/store.actions";
+import boxen from "boxen";
+import { green, red } from "chalk";
+import app from "commander";
+import { readFileSync } from "fs";
+import { join } from "path";
+import "reflect-metadata";
+
+import { ApplicationLoader } from "./application.loader";
+import { getBanner } from "./ui/banner";
+import { EMOJIS } from "./ui/emojis";
 
 const bootstrap = () => {
-	const packageJsonContent = fs
-		.readFileSync(path.join(__dirname, "package.json"))
-		.toString();
-	const { version } = JSON.parse(packageJsonContent);
+	try {
+		const packageJsonContent = readFileSync(
+			join(__dirname, "../package.json")
+		).toString();
+		const { version } = JSON.parse(packageJsonContent);
 
-	application
-		.version(version, "-v, --version", "Output the current version.")
-		.usage("<command> [options]")
-		.helpOption("-h, --help", "Output usage information.");
+		app.version(
+			boxen(
+				`${getBanner()}\n${EMOJIS.FOOTPRINTS} ${green(
+					`version: ${version}`
+				)}`,
+				{
+					borderColor: "green",
+					borderStyle: "round",
+					padding: 1,
+				}
+			),
+			"-v, --version",
+			"Output the current version."
+		)
+			.usage("<command> [options]")
+			.helpOption("-h, --help", "Output usage information.");
 
-	application
-		.command("component <name>")
-		.alias("c")
-		.option("-C, --no-css-module", "Generate component without css-module.")
-		.action(generateComponent);
+		ApplicationLoader.load(app);
 
-	application.command("store <name>").alias("s").action(generateStore);
+		if (!process.argv.slice(2).length) {
+			app.outputHelp();
+		}
 
-	application.command("new store").alias("ns").action(initStore);
-
-	if (!process.argv.slice(2).length) {
-		application.outputHelp();
+		app.parse(process.argv);
+	} catch (error) {
+		if (error instanceof Error) {
+			console.log(red(`[ERROR]: ${error.message}`));
+		}
 	}
-
-	application.parse(process.argv);
 };
 
 bootstrap();

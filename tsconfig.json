@@ -4,8 +4,7 @@
 		"module": "CommonJS",
 		"declaration": true,
 		"declarationMap": true,
-		// "emitDeclarationOnly": true,
-		"outDir": "./dist",
+		"outDir": "./bin",
 		"rootDir": "./src",
 		"moduleResolution": "node",
 		"experimentalDecorators": true,
@@ -14,7 +13,22 @@
 		"types": [
 			"reflect-metadata",
 			"node"
-		]
+		],
+		"baseUrl": "./src",
+		"paths": {
+			"@commands/*": [
+				"commands/*"
+			],
+			"@actions/*": [
+				"actions/*"
+			],
+			"@di/*": [
+				"di/*"
+			],
+			"@services/*": [
+				"services/*"
+			]
+		}
 	},
 	"include": [
 		"src/**/*"

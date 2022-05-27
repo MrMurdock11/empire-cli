@@ -19,4 +19,5 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"prettier.configPath": ".prettierrc",
+	"jest.autoRun": "off"
 }
