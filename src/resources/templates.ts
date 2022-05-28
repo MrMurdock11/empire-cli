@@ -31,9 +31,7 @@ export const {{ camelCaseName }}Reducer = (state = initState, action: Actions): 
 };
 
 export const COMPONENT_TEMPLATES = {
-	INDEX: `import { {{ name }} } from "./{{ name }}";
-
-export { {{ name }} };
+	INDEX: `export * from "./{{ name }}";
 `,
 	VIEW: `import styles from "./{{ name }}.module.css";
 
