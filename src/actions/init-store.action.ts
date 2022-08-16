@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
 
-import { IReduxServiceToken } from "@di/tokens";
+import { ReduxCoreServiceToken } from "@di/tokens";
 
-import { IReduxService } from "@services/interfaces/redux.service.interface";
+import { ReduxService } from "@services/interfaces/redux.service.interface";
 
 import { IAction } from "./action.interface";
 
@@ -18,12 +18,12 @@ export class InitStoreAction implements IAction {
 	/**
 	 * Creates an instance of InitStoreAction.
 	 *
-	 * @param {IReduxService} reduxService The redux service used for create/modify redux components.
+	 * @param {ReduxService} reduxService The redux service used for create/modify redux components.
 	 * @memberof InitStoreAction
 	 */
 	constructor(
-		@inject(IReduxServiceToken)
-		private readonly reduxService: IReduxService
+		@inject(ReduxCoreServiceToken)
+		private readonly reduxService: ReduxService
 	) {}
 
 	/** @inheritdoc */

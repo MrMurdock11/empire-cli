@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 
 import { IReactServiceToken } from "@di/tokens";
 
-import { IReactService } from "@services/interfaces/react.service.interface";
+import { ReactService } from "@services/interfaces/react.service.interface";
 
 import { IAction } from "./action.interface";
 
@@ -18,12 +18,12 @@ export class GenerateComponentAction implements IAction {
 	/**
 	 * Creates an instance of GenerateComponentAction.
 	 *
-	 * @param {IReactService} reactService The react service used for create/modify react components.
+	 * @param {ReactService} reactService The react service used for create/modify react components.
 	 * @memberof GenerateComponentAction
 	 */
 	constructor(
 		@inject(IReactServiceToken)
-		private readonly reactService: IReactService
+		private readonly reactService: ReactService
 	) {}
 
 	/** @inheritdoc */

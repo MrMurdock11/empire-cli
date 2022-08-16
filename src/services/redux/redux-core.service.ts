@@ -11,15 +11,20 @@ import {
 	ModifyServiceToken,
 } from "@di/tokens";
 
-import { STORE } from "../configuration/defaults";
-import { ITemplateProvider } from "../providers/template.provider";
-import { ITemplateEngine } from "../template-engine/template-engine.interface";
-import { StoreWriter } from "../writers/store.writer";
-import { IReduxService } from "./interfaces/redux.service.interface";
-import { ModifyService } from "./modify.service";
+import { ReduxTarget } from "@services/installer.service";
+import { ReduxService } from "@services/interfaces/redux.service.interface";
+import { ModifyService } from "@services/modify.service";
+
+import { STORE } from "../../configuration/defaults";
+import { ITemplateProvider } from "../../providers/template.provider";
+import { ITemplateEngine } from "../../template-engine/template-engine.interface";
+import { StoreWriter } from "../../writers/store.writer";
+import { BaseReduxService } from "./redux.service";
+
+const TARGET: ReduxTarget = "core";
 
 @injectable()
-export class ReduxService implements IReduxService {
+export class ReduxCoreService extends BaseReduxService implements ReduxService {
 	@inject(IStoreWriterToken)
 	private readonly storeWriter: StoreWriter;
 
@@ -32,8 +37,14 @@ export class ReduxService implements IReduxService {
 	@inject(ITemplateEngineToken)
 	private readonly templateEngine: ITemplateEngine;
 
-	initStore(): void {
+	constructor() {
+		super();
+	}
+
+	async initStore(): Promise<void> {
 		try {
+			await this.checkAndResolveDeps(TARGET);
+
 			const targetPath = findRoot(process.cwd());
 			const destinationStorePath = join(targetPath, "store");
 

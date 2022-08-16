@@ -19,5 +19,9 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"prettier.configPath": ".prettierrc",
-	"jest.autoRun": "off"
+	"jest.autoRun": "off",
+	"cSpell.words": [
+		"empirerc",
+		"reduxjs"
+	]
 }

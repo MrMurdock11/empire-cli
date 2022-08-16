@@ -11,10 +11,10 @@ import {
 import { ITemplateProvider } from "../providers/template.provider";
 import { ITemplateEngine } from "../template-engine/template-engine.interface";
 import { ComponentWriter } from "../writers/component.writer";
-import { IReactService } from "./interfaces/react.service.interface";
+import { ReactService } from "./interfaces/react.service.interface";
 
 @injectable()
-export class ReactService implements IReactService {
+export class ReactServiceImpl implements ReactService {
 	@inject(IComponentWriterToken)
 	private readonly componentWriter: ComponentWriter;
 

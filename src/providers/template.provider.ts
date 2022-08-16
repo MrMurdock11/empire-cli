@@ -1,6 +1,9 @@
 import { injectable } from "inversify";
 
-import { COMPONENT_TEMPLATES, STORE_TEMPLATES } from "../resources/templates";
+import {
+	COMPONENT_TEMPLATES,
+	REDUX_CORE_TEMPLATES,
+} from "../resources/templates";
 import { ComponentTemplate } from "../template-engine/models/component.template";
 import { StoreTemplate } from "../template-engine/models/store.template";
 
@@ -21,10 +24,10 @@ export class TemplateProvider implements ITemplateProvider {
 
 	getStore(): StoreTemplate {
 		return new StoreTemplate(
-			STORE_TEMPLATES.ACTIONS_TYPE,
-			STORE_TEMPLATES.ACTIONS,
-			STORE_TEMPLATES.REDUCER,
-			STORE_TEMPLATES.REDUCER_SPEC
+			REDUX_CORE_TEMPLATES.ACTIONS_TYPE,
+			REDUX_CORE_TEMPLATES.ACTIONS,
+			REDUX_CORE_TEMPLATES.REDUCER,
+			REDUX_CORE_TEMPLATES.REDUCER_SPEC
 		);
 	}
 }

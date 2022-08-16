@@ -1,10 +1,19 @@
 import { Container, interfaces } from "inversify";
 
-import { IReactService } from "@services/interfaces/react.service.interface";
-import { IReduxService } from "@services/interfaces/redux.service.interface";
+import {
+	InstallerService,
+	InstallerServiceImpl,
+} from "@services/installer.service";
+import {
+	InteractiveService,
+	InteractiveServiceImpl,
+} from "@services/interactive.service";
+import { ReactService } from "@services/interfaces/react.service.interface";
+import { ReduxService } from "@services/interfaces/redux.service.interface";
 import { ModifyService } from "@services/modify.service";
-import { ReactService } from "@services/react.service";
-import { ReduxService } from "@services/redux.service";
+import { ReactServiceImpl } from "@services/react.service";
+import { ReduxCoreService } from "@services/redux/redux-core.service";
+import { ReduxToolkitService } from "@services/redux/redux-toolkit.service";
 
 import { ICommand } from "@commands/command.interface";
 import { GenerateCommand } from "@commands/generate.command";
@@ -31,57 +40,70 @@ import {
 	ICommandToken,
 	IComponentWriterToken,
 	IReactServiceToken,
-	IReduxServiceToken,
 	IStoreWriterToken,
 	ITemplateEngineToken,
 	ITemplateProviderToken,
 	InitCommandName,
+	InstallerServiceToken,
+	InteractionServiceToken,
 	ModifyServiceToken,
+	ReduxCoreServiceToken,
+	ReduxToolkitServiceToken,
 } from "./tokens";
 
-const DIContainer = new Container();
+const container = new Container();
 
 // Actions
-DIContainer.bind<IAction>(IActionToken)
+container
+	.bind<IAction>(IActionToken)
 	.to(GenerateComponentAction)
 	.whenTargetNamed(ACTION_KEYS.GENERATE_COMPONENT);
-DIContainer.bind<IAction>(IActionToken)
+container
+	.bind<IAction>(IActionToken)
 	.to(GenerateStoreAction)
 	.whenTargetNamed(ACTION_KEYS.GENERATE_STORE);
-DIContainer.bind<IAction>(IActionToken)
+container
+	.bind<IAction>(IActionToken)
 	.to(InitStoreAction)
 	.whenTargetNamed(ACTION_KEYS.INIT_STORE);
 
-DIContainer.bind<interfaces.Provider<IAction>>(
-	ActionsProviderToken
-).toProvider<IAction>(context => {
-	return (actionName: string) =>
-		context.container.getNamed(IActionToken, actionName);
-});
+container
+	.bind<interfaces.Provider<IAction>>(ActionsProviderToken)
+	.toProvider<IAction>(context => {
+		return (actionName: string) =>
+			context.container.getNamed(IActionToken, actionName);
+	});
 
 // Commands
-DIContainer.bind<ICommand>(ICommandToken)
+container
+	.bind<ICommand>(ICommandToken)
 	.to(GenerateCommand)
 	.whenTargetNamed(GenerateCommandName);
-DIContainer.bind<ICommand>(ICommandToken)
+container
+	.bind<ICommand>(ICommandToken)
 	.to(InitCommand)
 	.whenTargetNamed(InitCommandName);
 
 // Services
-DIContainer.bind<IReactService>(IReactServiceToken).to(ReactService);
-DIContainer.bind<IReduxService>(IReduxServiceToken).to(ReduxService);
-DIContainer.bind(ModifyServiceToken).to(ModifyService);
+container.bind<ReactService>(IReactServiceToken).to(ReactServiceImpl);
+container.bind<ReduxService>(ReduxCoreServiceToken).to(ReduxCoreService);
+container.bind<ReduxService>(ReduxToolkitServiceToken).to(ReduxToolkitService);
+container
+	.bind<InstallerService>(InstallerServiceToken)
+	.to(InstallerServiceImpl);
+container
+	.bind<InteractiveService>(InteractionServiceToken)
+	.to(InteractiveServiceImpl);
+container.bind(ModifyServiceToken).to(ModifyService);
 
 // Providers
-DIContainer.bind<ITemplateProvider>(ITemplateProviderToken).to(
-	TemplateProvider
-);
+container.bind<ITemplateProvider>(ITemplateProviderToken).to(TemplateProvider);
 
 // Writers
-DIContainer.bind(IComponentWriterToken).to(ComponentWriter);
-DIContainer.bind(IStoreWriterToken).to(StoreWriter);
+container.bind(IComponentWriterToken).to(ComponentWriter);
+container.bind(IStoreWriterToken).to(StoreWriter);
 
 // General
-DIContainer.bind<ITemplateEngine>(ITemplateEngineToken).to(TemplateEngine);
+container.bind<ITemplateEngine>(ITemplateEngineToken).to(TemplateEngine);
 
-export default DIContainer;
+export default container;

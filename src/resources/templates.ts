@@ -1,4 +1,6 @@
-export const STORE_TEMPLATES = {
+// REDUX - CORE
+
+export const REDUX_CORE_TEMPLATES = {
 	ACTIONS_TYPE: `import * as ActionsFC from "./{{ name }}.actions";
 
 type InferValueTypes<T> = T extends { [key: string]: infer U } ? U : never;
@@ -29,6 +31,37 @@ export const {{ camelCaseName }}Reducer = (state = initState, action: Actions): 
 });
 `,
 };
+
+// REDUX - TOOLKIT
+
+export const REDUX_TOOLKIT_TEMPLATES = {
+	SLICE: `import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export type {{ namePascalCase }}State = {
+	// ...
+}
+
+const initialState: {{ namePascalCase }}State = {
+	// ...
+}
+
+const {{ name }} = createSlice({
+	name: "{{ name }}",
+	initialState,
+	reducers: {
+		example(state, action) {
+			// This is example handler
+		}
+	}
+});
+
+export const { example } = {{ name }}.actions;
+
+export default {{ name }}.reducers;
+`,
+};
+
+// COMPONENT
 
 export const COMPONENT_TEMPLATES = {
 	INDEX: `export * from "./{{ name }}";
